@@ -1,4 +1,4 @@
-/*****************************************************************
+ï»¿/*****************************************************************
 **				Project:	ShipControl(WOPC)					**
 **				Author:		Dong Shengwei						**
 **				Library:	BestSea								**
@@ -19,10 +19,10 @@ public:
 	ShipParameter(void);
 	~ShipParameter(void);
 
-	//¶ÁÈ¡matÎÄ¼ş
+	//è¯»å–matæ–‡ä»¶
 	void readMat(string fileName);
 
-	//Êä³öÊı¾İ
+	//è¾“å‡ºæ•°æ®
 	Data getData();
 
 private:
@@ -33,13 +33,13 @@ private:
 	char *vesselName;
 	double *Lpp, *T, *B, *rho, *m, *nabla, *GM_L, *GM_T, *C_B, *Lwl, *S, *CG, *CB;
 	//double **dataA;
-	//forceRAOÓëdriftdirÖĞ¸÷Êı¾İÖ¸Õë
+	//forceRAOä¸driftdirä¸­å„æ•°æ®æŒ‡é’ˆ
 	double *dataAmpRAO, *dataPhaseRAO, *dataAmpDrift, *dataPhaseDrift, *dataOmegaRAO, *dataOmegaDrift;
-	//ÊäÈëºÍÊä³ömatÎÄ¼ş¾ä±ú
+	//è¾“å…¥å’Œè¾“å‡ºmatæ–‡ä»¶å¥æŸ„
 	MATFile *pmatFileIn;
-	//forceRAOÓëdriftdirÖĞ°ûÔªÊı×é
+	//forceRAOä¸driftdirä¸­èƒå…ƒæ•°ç»„
 	mxArray *ampRAO[DOF6], *phase[DOF6], *ampDrift[DOF6];
-	//ÊäÈëµÄmatÎÄ¼şÖĞ°üº¬µÄ¾ØÕó»ò½á¹¹Ìå
+	//è¾“å…¥çš„matæ–‡ä»¶ä¸­åŒ…å«çš„çŸ©é˜µæˆ–ç»“æ„ä½“
 	mxArray *vessel, *vesselABC, *M, *D, *CD, *MRB, *main,*forceRAO, *driftfrc, *veloc;
 	const mxArray *pmxName;
 	mxArray *ampForceRAO, *phaseForceRAO, *wForceRAO;

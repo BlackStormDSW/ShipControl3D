@@ -1,4 +1,4 @@
-/*****************************************************************
+ï»¿/*****************************************************************
 **				Project:	ShipControl(WOPC)					**
 **				Author:		Dong Shengwei						**
 **				Library:	BestSea								**
@@ -20,43 +20,43 @@ public:
 	Current(void);
 	~Current(void);
 
-	//³õÊ¼»¯
+	//åˆå§‹åŒ–
 	void init();
 
-	//ÊäÈëÁ÷ËÙºÍÈëÉä½Ç(¡ã)
+	//è¾“å…¥æµé€Ÿå’Œå…¥å°„è§’(Â°)
 	void setPara(const double speed, const double dir);
 
-	//ÊäÈë´¬²°ô¼Ïò(»¡¶È)
+	//è¾“å…¥èˆ¹èˆ¶è‰å‘(å¼§åº¦)
 	void setPsi(const double psiIn);
 	
-	//¼ÆËãÁ÷Á¦
+	//è®¡ç®—æµåŠ›
 	void cal();
 
-	//Êä³öÁ÷Á¦
+	//è¾“å‡ºæµåŠ›
 	Force6 force();
 
-	//²åÖµ£¬¼ÆËãÁ÷Á¦ÏµÊı
-	//ÊäÈë£ºÁ÷Á¦ÏµÊıÏòÁ¿£¬×ÜÊı£¬ÈëÉä½Ç
+	//æ’å€¼ï¼Œè®¡ç®—æµåŠ›ç³»æ•°
+	//è¾“å…¥ï¼šæµåŠ›ç³»æ•°å‘é‡ï¼Œæ€»æ•°ï¼Œå…¥å°„è§’
 	double interp(const double *cc, const double num, const double bt);
 
 private:
-	//Á÷Á¦ÏµÊıÏòÁ¿
+	//æµåŠ›ç³»æ•°å‘é‡
 	double cxc[NUM], cyc[NUM], cnc[NUM];
-	//Á÷Á¦ÏµÊı
+	//æµåŠ›ç³»æ•°
 	double cxcValue, cycValue, cncValue;
-	//´¹Ïß¼ä³¤
+	//å‚çº¿é—´é•¿
 	double Lpp;
-	//Æ½¾ù³ÔË®
+	//å¹³å‡åƒæ°´
 	double Tm;
-	//±±¶«×ø±êÏÂµÄÁ÷ËÙ¡¢Á÷Ïò(»¡¶È)
+	//åŒ—ä¸œåæ ‡ä¸‹çš„æµé€Ÿã€æµå‘(å¼§åº¦)
 	double Vc, dirC;
-	//Á÷µÄÈëÉä½Ç(»¡¶È)
+	//æµçš„å…¥å°„è§’(å¼§åº¦)
 	double beta;
-	//´¬²°ô¼Ïò
+	//èˆ¹èˆ¶è‰å‘
 	double psi;
-	//Á÷Á¦
+	//æµåŠ›
 	Force6 forceCur;
-	//º£Ë®ÃÜ¶È
+	//æµ·æ°´å¯†åº¦
 	double rho_w;
 };
 

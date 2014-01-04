@@ -1,4 +1,4 @@
-/*****************************************************************
+ï»¿/*****************************************************************
 **				Project:	ShipControl(WOPC)					**
 **				Author:		Dong Shengwei						**
 **				Library:	BestSea								**
@@ -23,93 +23,93 @@ public:
 	ShipModel(void);
 	~ShipModel(void);
 
-	//³õÊ¼»¯
+	//åˆå§‹åŒ–
 	void init();
 
-	//³õÊ¼»¯´¬²°²ÎÊı
+	//åˆå§‹åŒ–èˆ¹èˆ¶å‚æ•°
 	void setData(Data *data_);
 
-	//ÉèÖÃÊ±¼ä¼ä¸ô
+	//è®¾ç½®æ—¶é—´é—´éš”
 	void setStep(const double step);
 
-	//ÊäÈëÁ¦
+	//è¾“å…¥åŠ›
 	void setForce(Force6 force);
 
-	//ÊäÈë´¬²°µÄ³õÊ¼Î»ÖÃ×ËÌ¬
+	//è¾“å…¥èˆ¹èˆ¶çš„åˆå§‹ä½ç½®å§¿æ€
 	void setInitEta(Eta etaIn);
 
-	//Êä³öÎ»ÖÃ×ËÌ¬
+	//è¾“å‡ºä½ç½®å§¿æ€
 	Eta getEta();
 
-	//Êä³öËÙ¶È½ÇËÙ¶È
+	//è¾“å‡ºé€Ÿåº¦è§’é€Ÿåº¦
 	Nu getNu();
 
-	//¼ÆËãM¾ØÕó
+	//è®¡ç®—MçŸ©é˜µ
 	void calM();
 
 	//Cross-flow drag and surge resistance
 	Force6 crosFlowDrag(Nu nu);
 
-	//»ı·ÖÇóYºÍN DragÊ±ËùÓÃº¯Êı
+	//ç§¯åˆ†æ±‚Yå’ŒN Dragæ—¶æ‰€ç”¨å‡½æ•°
 	double func(const Nu &nu, const double &x, bool flag=true);
 
-	//»ı·Ö,ÀÛ¼Ó
+	//ç§¯åˆ†,ç´¯åŠ 
 	double integrt(Nu &nu, double max, double min, double delta, bool flag=true);
-	//Hoerner·½³Ì
+	//Hoerneræ–¹ç¨‹
 	double Hoerner(double BValue,double TValue);
-	//Á½¸öÊı½»»»
+	//ä¸¤ä¸ªæ•°äº¤æ¢
 	void swap(double &a, double &b);
 	
-	//¶Ô×´Ì¬·½³ÌÇó½â
+	//å¯¹çŠ¶æ€æ–¹ç¨‹æ±‚è§£
 	double solStateSpaceFunc(const double (*Ar)[visDampNum], const double Br[], const double Cr[], const double Dr, const double var, double xTemp[]);
 
-	//¼ÆËãÕ³ÖÍ×èÄá¾ØÕó
+	//è®¡ç®—ç²˜æ»é˜»å°¼çŸ©é˜µ
 	Force6 viscousDamp(const Nu &nu);
 
 	//roll damping
 	double rollDamp(const double &varIn);
 	
-	//´¬²°¿ØÖÆÔËĞĞ
+	//èˆ¹èˆ¶æ§åˆ¶è¿è¡Œ
 	void cal();
 
-	//Áù×ÔÓÉ¶È±±¶«×ø±êÏµÏÂ£¬ÏßËÙ¶È¡¢½ÇËÙ¶ÈÏòÎ»ÖÃ¡¢×ËÌ¬×ª»»
-	//eta0:ÊäÈëµÄ±±¶«×ø±ê£»nu£ºÊäÈëµÄ´¬Ìå×ø±ê£»
-	//intev£ºÊ±¼ä¼ä¸ô£»Êä³öÎª×ª»»ºóµÄ±±¶«×ø±ê
+	//å…­è‡ªç”±åº¦åŒ—ä¸œåæ ‡ç³»ä¸‹ï¼Œçº¿é€Ÿåº¦ã€è§’é€Ÿåº¦å‘ä½ç½®ã€å§¿æ€è½¬æ¢
+	//eta0:è¾“å…¥çš„åŒ—ä¸œåæ ‡ï¼›nuï¼šè¾“å…¥çš„èˆ¹ä½“åæ ‡ï¼›
+	//intevï¼šæ—¶é—´é—´éš”ï¼›è¾“å‡ºä¸ºè½¬æ¢åçš„åŒ—ä¸œåæ ‡
 	void nuToEta(Eta &eta0, Nu nu, double intev);
 
 private:
-	//´¬²°²ÎÊı
+	//èˆ¹èˆ¶å‚æ•°
 	Data *data;
 
 	double M[DOF6][DOF6], datMinv[DOF6][DOF6];
 	double MinvTao[DOF6];
 
-	//Ğı×ª¾ØÕó
+	//æ—‹è½¬çŸ©é˜µ
 	double RotMx[DOF3][DOF3], TransMx[DOF3][DOF3];
 
-	//Ê±¼ä¼ä¸ô
+	//æ—¶é—´é—´éš”
 	double tStep;
 
-	//Á÷Ìå¼ÇÒäĞ§Ó¦
+	//æµä½“è®°å¿†æ•ˆåº”
 	Force6 mu;
-	//ÍÏ×§Á¦
+	//æ‹–æ‹½åŠ›
 	Force6 drag;
 
 	double muArray[DOF6], dragArray[DOF6], sprStifArray[DOF6], dampArray[DOF6];
 
-	//·çÀËÁ÷»·¾³Á¦ÓëÍÆ½øÆ÷ºÏÁ¦
+	//é£æµªæµç¯å¢ƒåŠ›ä¸æ¨è¿›å™¨åˆåŠ›
 	Force6 taoForce;
 	double taoArray[DOF6];
 
-	//ËùÓĞÁ¦µÄºÏÁ¦
+	//æ‰€æœ‰åŠ›çš„åˆåŠ›
 	Force6 totalForce;
 	double totForceArray[DOF6];
 
-	//´¬²°Î»ÖÃ×ËÌ¬
+	//èˆ¹èˆ¶ä½ç½®å§¿æ€
 	Eta eta;
 	double etaArray[DOF6];
 
-	//´¬²°ËÙ¶È½ÇËÙ¶È
+	//èˆ¹èˆ¶é€Ÿåº¦è§’é€Ÿåº¦
 	Nu nu;
 	double nuArray[DOF6];
 };

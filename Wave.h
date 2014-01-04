@@ -1,4 +1,4 @@
-/*****************************************************************
+ï»¿/*****************************************************************
 **				Project:	ShipControl(WOPC)					**
 **				Author:		Dong Shengwei						**
 **				Library:	BestSea								**
@@ -6,7 +6,7 @@
 ******************************************************************/
 
 //Wave.h
-//²Î¿¼ matlab ÖĞº¯Êı Wave_init.m
+//å‚è€ƒ matlab ä¸­å‡½æ•° Wave_init.m
 
 #ifndef WAVE_H_
 #define WAVE_H_
@@ -21,95 +21,95 @@ public:
 
 	~Wave();
 
-	//³õÊ¼»¯²ÎÊı
+	//åˆå§‹åŒ–å‚æ•°
 	void init();
 
-	//ÉèÖÃData
+	//è®¾ç½®Data
 	void setData(Data *dt);
 
-	//ÉèÖÃÀË¸ßºÍÀËÏò
+	//è®¾ç½®æµªé«˜å’Œæµªå‘
 	void setPara(double Hs, double ang);
 
-	//¼ÆËã
+	//è®¡ç®—
 	void calWave();
 
-	//¼ÆËã½×³Ë
+	//è®¡ç®—é˜¶ä¹˜
 	double fact(int n);
 
-	//²¨ÀËÆ×(ITTCË«²ÎÊıÆÕ)
+	//æ³¢æµªè°±(ITTCåŒå‚æ•°æ™®)
 	double waveSpec(double Hs, double T0, double omega);
 
-	//ÉèÖÃwÏòÁ¿
+	//è®¾ç½®wå‘é‡
 	void setWVec(double w[], int size);
 
-	//»ñÈ¡²¨ÀË·ùÖµ
+	//è·å–æ³¢æµªå¹…å€¼
 	double *getZeta();
-	//»ñÈ¡²¨ÀË·½Ïò
+	//è·å–æ³¢æµªæ–¹å‘
 	double *getPsi();
-	//»ñÈ¡²¨ÀËÆµÂÊ
+	//è·å–æ³¢æµªé¢‘ç‡
 	double *getOmega();
-	//»ñÈ¡²¨ÀËÊı
+	//è·å–æ³¢æµªæ•°
 	double *getWaveNum();
-	//»ñÈ¡²¨ÀËËæ»úÏàÎ»
+	//è·å–æ³¢æµªéšæœºç›¸ä½
 	double *getPhase();
-	//»ñÈ¡½á¹ûÏòÁ¿µÄÎ¬Êı
+	//è·å–ç»“æœå‘é‡çš„ç»´æ•°
 	int getDim();
 
-	//»ñÈ¡ô¼ÏòÖµµÄÔÚô¼ÏòÁĞ±íÖĞµÄÖµ(2*pi·ÖÎª36·İ)
+	//è·å–è‰å‘å€¼çš„åœ¨è‰å‘åˆ—è¡¨ä¸­çš„å€¼(2*piåˆ†ä¸º36ä»½)
 	void headValue(double head, double &value1, double &value2);
 
-	//»ñÈ¡PsiÖµµÄË÷Òı(´Ó0¿ªÊ¼£¬¹²36¸öË÷Òı)
+	//è·å–Psiå€¼çš„ç´¢å¼•(ä»0å¼€å§‹ï¼Œå…±36ä¸ªç´¢å¼•)
 	int getIndexPsi(double ps);
 	
-	//»ñÈ¡wÖµµÄË÷Òı(´Ó0¿ªÊ¼£¬¹²36¸öË÷Òı)
+	//è·å–wå€¼çš„ç´¢å¼•(ä»0å¼€å§‹ï¼Œå…±36ä¸ªç´¢å¼•)
 	int getIndexW(double omega);
 
-	//¼ÆËãÎ»ÖÃÏàÎ»
+	//è®¡ç®—ä½ç½®ç›¸ä½
 	double *posPhase(const Eta &eta, double time);
 
 
-	//¼ÆËãÒÀ¾İô¼ÏòµÄÒ»½×¶ş½×²¨ÀËÁ¦
+	//è®¡ç®—ä¾æ®è‰å‘çš„ä¸€é˜¶äºŒé˜¶æ³¢æµªåŠ›
 	void calLoadForHead(double WF[], double DF[], const Eta &eta, double head, double time);
 
-	//¼ÆËãÒ»½×¶ş½×²¨ÀËÁ¦
+	//è®¡ç®—ä¸€é˜¶äºŒé˜¶æ³¢æµªåŠ›
 	void calLoad(double WaveF[], double WaveD[]);
 
-	//¼ÆËã²¨ÀËÁ¦
+	//è®¡ç®—æ³¢æµªåŠ›
 	void cal(const Eta &eta, double time_);
 
-	//»ñÈ¡Ò»½×¶ş½×²¨ÀËÁ¦
+	//è·å–ä¸€é˜¶äºŒé˜¶æ³¢æµªåŠ›
 	void getLoad(Force6 &waveF, Force6 &waveD);
 	
 private:
-	double fCut;	//½Ø¶ÏÆµÂÊ Frequencies cutoff factor
-	double dirCut;	//½Ø¶Ï·½Ïò Direction cutoff factor
-	double nFreq;	//ÆµÂÊÊı   Number of frequencies in grid
-	double nDir;	//·½ÏòÊı   Number of directions in grid
-	double psiMean;	//Æ½¾ùÀËÏò(rad)	Mean wave direction
-	double hs;		//ÓĞÒå²¨¸ß(m)		Significant wave height Hs
-	double omegaPeak;	//·åÖµÆµÂÊ(rad/s) Peak frequency omega_0
-	int	   spread;	//²¨ÀË´«²¥Òò×Ó	Wave spreading factor
+	double fCut;	//æˆªæ–­é¢‘ç‡ Frequencies cutoff factor
+	double dirCut;	//æˆªæ–­æ–¹å‘ Direction cutoff factor
+	double nFreq;	//é¢‘ç‡æ•°   Number of frequencies in grid
+	double nDir;	//æ–¹å‘æ•°   Number of directions in grid
+	double psiMean;	//å¹³å‡æµªå‘(rad)	Mean wave direction
+	double hs;		//æœ‰ä¹‰æ³¢é«˜(m)		Significant wave height Hs
+	double omegaPeak;	//å³°å€¼é¢‘ç‡(rad/s) Peak frequency omega_0
+	int	   spread;	//æ³¢æµªä¼ æ’­å› å­	Wave spreading factor
 	double engLim;	//wave coomponent energy limit
-	double depth;	//Æ½¾ùË®Éî(m)		Average water depth
+	double depth;	//å¹³å‡æ°´æ·±(m)		Average water depth
 
 	double omegaMax;	//
-	double deltaOmega;	//ÆµÂÊ¼ä¸ô
-	double deltaPsi;	//ô¼Ïò¼ä¸ô
-	double psiStart;	//ÆğÊ¼ô¼Ïò
-	double psiMax;		//×î´óô¼Ïò
-	double engMean;		//ÄÜÁ¿¾ùÖµ
+	double deltaOmega;	//é¢‘ç‡é—´éš”
+	double deltaPsi;	//è‰å‘é—´éš”
+	double psiStart;	//èµ·å§‹è‰å‘
+	double psiMax;		//æœ€å¤§è‰å‘
+	double engMean;		//èƒ½é‡å‡å€¼
 	double engComp;		//
-	double K;			//ÏµÊı
+	double K;			//ç³»æ•°
 	double Spsi;		//
-	double *spec;		//²¨ÀËÆ×
-	//double *omegaVec;	//¼ÇÂ¼omega
+	double *spec;		//æ³¢æµªè°±
+	//double *omegaVec;	//è®°å½•omega
 	double *omVec;		//
-	double **psiVec;	//¼ÇÂ¼psi
+	double **psiVec;	//è®°å½•psi
 	double Stot;		//Spectrum value;
-	double nWaves;		//²¨ÀË×ÜÊı
+	double nWaves;		//æ³¢æµªæ€»æ•°
 	double *wVec;
 	int    wSize;
-	double wt;			//È¨Öµ
+	double wt;			//æƒå€¼
 
 	int *idxPsi, *idxW;
 	double *posPhs;
@@ -119,11 +119,11 @@ private:
 
 	Data *data;
 
-	//Êä³ö½á¹û
+	//è¾“å‡ºç»“æœ
 	double *Zeta;		//
 	double *Omega;
 	double *Phase;
-	double *WaveNum;		//²¨ÀËÊı
+	double *WaveNum;		//æ³¢æµªæ•°
 	double *Psi;
 
 	int kId;

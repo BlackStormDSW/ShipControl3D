@@ -1,4 +1,4 @@
-/*****************************************************************
+Ôªø/*****************************************************************
 **				Project:	ShipControl(WOPC)					**
 **				Author:		Dong Shengwei						**
 **				Library:	BestSea								**
@@ -21,12 +21,12 @@ public:
 
 	void init();
 	void initTStep(double val);
-	void initPID(double KpVal = 0.15, double KiVal = 0.0, double KdVal = 0); //≥ı÷µP:0.01, I:0.0003, D:0.2
+	void initPID(double KpVal = 0.15, double KiVal = 0.0, double KdVal = 0); //ÂàùÂÄºP:0.01, I:0.0003, D:0.2
 	void setTarget(Eta eta);
 	void setEta(Eta eta);
 
 	void calculat();
-	// ‰≥ˆ¡¶
+	//ËæìÂá∫Âäõ
 	Force6 getTao();
 private:
 	Force6 outTao;

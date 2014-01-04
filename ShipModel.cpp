@@ -1,4 +1,4 @@
-/*****************************************************************
+ï»¿/*****************************************************************
 **				Project:	ShipControl(WOPC)					**
 **				Author:		Dong Shengwei						**
 **				Library:	BestSea								**
@@ -16,7 +16,7 @@ using namespace std;
 
 ShipModel::ShipModel(void)
 {
-	//³õÊ¼»¯
+	//åˆå§‹åŒ–
 	init();	
 }
 
@@ -26,7 +26,7 @@ ShipModel::~ShipModel(void)
 	//delete data;
 }
 
-//³õÊ¼»¯
+//åˆå§‹åŒ–
 void ShipModel::init()
 {	
 	tStep = 0.0;
@@ -63,58 +63,58 @@ void ShipModel::init()
 
 	data = new Data;
 
-	//³õÊ¼»¯´¬²°ËÙ¶È
+	//åˆå§‹åŒ–èˆ¹èˆ¶é€Ÿåº¦
 	Tool::initNu(nu);
 	Tool::initForce6(taoForce);
 }
 
-//³õÊ¼»¯´¬²°²ÎÊı
+//åˆå§‹åŒ–èˆ¹èˆ¶å‚æ•°
 void ShipModel::setData(Data *data_)
 {
 	data = data_;
 }
 
-//ÉèÖÃÊ±¼ä¼ä¸ô
+//è®¾ç½®æ—¶é—´é—´éš”
 void ShipModel::setStep(const double step)
 {
 	tStep = step;
 }
 
-//ÊäÈëÁ¦
+//è¾“å…¥åŠ›
 void ShipModel::setForce(Force6 force)
 {
 	taoForce = force;
 }
 
-//ÊäÈë´¬²°µÄ³õÊ¼Î»ÖÃ×ËÌ¬
+//è¾“å…¥èˆ¹èˆ¶çš„åˆå§‹ä½ç½®å§¿æ€
 void ShipModel::setInitEta(Eta etaIn)
 {
 	eta = etaIn;
 }
 
-//Êä³öÎ»ÖÃ×ËÌ¬
+//è¾“å‡ºä½ç½®å§¿æ€
 Eta ShipModel::getEta()
 {
 	return eta;
 }
 
-//Êä³öËÙ¶È½ÇËÙ¶È
+//è¾“å‡ºé€Ÿåº¦è§’é€Ÿåº¦
 Nu ShipModel::getNu()
 {
 	return nu;
 }
 
-//¼ÆËãM¾ØÕó
+//è®¡ç®—MçŸ©é˜µ
 void ShipModel::calM()
 {
-	//¼ÆËã¹ßĞÔ¾ØÕóM
+	//è®¡ç®—æƒ¯æ€§çŸ©é˜µM
 	Tool::plusMx(data->dataVesABC.Ainf, data->dataVes.MRB, M);
-	//¼ÆËã¹ßĞÔ¾ØÕóMµÄÄæ
+	//è®¡ç®—æƒ¯æ€§çŸ©é˜µMçš„é€†
 	Tool::inv(M, datMinv);
 }
 
 //Cross-flow drag and surge resistance
-//¸ø³öµÄ¹«Ê½ÖĞ£¬ÏµÊıÎªÕıÖµ£¬µ«simulink³ÌĞòÖĞÏµÊıÊÇ¸ºÖµ
+//ç»™å‡ºçš„å…¬å¼ä¸­ï¼Œç³»æ•°ä¸ºæ­£å€¼ï¼Œä½†simulinkç¨‹åºä¸­ç³»æ•°æ˜¯è´Ÿå€¼
 Force6 ShipModel::crosFlowDrag(Nu nu)
 {
 	Force6 force;
@@ -140,7 +140,7 @@ Force6 ShipModel::crosFlowDrag(Nu nu)
 	force.mMoment = 0;
 	return force;
 }
-//»ı·ÖÇóYºÍN DragÊ±ËùÓÃº¯Êı;flagÎªÕæÊ±£¬½á¹ûÎªÇóyDragËùÓÃ£¬·ñÔò£¬½á¹ûÎªÇónDragËùÓÃ
+//ç§¯åˆ†æ±‚Yå’ŒN Dragæ—¶æ‰€ç”¨å‡½æ•°;flagä¸ºçœŸæ—¶ï¼Œç»“æœä¸ºæ±‚yDragæ‰€ç”¨ï¼Œå¦åˆ™ï¼Œç»“æœä¸ºæ±‚nDragæ‰€ç”¨
 double ShipModel::func(const Nu &nu, const double &x, bool flag)
 {
 	if (flag)
@@ -151,7 +151,7 @@ double ShipModel::func(const Nu &nu, const double &x, bool flag)
 	}
 }
 
-//»ı·Ö,ÀÛ¼Ó
+//ç§¯åˆ†,ç´¯åŠ 
 double ShipModel::integrt(Nu &nu, double max, double min, double delta, bool flag)
 {
 	double funPre = 0.0, funPost = 0.0;
@@ -165,7 +165,7 @@ double ShipModel::integrt(Nu &nu, double max, double min, double delta, bool fla
 	return result;
 }
 
-//Hoerner·½³Ì
+//Hoerneræ–¹ç¨‹
 double ShipModel::Hoerner(double BValue,double TValue)
 {
 	double x[HoerNum], y[HoerNum];
@@ -203,7 +203,7 @@ double ShipModel::Hoerner(double BValue,double TValue)
 	return result;
 }
 
-//Á½¸öÊı½»»»
+//ä¸¤ä¸ªæ•°äº¤æ¢
 void ShipModel::swap(double &a, double &b)
 {
 	double temp;
@@ -212,7 +212,7 @@ void ShipModel::swap(double &a, double &b)
 	b = temp;
 }
 
-//¶Ô×´Ì¬·½³ÌÇó½â
+//å¯¹çŠ¶æ€æ–¹ç¨‹æ±‚è§£
 double ShipModel::solStateSpaceFunc(const double (*Ar)[visDampNum], const double Br[], const double Cr[], const double Dr, const double var, double xTemp[])
 {
 	double x[visDampNum] = {0.0}, y = 0.0;
@@ -235,7 +235,7 @@ double ShipModel::solStateSpaceFunc(const double (*Ar)[visDampNum], const double
 	return y;
 }
 
-//¼ÆËãÕ³ÖÍ×èÄá¾ØÕó
+//è®¡ç®—ç²˜æ»é˜»å°¼çŸ©é˜µ
 Force6 ShipModel::viscousDamp(const Nu &nu)
 {
 	Force6 muResult;
@@ -292,11 +292,11 @@ double ShipModel::rollDamp(const double &varIn)
 	return kVisc;
 }
 
-//´¬²°¿ØÖÆÔËĞĞ
+//èˆ¹èˆ¶æ§åˆ¶è¿è¡Œ
 void ShipModel::cal()
 {
 	Tool::Force6ToArray(taoForce, taoArray);
-	//¼ÆËãºÏÁ¦
+	//è®¡ç®—åˆåŠ›
 	for (int i = 0; i < DOF6; ++ i)
 	{
 		totForceArray[i] = taoArray[i] + dragArray[i] - sprStifArray[i] - muArray[i] - dampArray[i];
@@ -304,7 +304,7 @@ void ShipModel::cal()
 
 	Tool::multiMx(datMinv, totForceArray, MinvTao);
 
-	//¼ÆËã´¬²°ËÙ¶È
+	//è®¡ç®—èˆ¹èˆ¶é€Ÿåº¦
 	for (int i = 0; i < DOF6; ++ i)
 	{
 		nuArray[i] += MinvTao[i]*tStep;
@@ -312,7 +312,7 @@ void ShipModel::cal()
 
 	Tool::ArrayToNu(nuArray, nu);
 
-	//¼ÆËãSpring stiffness, damping
+	//è®¡ç®—Spring stiffness, damping
 	Tool::multiMx(data->dataVesABC.Binf, nuArray, dampArray);
 
 	//h-frame potential / viscous damping
@@ -321,20 +321,20 @@ void ShipModel::cal()
 	//Cross-flow drag and surge resistance
 	drag = crosFlowDrag(nu);
 
-	//¼ÆËã´¬²°Î»ÖÃºÍ×ËÌ¬
+	//è®¡ç®—èˆ¹èˆ¶ä½ç½®å’Œå§¿æ€
 	nuToEta(eta, nu, tStep);
 	
-	//Áù×ÔÓÉ¶ÈµÄÁ¦ºÍÁ¦¾Ø×ª»¯ÎªÊı×é
+	//å…­è‡ªç”±åº¦çš„åŠ›å’ŒåŠ›çŸ©è½¬åŒ–ä¸ºæ•°ç»„
 	Tool::Eta6ToArray(eta, etaArray);
 	Tool::Force6ToArray(mu, muArray);
 	Tool::Force6ToArray(drag, dragArray);
 
-	//¼ÆËãSpring stiffness
+	//è®¡ç®—Spring stiffness
 	Tool::multiMx(data->dataVesABC.G, etaArray, sprStifArray);
 
 }
 
-//Áù×ÔÓÉ¶ÈÏÂ£¬ÓĞ±±¶«×ø±êÏµÏò´¬Ìå×ø±êÏµĞı×ª
+//å…­è‡ªç”±åº¦ä¸‹ï¼Œæœ‰åŒ—ä¸œåæ ‡ç³»å‘èˆ¹ä½“åæ ‡ç³»æ—‹è½¬
 void ShipModel::nuToEta(Eta &eta, Nu nu, double intev)
 {
 	double phi = eta.phi;

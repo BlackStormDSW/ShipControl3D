@@ -1,4 +1,4 @@
-/*****************************************************************
+ï»¿/*****************************************************************
 **				Project:	ShipControl(WOPC)					**
 **				Author:		Dong Shengwei						**
 **				Library:	BestSea								**
@@ -21,49 +21,49 @@ public:
 	Wind(void);
 	~Wind(void);
 
-	//³õÊ¼»¯²ÎÊı
+	//åˆå§‹åŒ–å‚æ•°
 	void init();
 
-	//ÉèÖÃ·çËÙ·çÏò
+	//è®¾ç½®é£é€Ÿé£å‘
 	void setPara(double speedTrue, double angTrue);
 
-	//ÉèÖÃ´¬²°ô¼Ïò,»¡¶È
+	//è®¾ç½®èˆ¹èˆ¶è‰å‘,å¼§åº¦
 	void setHead(const double head);
 
-	//ÉèÖÃ´¬²°ËÙ¶È
+	//è®¾ç½®èˆ¹èˆ¶é€Ÿåº¦
 	void setNu(const Nu nuShip);
 
-	//»ñÈ¡·ç¶Ô´¬²°µÄ×÷ÓÃ
+	//è·å–é£å¯¹èˆ¹èˆ¶çš„ä½œç”¨
 	Force6 getWindTao();
 
-	//¼ÆËã·çÁ¦
+	//è®¡ç®—é£åŠ›
 	void cal();
 
-	//²îÖµº¯Êı ÔâÓö½ÇÎª½Ç¶È
+	//å·®å€¼å‡½æ•° é­é‡è§’ä¸ºè§’åº¦
 	void interp(const double valInit[rowPara][colPara], double result[colPara], double ang);
 
 private:
-	double L_oa;  			//´¬È«³¤ (m)
-	double B0;	            //´¬¿í (m)
-	double H_s;             //´¬²°ÔÚË®ÏßÒÔÉÏ²¿·Ö²àÃæÖĞĞÄµ½Ë®Ïß¾àÀë (m)
-	double A_s;             //Ë®ÏßÒÔÉÏ´¬²°²àÍ¶Ó°Ãæ»ı (m^2)
-	double A_f;             //Ë®ÏßÒÔÉÏ´¬²°ÕıÍ¶Ó°Ãæ»ı (m^2)--ºáÆÊÃæÍ¶Ó°
-	double A_ss;            //£¨´¬£©ÉÏ²ã½¨ÖşµÄ²àÍ¶Ó°Ãæ»ı (m^2)
-	double wind_c;	        //³ı³ÔË®ÏßºÍ´¬Î¦¡¢Í¨ÆøÉè±¸µÈÏ¸³¤ÌåÍâµÄ´¬Ä£ĞÍµÄ²àÍ¶Ó°ÖÜ³¤ (m)
-	double wind_e;			//´Ó´¬Ê×µ½²àÍ¶Ó°Ãæ»ıµÄ¾ØĞÄµÄ¾àÀë (m)
-	double wind_M;          // ÕıÍ¶Ó°ÃæÄÚ¿É¼ûµÄ´¬Î¦»òÖĞÖùµÄ²»Í¬×éÊı£»²»°üÀ¨½ôÌù´¬ÇÅÇ°²¿µÄÖĞÖù
-	double rho_a;           //20 C µÄ¿ÕÆøÃÜ¶È kg/m^3
-	double V_T;             //¾ø¶Ô·çËÙ
-	double ang_T;			//¾ø¶Ô·çÏò
-	double angEnc;			//ÔâÓö½Ç
-	double psi;				//ô¼Ïò½Ç
-	double V_R;				//Ïà¶Ô·çËÙ
+	double L_oa;  			//èˆ¹å…¨é•¿ (m)
+	double B0;	            //èˆ¹å®½ (m)
+	double H_s;             //èˆ¹èˆ¶åœ¨æ°´çº¿ä»¥ä¸Šéƒ¨åˆ†ä¾§é¢ä¸­å¿ƒåˆ°æ°´çº¿è·ç¦» (m)
+	double A_s;             //æ°´çº¿ä»¥ä¸Šèˆ¹èˆ¶ä¾§æŠ•å½±é¢ç§¯ (m^2)
+	double A_f;             //æ°´çº¿ä»¥ä¸Šèˆ¹èˆ¶æ­£æŠ•å½±é¢ç§¯ (m^2)--æ¨ªå‰–é¢æŠ•å½±
+	double A_ss;            //ï¼ˆèˆ¹ï¼‰ä¸Šå±‚å»ºç­‘çš„ä¾§æŠ•å½±é¢ç§¯ (m^2)
+	double wind_c;	        //é™¤åƒæ°´çº¿å’Œèˆ¹æ¡…ã€é€šæ°”è®¾å¤‡ç­‰ç»†é•¿ä½“å¤–çš„èˆ¹æ¨¡å‹çš„ä¾§æŠ•å½±å‘¨é•¿ (m)
+	double wind_e;			//ä»èˆ¹é¦–åˆ°ä¾§æŠ•å½±é¢ç§¯çš„çŸ©å¿ƒçš„è·ç¦» (m)
+	double wind_M;          // æ­£æŠ•å½±é¢å†…å¯è§çš„èˆ¹æ¡…æˆ–ä¸­æŸ±çš„ä¸åŒç»„æ•°ï¼›ä¸åŒ…æ‹¬ç´§è´´èˆ¹æ¡¥å‰éƒ¨çš„ä¸­æŸ±
+	double rho_a;           //20 C çš„ç©ºæ°”å¯†åº¦ kg/m^3
+	double V_T;             //ç»å¯¹é£é€Ÿ
+	double ang_T;			//ç»å¯¹é£å‘
+	double angEnc;			//é­é‡è§’
+	double psi;				//è‰å‘è§’
+	double V_R;				//ç›¸å¯¹é£é€Ÿ
 
-	Nu nu;					//´¬²°ËÙ¶È
+	Nu nu;					//èˆ¹èˆ¶é€Ÿåº¦
 
-	Force6 tao;				//·ç¶Ô´¬²°µÄ×÷ÓÃ
+	Force6 tao;				//é£å¯¹èˆ¹èˆ¶çš„ä½œç”¨
 
-	//xyn·½Ïò·çÑ¹Á¦ÏµÊı¾ØÕó
+	//xynæ–¹å‘é£å‹åŠ›ç³»æ•°çŸ©é˜µ
 	double AA[rowPara][colPara], BB[rowPara][colPara], CC[rowPara][colPara];
 	double A[rowPara], B[rowPara], C[rowPara];
 	double Cx, Cy, Cn;

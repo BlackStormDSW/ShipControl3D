@@ -1,4 +1,4 @@
-/*****************************************************************
+ï»¿/*****************************************************************
 **				Project:	ShipControl(WOPC)					**
 **				Author:		Dong Shengwei						**
 **				Library:	BestSea								**
@@ -24,57 +24,57 @@ public:
 	OptController(void);
 	~OptController(void);
 
-	//³õÊ¼»¯²ÎÊı
+	//åˆå§‹åŒ–å‚æ•°
 	void init();
 
-	//ÉèÖÃÊ±¼ä¼ä¸ô
+	//è®¾ç½®æ—¶é—´é—´éš”
 	void setStep(const double Intval);
 
-	//ÉèÖÃµ±Ç°»·¾³×îÓÅô¼Ïò
+	//è®¾ç½®å½“å‰ç¯å¢ƒæœ€ä¼˜è‰å‘
 	void setPsi(const double preTagHead);
 
-	//ÉèÖÃµ±Ç°ÍÆ½øÆ÷ÍÆÁ¦Óë×ª¾Ø
+	//è®¾ç½®å½“å‰æ¨è¿›å™¨æ¨åŠ›ä¸è½¬çŸ©
 	void setTao(const Force6 Thrust);
 
-	//ÉèÖÃPID²ÎÊı
+	//è®¾ç½®PIDå‚æ•°
 	void setPID(const double Pval, const double Ival, const double Dval);
 
-	//¼ÆËãÇó¾ùÖµ
+	//è®¡ç®—æ±‚å‡å€¼
 	double meanData(list<double> &valLst, const double inVal);
 
-	//PID¼ÆËã
+	//PIDè®¡ç®—
 	void cal();
 
-	//Êä³ö»·¾³×îÓÅô¼Ïò
+	//è¾“å‡ºç¯å¢ƒæœ€ä¼˜è‰å‘
 	double OptPsi();
 
 private:
-	//Ê±¼ä¼ä¸ô
+	//æ—¶é—´é—´éš”
 	double step;
 
-	//´æ´¢»·¾³×îÓÅô¼ÏòµÄÁ´±í
+	//å­˜å‚¨ç¯å¢ƒæœ€ä¼˜è‰å‘çš„é“¾è¡¨
 	list<double> storOptPsi;
-	//´æ´¢×İÏòÁ¦ºÍºáÏòÁ¦µÄÁĞ±í
+	//å­˜å‚¨çºµå‘åŠ›å’Œæ¨ªå‘åŠ›çš„åˆ—è¡¨
 	list<double> storXForce, storYForce;	
 
-	//¼ÆËã»·¾³×îÓÅô¼ÏòÊ±Ê¹ÓÃµÄÁ¦Óë×ª¾Ø
+	//è®¡ç®—ç¯å¢ƒæœ€ä¼˜è‰å‘æ—¶ä½¿ç”¨çš„åŠ›ä¸è½¬çŸ©
 	double taoX, taoY, taoN, tagTaoY;
-	//Ô­Ê¼ÍÆÁ¦Óë×ª¾Ø
+	//åŸå§‹æ¨åŠ›ä¸è½¬çŸ©
 	double xForce, yForce, nMoment;
 
-	//Îó²î¡¢Îó²îµÄÎ¢·Ö¡¢Îó²îµÄ»ı·ÖºÍÇ°Ò»¸öÎó²î
+	//è¯¯å·®ã€è¯¯å·®çš„å¾®åˆ†ã€è¯¯å·®çš„ç§¯åˆ†å’Œå‰ä¸€ä¸ªè¯¯å·®
 	double errY, diffErrY, intErrY, preErrY;
 
-	//×îÓÅô¼Ïò
+	//æœ€ä¼˜è‰å‘
 	double optPsi, preOptPsi;
 
-	//µ÷Õû×îÓÅô¼ÏòËùÊ¹ÓÃµÄPIDÏµÊı
+	//è°ƒæ•´æœ€ä¼˜è‰å‘æ‰€ä½¿ç”¨çš„PIDç³»æ•°
 	double P, I, D;
 
-	//¼ÆËã¾ùÖµÊ±Ê¹ÓÃµÄÁÙÊ±±äÁ¿
+	//è®¡ç®—å‡å€¼æ—¶ä½¿ç”¨çš„ä¸´æ—¶å˜é‡
 	double sum;
 
-	//×İÏòÁ¦Õı¸º±êÖ¾
+	//çºµå‘åŠ›æ­£è´Ÿæ ‡å¿—
 	double signX;
 };
 

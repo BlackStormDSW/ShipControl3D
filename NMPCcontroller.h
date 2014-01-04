@@ -1,4 +1,4 @@
-/*****************************************************************
+ï»¿/*****************************************************************
 **				Project:	ShipControl(WOPC)					**
 **				Author:		Dong Shengwei						**
 **				Library:	BestSea								**
@@ -24,37 +24,37 @@ public:
 	NMPCcontroller(void);
 	~NMPCcontroller(void);
 
-	//²ÎÊı³õÊ¼»¯
+	//å‚æ•°åˆå§‹åŒ–
 	void init();
 
-	//¼ÆËãM¾ØÕó
+	//è®¡ç®—MçŸ©é˜µ
 	void calM();
 
-	//¿ØÖÆÆ÷¼ÆËã
+	//æ§åˆ¶å™¨è®¡ç®—
 	void cal();
 
-	//ÉèÖÃÔ¤²âÖÜÆÚ
+	//è®¾ç½®é¢„æµ‹å‘¨æœŸ
 	void setT(const double period);
 
-	//ÉèÖÃÈ¨Öµ
+	//è®¾ç½®æƒå€¼
 	void setWeight(const double lmd1, const double lmd2, const double lmd3);
 
-	//ËÙ¶ÈÊäÈë
+	//é€Ÿåº¦è¾“å…¥
 	void setNu(const Nu nu);
 
-	//Î»ÖÃÊäÈë
+	//ä½ç½®è¾“å…¥
 	void setEta(const Eta eta);
 
-	//ÊäÈëÄ¿±êÎ»ÖÃ×ËÌ¬
+	//è¾“å…¥ç›®æ ‡ä½ç½®å§¿æ€
 	void setTarget(const Eta eta);
 	
-	//ÊäÈëÍâ½ç¸ÉÈÅÁ¦
+	//è¾“å…¥å¤–ç•Œå¹²æ‰°åŠ›
 	void setEnv(const Force3 forcEnv);
 
-	//¿ØÖÆÁ¦Êä³ö
+	//æ§åˆ¶åŠ›è¾“å‡º
 	Force6 Force();
 
-	//¸ßË¹ÏûÔª·¨Çó¾ØÕóµÄÄæ
+	//é«˜æ–¯æ¶ˆå…ƒæ³•æ±‚çŸ©é˜µçš„é€†
 	bool inv(double (*A)[DOF3], double (*B)[DOF3]);
 
 private:
@@ -66,28 +66,28 @@ private:
 
 	double q0[MAXDIM], q1[MAXDIM][DOF3], q1T[DOF3][MAXDIM];
 
-	//Ä¿±êÊä³öÖµ
+	//ç›®æ ‡è¾“å‡ºå€¼
 	double yd[MAXDIM];
 	
 	double m[DOF3][DOF3], d[DOF3][DOF3];
 	double a[DOF3][DOF3], b[DOF3];
 
-	//Î»ÖÃÓëËÙ¶È±äÁ¿
+	//ä½ç½®ä¸é€Ÿåº¦å˜é‡
 	double x, y, psi, u, v, r;
 
-	//Ô¤²âÊ±¼ä³¤¶ÈT
+	//é¢„æµ‹æ—¶é—´é•¿åº¦T
 	double T;
 
-	//ĞÔÄÜÖ¸±êº¯ÊıÖĞµÄÈ¨Öµ
+	//æ€§èƒ½æŒ‡æ ‡å‡½æ•°ä¸­çš„æƒå€¼
 	double lambda[DOF3];
 
-	//ÍÆ½øÆ÷Ô¼Êø
+	//æ¨è¿›å™¨çº¦æŸ
 	double lmtForce[DOF3];
 
-	//Á¦ÓëÁ¦¾Ø
+	//åŠ›ä¸åŠ›çŸ©
 	Force6 force;
 
-	//Íâ½ç»·¾³Á¦
+	//å¤–ç•Œç¯å¢ƒåŠ›
 	Force3 env;
 
 	ofstream outFile;

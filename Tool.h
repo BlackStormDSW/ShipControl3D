@@ -1,4 +1,4 @@
-/*****************************************************************
+ï»¿/*****************************************************************
 **				Project:	ShipControl(WOPC)					**
 **				Author:		Dong Shengwei						**
 **				Library:	BestSea								**
@@ -18,77 +18,77 @@ public:
 	Tool(void);
 	~Tool(void);
 
-	//Force6×ª»»ÎªÊı×é
+	//Force6è½¬æ¢ä¸ºæ•°ç»„
 	static void Force6ToArray(const Force6 &force, double tao[]);
 
-	//Êı×é×ª»»ÎªForce6
+	//æ•°ç»„è½¬æ¢ä¸ºForce6
 	static void ArrayToForce6(const double taoArray[], Force6 &tao);
 
-	//Eta×ª»»ÎªÊı×é
+	//Etaè½¬æ¢ä¸ºæ•°ç»„
 	static void Eta6ToArray(const Eta &eta, double etaArray[]);
 
-	//Êı×é×ª»»ÎªEta
+	//æ•°ç»„è½¬æ¢ä¸ºEta
 	static void ArrayToEta(const double etaArray[], Eta &eta);
 
-	//Nu×ª»»ÎªÊı×é
+	//Nuè½¬æ¢ä¸ºæ•°ç»„
 	static void Nu6ToArray(const Nu &nu, double nuArray[]);
 
-	//Êı×é×ª»»ÎªNu
+	//æ•°ç»„è½¬æ¢ä¸ºNu
 	static void ArrayToNu(const double nuArray[], Nu &nu);
 
-	//½«ÊıÖµ×ª»»µ½-PI~PI
+	//å°†æ•°å€¼è½¬æ¢åˆ°-PI~PI
 	static double infToPi(double inValue);
 
-	//³õÊ¼»¯Nu
+	//åˆå§‹åŒ–Nu
 	static void initNu(Nu &nu);
 
-	//³õÊ¼»¯Force6
+	//åˆå§‹åŒ–Force6
 	static void initForce6(Force6 &force);
 
-	//ÉèÖÃEta
+	//è®¾ç½®Eta
 	static Eta setEta(const double x, const double y, const double psi);
 
-	//³õÊ¼»¯Eta
+	//åˆå§‹åŒ–Eta
 	static void initEta(Eta &eta);
 
-	//³õÊ¼»¯Ä¿±êeta
+	//åˆå§‹åŒ–ç›®æ ‡eta
 	static void initEtaTarget(Eta &eta, double x, double y, double psi);
 
-	//¸ßË¹ÏûÔª·¨Çó¾ØÕóµÄÄæ
+	//é«˜æ–¯æ¶ˆå…ƒæ³•æ±‚çŸ©é˜µçš„é€†
 	static bool inv(double (*A)[DOF6], double (*B)[DOF6]);
 
-	//¾ØÕó³Ë·¨£¬6x6¾ØÕóÓë6x1¾ØÕóÏà³Ë
+	//çŸ©é˜µä¹˜æ³•ï¼Œ6x6çŸ©é˜µä¸6x1çŸ©é˜µç›¸ä¹˜
 	static void multiMx(const double (*dataMx1)[DOF6], const double dataMx2[], double resultMx[]);
 
-	//¾ØÕó¼Ó·¨£¬6x6¾ØÕóÓë6x6¾ØÕóÏà¼Ó
+	//çŸ©é˜µåŠ æ³•ï¼Œ6x6çŸ©é˜µä¸6x6çŸ©é˜µç›¸åŠ 
 	static void plusMx( const double (*dataMx1)[DOF6], const double (*dataMx2)[DOF6], double (*resultMx)[DOF6]);
 
-	//¾ØÕó¼Ó·¨£¬3x3¾ØÕóÓë3x1ÏòÁ¿Ïà³Ë
+	//çŸ©é˜µåŠ æ³•ï¼Œ3x3çŸ©é˜µä¸3x1å‘é‡ç›¸ä¹˜
 	static void multiVector(double A[][DOF3], double B[], double C[], int sz);
 
-	//Áù×ÔÓÉ¶ÈµÄÁ¦×ª»»ÎªÈıÎ¬Êı×é
+	//å…­è‡ªç”±åº¦çš„åŠ›è½¬æ¢ä¸ºä¸‰ç»´æ•°ç»„
 	static void Force6ToArr3(Force6 force, double arr[], int sz);
 
-	//Áù×ÔÓÉ¶ÈµÄËÙ¶È½ÇËÙ¶È×ª»»ÎªÈıÎ¬Êı×é
+	//å…­è‡ªç”±åº¦çš„é€Ÿåº¦è§’é€Ÿåº¦è½¬æ¢ä¸ºä¸‰ç»´æ•°ç»„
 	static void NuToArr3(Nu nu0, double arr[], int sz);
 
-	//Áù×ÔÓÉ¶ÈÎ»ÖÃ×ËÌ¬×ª»»ÎªÈıÎ¬Êı×é
+	//å…­è‡ªç”±åº¦ä½ç½®å§¿æ€è½¬æ¢ä¸ºä¸‰ç»´æ•°ç»„
 	static void EtaToArr3(Eta eta0, double arr[], int sz);
 
-	//ÈıÎ¬Êı×é×ª»»ÎªÁù×ÔÓÉ¶ÈÎ»ÖÃ×ËÌ¬
+	//ä¸‰ç»´æ•°ç»„è½¬æ¢ä¸ºå…­è‡ªç”±åº¦ä½ç½®å§¿æ€
 	static void Arr3ToEta(double arr[], Eta &eta0, int sz);
 
-	//ÈıÎ¬Êı×éÏà¼õ
+	//ä¸‰ç»´æ•°ç»„ç›¸å‡
 	static void subArr3(double arr1[], double arr2[], double arr[], int sz);
 
-	//ÈıÎ¬Êı×éÏà¼Ó
+	//ä¸‰ç»´æ•°ç»„ç›¸åŠ 
 	static void addArr3(double arr1[], double arr2[], double arr[], int sz);
 
-	//Ğı×ª¾ØÕó
+	//æ—‹è½¬çŸ©é˜µ
 	static void rotMat(double psi, double inValue[], double outValue[], int sz);
 	static void transRot(double psi, double inValue[], double outValue[], int sz);
 
-	//Á¦ÓÉ±±¶«×ø±êÏµ×ª»»Îª´¬Ìå×ø±êÏµ
+	//åŠ›ç”±åŒ—ä¸œåæ ‡ç³»è½¬æ¢ä¸ºèˆ¹ä½“åæ ‡ç³»
 	static Force6 NedToboat(const Force6 &force, const Eta &eta);
 };
 

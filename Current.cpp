@@ -1,4 +1,4 @@
-/*****************************************************************
+ï»¿/*****************************************************************
 **				Project:	ShipControl(WOPC)					**
 **				Author:		Dong Shengwei						**
 **				Library:	BestSea								**
@@ -21,7 +21,7 @@ Current::~Current(void)
 {
 }
 
-//³õÊ¼»¯
+//åˆå§‹åŒ–
 void Current::init()
 {
 	rho_w = 1025;
@@ -29,7 +29,7 @@ void Current::init()
 	Lpp = 162.0;
 	Tm = 7.2;
 
-	//Á÷Á¦ÏµÊı£¬h/d>4.4
+	//æµåŠ›ç³»æ•°ï¼Œh/d>4.4
 	double xValue[] = {-0.034, -0.032, -0.031, -0.031, -0.030, -0.028, -0.022, -0.016, -0.007, 0.003,  0.016,
 		0.029, 0.039, 0.043, 0.042, 0.040, 0.035, 0.027, 0.019, 0.010, 0.004, -0.001, -0.004, -0.006,
 		-0.006, -0.004, 0.000, 0.006, 0.015, 0.023, 0.031, 0.036, 0.041, 0.043, 0.045, 0.047, 0.048};
@@ -58,20 +58,20 @@ void Current::init()
 	cncValue = 0.0;
 }
 
-//ÊäÈëÁ÷ËÙ
+//è¾“å…¥æµé€Ÿ
 void Current::setPara(const double speed, const double dir)
 {
 	Vc = speed;
 	dirC = Tool::infToPi(dir * angToRad);
 }
 
-//ÊäÈë´¬²°ô¼Ïò(»¡¶È)
+//è¾“å…¥èˆ¹èˆ¶è‰å‘(å¼§åº¦)
 void Current::setPsi(const double psiIn)
 {
 	psi = Tool::infToPi(psiIn);
 }
 
-//¼ÆËãÁ÷Á¦
+//è®¡ç®—æµåŠ›
 void Current::cal()
 {
 	//if ((dirC-psi) < -PI)
@@ -104,14 +104,14 @@ void Current::cal()
 	forceCur.mMoment = 0.0;
 }
 
-//Êä³öÁ÷Á¦
+//è¾“å‡ºæµåŠ›
 Force6 Current::force()
 {
 	return forceCur;
 }
 
-//²åÖµ£¬¼ÆËãÁ÷Á¦ÏµÊı
-//ÊäÈë£ºÁ÷Á¦ÏµÊıÏòÁ¿£¬×ÜÊı£¬ÈëÉä½Ç
+//æ’å€¼ï¼Œè®¡ç®—æµåŠ›ç³»æ•°
+//è¾“å…¥ï¼šæµåŠ›ç³»æ•°å‘é‡ï¼Œæ€»æ•°ï¼Œå…¥å°„è§’
 double Current::interp(const double *cc, const double num, const double bt)
 {
 	double cValue = 0.0;

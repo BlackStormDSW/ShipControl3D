@@ -1,4 +1,4 @@
-/*****************************************************************
+ï»¿/*****************************************************************
 **				Project:	ShipControl(WOPC)					**
 **				Author:		Dong Shengwei						**
 **				Library:	BestSea								**
@@ -23,7 +23,7 @@ WOPC::~WOPC(void)
 {
 }
 
-//³õÊ¼»¯
+//åˆå§‹åŒ–
 void WOPC::init()
 {
 	xCenter = xDes;
@@ -52,23 +52,23 @@ void WOPC::init()
 	xForce = 1.0;
 	yForce = 0.0;
 
-	state = 6;	//±íÊ¾½Ç¶ÈÊÇ0
+	state = 6;	//è¡¨ç¤ºè§’åº¦æ˜¯0
 	current_angle = 0.0;
 	previous_angle = 0.0;
 	accumulate = 0.0;
 }
 
-//Éè¶¨Ğü¸¡µã
+//è®¾å®šæ‚¬æµ®ç‚¹
 void WOPC::centerControl()
 {
 	xCenter = xDes + rad*cos(psiD);
 	yCenter = yDes + rad*sin(psiD);
 }
 
-//¼ÆËã»·¾³×îÓÅô¼Ïò
+//è®¡ç®—ç¯å¢ƒæœ€ä¼˜è‰å‘
 void WOPC::optHeadCal()
 {
-	//¼ÆËãkGain
+	//è®¡ç®—kGain
 	psiC = atan2(yCenter-y, xCenter-x);
 	psiC = piToInf(psiC);
 	if (!usedFlag)
@@ -88,7 +88,7 @@ void WOPC::optHeadCal()
 	
 	kGain = ep + mAdd;
 
-	//ÏŞÖÆkGain
+	//é™åˆ¶kGain
 	if (upLmt < kGain)
 	{
 		kGain = upLmt;
@@ -97,16 +97,16 @@ void WOPC::optHeadCal()
 		kGain = lowLmt;
 	}
 
-	//¼ÇÂ¼µ±Ç°psiC£¬´ıÏÂ´ÎÓÃ
+	//è®°å½•å½“å‰psiCï¼Œå¾…ä¸‹æ¬¡ç”¨
 	prePsiC = psiC;
 
-	//¼ÆËãĞÂµÄpsiD
+	//è®¡ç®—æ–°çš„psiD
 	psiD += kGain * psiCD * pGain * tStep * yForce;
 	
 	psiD = Tool::infToPi(psiD);
 }
 
-//»·¾³×îÓÅô¼Ïò
+//ç¯å¢ƒæœ€ä¼˜è‰å‘
 void WOPC::wohc()
 {
 	xRTDes = xCenter - rad*cos(psiC);
@@ -114,39 +114,39 @@ void WOPC::wohc()
 	psiRTDes = psiC;
 }
 
-//¿ØÖÆ¼ÆËã
+//æ§åˆ¶è®¡ç®—
 void WOPC::calculat()
 {
-	//¼ÆËã»·¾³×îÓÅô¼Ïò
+	//è®¡ç®—ç¯å¢ƒæœ€ä¼˜è‰å‘
 	optHeadCal();
 
-	//¼ÆËãĞéÄâÔ²ĞÄ
+	//è®¡ç®—è™šæ‹Ÿåœ†å¿ƒ
 	centerControl();
 
-	//»·¾³×îÓÅô¼Ïò
+	//ç¯å¢ƒæœ€ä¼˜è‰å‘
 	wohc();
 }
 
-//ÉèÖÃÊ±¼ä¼ä¸ô
+//è®¾ç½®æ—¶é—´é—´éš”
 void WOPC::setStep(const double dtime)
 {
 	tStep = dtime;
 }
 
-//ÉèÖÃĞéÄâÔ²µÄ°ë¾¶
+//è®¾ç½®è™šæ‹Ÿåœ†çš„åŠå¾„
 void WOPC::setRadius(const double radius)
 {
 	rad = radius;
 }
 
-//ÉèÖÃÄ¿±êÎ»ÖÃ
+//è®¾ç½®ç›®æ ‡ä½ç½®
 void WOPC::setPos(const Eta etaTarget)
 {
 	xDes = etaTarget.n;
 	yDes = etaTarget.e;
 }
 
-//ÊµÊ±»ñÈ¡µ±Ç°Î»ÖÃÓëô¼Ïò
+//å®æ—¶è·å–å½“å‰ä½ç½®ä¸è‰å‘
 void WOPC::setEta(const Eta etaIn)
 {
 	x = etaIn.n;
@@ -154,7 +154,7 @@ void WOPC::setEta(const Eta etaIn)
 	psi = etaIn.psi;
 }
 
-//ÊµÊ±»ñÈ¡µ±Ç°ËÙ¶ÈÓë½ÇËÙ¶È
+//å®æ—¶è·å–å½“å‰é€Ÿåº¦ä¸è§’é€Ÿåº¦
 void WOPC::setNu(const Nu nuIn)
 {
 	u = nuIn.u;
@@ -162,32 +162,32 @@ void WOPC::setNu(const Nu nuIn)
 	r = nuIn.r;
 }
 
-//ÊµÊ±»ñÈ¡µ±Ç°µÄ²àÍÆ
+//å®æ—¶è·å–å½“å‰çš„ä¾§æ¨
 void WOPC::setThrust(Force6 thrust)
 {
 	xForce = thrust.xForce;
 	yForce = thrust.yForce;
 }
 
-//Êä³öĞéÄâÔ²ĞÄÎ»ÖÃ
+//è¾“å‡ºè™šæ‹Ÿåœ†å¿ƒä½ç½®
 pair<double, double> WOPC::getCenterPos()
 {
 	return pair<double, double>(xCenter, yCenter);
 }
 
-//Êä³öÊµÊ±Ä¿±êÎ»ÖÃ
+//è¾“å‡ºå®æ—¶ç›®æ ‡ä½ç½®
 pair<double, double> WOPC::getRTPosDes()
 {
 	return pair<double, double>(xRTDes, yRTDes);
 }
 
-//Êä³öÊµÊ±Ä¿±êô¼Ïò(ÎÈ¶¨Ê±±ãÊÇ»·¾³×îÓÅô¼Ïò)
+//è¾“å‡ºå®æ—¶ç›®æ ‡è‰å‘(ç¨³å®šæ—¶ä¾¿æ˜¯ç¯å¢ƒæœ€ä¼˜è‰å‘)
 double WOPC::getPsiRTDes()
 {
 	return psiRTDes;
 }
 
-//½«ÊıÖµ´Ó(-pi,pi)×ª»»µ½(-inf,inf)
+//å°†æ•°å€¼ä»(-pi,pi)è½¬æ¢åˆ°(-inf,inf)
 double WOPC::piToInf(double valueIn)
 {
 	double valueResult = 0.0;

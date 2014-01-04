@@ -1,4 +1,4 @@
-/*****************************************************************
+ï»¿/*****************************************************************
 **				Project:	ShipControl(WOPC)					**
 **				Author:		Dong Shengwei						**
 **				Library:	BestSea								**
@@ -11,7 +11,7 @@
 
 EnvObserver::EnvObserver(void)
 {
-	//³õÊ¼»¯
+	//åˆå§‹åŒ–
 	init();
 }
 
@@ -19,7 +19,7 @@ EnvObserver::~EnvObserver(void)
 {
 }
 
-//³õÊ¼»¯
+//åˆå§‹åŒ–
 void EnvObserver::init()
 {
 	tStep = 0.0;
@@ -40,12 +40,12 @@ void EnvObserver::init()
 			D[i][j] = 0.0;
 		}
 	}
-	//ÏµÍ³¹ßĞÔ¾ØÕó(Ô­6×ÔÓÉ¶ÈÏµÍ³¹ßĞÔ¾ØÕó¼ò»¯¶øÀ´)
+	//ç³»ç»Ÿæƒ¯æ€§çŸ©é˜µ(åŸ6è‡ªç”±åº¦ç³»ç»Ÿæƒ¯æ€§çŸ©é˜µç®€åŒ–è€Œæ¥)
 	M[0][0] = 0.0026e+10;
 	M[1][1] = 0.0033e+10;
 	M[2][2] = 6.5209e+10;
 
-	//×èÄá¾ØÕó(Ô­6×ÔÓÉ¶È×èÄá¾ØÕó¼ò»¯¶øÀ´)
+	//é˜»å°¼çŸ©é˜µ(åŸ6è‡ªç”±åº¦é˜»å°¼çŸ©é˜µç®€åŒ–è€Œæ¥)
 	D[0][0] = 0.0002e+8;
 	D[1][1] = 0.0022e+8;
 	D[2][2] = 7.1506e+8;
@@ -53,13 +53,13 @@ void EnvObserver::init()
 }
 
 
-//ÉèÖÃÊ±¼ä¼ä¸ô
+//è®¾ç½®æ—¶é—´é—´éš”
 void EnvObserver::setStep(const double deltaT)
 {
 	tStep = deltaT;
 }
 
-//ÉèÖÃ²ÎÊı
+//è®¾ç½®å‚æ•°
 void EnvObserver::setK(const double k1, const double k2, const double k3)
 {
 	K0[0][0] = k1;
@@ -67,7 +67,7 @@ void EnvObserver::setK(const double k1, const double k2, const double k3)
 	K0[2][2] = k3;
 }
 
-//ÊäÈëM¾ØÕó(3Î¬)
+//è¾“å…¥MçŸ©é˜µ(3ç»´)
 void EnvObserver::setM(const double (*Mmat)[DOF3])
 {
 	for (int i = 0; i < DOF3; i ++)
@@ -79,7 +79,7 @@ void EnvObserver::setM(const double (*Mmat)[DOF3])
 	}
 }
 
-//ÊäÈëD¾ØÕó(3Î¬)
+//è¾“å…¥DçŸ©é˜µ(3ç»´)
 void EnvObserver::setD(const double (*Dmat)[DOF3])
 {
 	for (int i = 0; i < DOF3; i ++)
@@ -91,7 +91,7 @@ void EnvObserver::setD(const double (*Dmat)[DOF3])
 	}
 }
 
-//ÊäÈëÍÆ½øÆ÷ÍÆÁ¦ÓëÁ¦¾Ø
+//è¾“å…¥æ¨è¿›å™¨æ¨åŠ›ä¸åŠ›çŸ©
 void EnvObserver::setTao(const Force6 thrust)
 {
 	tao[0] = thrust.xForce;
@@ -99,7 +99,7 @@ void EnvObserver::setTao(const Force6 thrust)
 	tao[2] = thrust.nMoment;
 }
 
-//ÊäÈë´¬²°ÔË¶¯ËÙ¶È
+//è¾“å…¥èˆ¹èˆ¶è¿åŠ¨é€Ÿåº¦
 void EnvObserver::setNu(const Nu nuIn)
 {
 	nu[0] = nuIn.u;
@@ -107,7 +107,7 @@ void EnvObserver::setNu(const Nu nuIn)
 	nu[2] = nuIn.r;
 }
 
-//Êä³ö»·¾³Á¦(3×ÔÓÉ¶È)
+//è¾“å‡ºç¯å¢ƒåŠ›(3è‡ªç”±åº¦)
 Force3 EnvObserver::force()
 {
 	env.xForce = envTao[0];
@@ -116,7 +116,7 @@ Force3 EnvObserver::force()
 	return env;
 }
 
-//¾ØÕó³Ë·¨£¬6x6¾ØÕóÓë6x1¾ØÕóÏà³Ë
+//çŸ©é˜µä¹˜æ³•ï¼Œ6x6çŸ©é˜µä¸6x1çŸ©é˜µç›¸ä¹˜
 void EnvObserver::multiMx(const double (*dataMx1)[DOF3], const double dataMx2[], double resultMx[])
 {
 	for (int i = 0; i < DOF3; ++ i)
@@ -129,24 +129,24 @@ void EnvObserver::multiMx(const double (*dataMx1)[DOF3], const double dataMx2[],
 	}
 }
 
-//»·¾³¹À¼Æ
+//ç¯å¢ƒä¼°è®¡
 void EnvObserver::cal()
 {
-	//¼ÆËãÖĞ¼ä±äÁ¿£¬ÈıÎ¬ÏòÁ¿
+	//è®¡ç®—ä¸­é—´å˜é‡ï¼Œä¸‰ç»´å‘é‡
 	multiMx(D, nu, D_nu);
 	multiMx(M, nu, M_nu);
 	multiMx(K0, M_nu, K_M_nu);
 
-	//¼ÆËãÖĞ¼ä±äÁ¿
+	//è®¡ç®—ä¸­é—´å˜é‡
 	for (int i = 0; i < DOF3; i ++)
 	{
 		betaTmp[i] = -(beta[i] - D_nu[i] + tao[i] + K_M_nu[i]);
 	}
 
-	//¼ÆËã¦ÂµÄµ¼Êı
+	//è®¡ç®—Î²çš„å¯¼æ•°
 	multiMx(K0, betaTmp, dBeta);
 
-	//¼ÆËã¦ÂÓë»·¾³¹À¼ÆÁ¦
+	//è®¡ç®—Î²ä¸ç¯å¢ƒä¼°è®¡åŠ›
 	for (int i = 0; i < DOF3; i ++)
 	{
 		beta[i] += dBeta[i]*tStep;

@@ -1,4 +1,4 @@
-/*****************************************************************
+ï»¿/*****************************************************************
 **				Project:	ShipControl(WOPC)					**
 **				Author:		Dong Shengwei						**
 **				Library:	BestSea								**
@@ -52,7 +52,7 @@ Wave::~Wave()
 	delete [] posPhs;
 }
 
-//Îª¼òµ¥£¬²ÎÊı¶¼Ö±½Ó¸³ÖµÎª³£Êı
+//ä¸ºç®€å•ï¼Œå‚æ•°éƒ½ç›´æ¥èµ‹å€¼ä¸ºå¸¸æ•°
 void Wave::init()
 {
 	omegaPeak = -1.0;
@@ -65,7 +65,7 @@ void Wave::init()
 	dirCut = 0.0;
 	kId = 0;
 
-	//ĞŞÕı³õÊ¼²ÎÊı
+	//ä¿®æ­£åˆå§‹å‚æ•°
 
 	hs = hs<0.0 ? 0.0:hs;
 
@@ -116,17 +116,17 @@ void Wave::init()
 
 	data = new Data;
 
-	//»ñÈ¡Ê±¼ä£¬²úÉú²»Í¬µÄËæ»úĞòÁĞÖÖ×Ó
+	//è·å–æ—¶é—´ï¼Œäº§ç”Ÿä¸åŒçš„éšæœºåºåˆ—ç§å­
 	srand((unsigned)time( NULL ));
 }
 
-//ÉèÖÃData
+//è®¾ç½®Data
 void Wave::setData(Data *dt)
 {
 	data = dt;
 }
 
-//ÉèÖÃÀË¸ßºÍÀËÏò
+//è®¾ç½®æµªé«˜å’Œæµªå‘
 void Wave::setPara(double Hs, double ang)
 {
 	hs = Hs;
@@ -160,7 +160,7 @@ void Wave::calWave()
 
 	double rd = 0.0, rdPsi = 0.0, rdOmega = 0.0; 
 
-	//¼ÆËã²¨ÀËÆ×
+	//è®¡ç®—æ³¢æµªè°±
 	int index = 0, idx = 0, kO = 0;
 	int r = 0;
 
@@ -178,11 +178,11 @@ void Wave::calWave()
 			if (nDir > 1.0)
 			{
 				K = (pow(2.0, 2.0*spread-1)*fact(int(spread))*fact(int(spread)-1))/(PI*fact(int(2.0*spread-1)));
-				Spsi = K*pow(cos(psi-psiMean), 2.0*spread);		//ĞèÒªÈ·¶¨³Ë·½µÄÎ»ÖÃ
+				Spsi = K*pow(cos(psi-psiMean), 2.0*spread);		//éœ€è¦ç¡®å®šä¹˜æ–¹çš„ä½ç½®
 			} else {
 				Spsi = 1.0/deltaPsi;
 			}
-			//¼ÇÂ¼psi
+			//è®°å½•psi
 			psiVec[index][idx] = Tool::infToPi(psi);
 			idx ++;
 
@@ -211,7 +211,7 @@ void Wave::calWave()
 				WaveNum[kId] = pow(Omega[kO], 2.0)/g;
 				//cout << "wave num:\t" << kId << "\t" << WaveNum[kId] << endl;
 				//} else {
-				//ÏÂÊ½Îªmatlab³ÌĞò£¬¼ÆËãwaveNum
+				//ä¸‹å¼ä¸ºmatlabç¨‹åºï¼Œè®¡ç®—waveNum
 				//	//Wavenum(k) = fzero(@(w) w*tanh(w*depth) - Omega(k)^2/g,[wavenum_0,1E10]);
 				//}
 
@@ -223,7 +223,7 @@ void Wave::calWave()
 					Psi[kId] = psi;
 				}
 
-				//Æ½¾ùô¼Ïò²»Í¬£¬Psi»áÓëMatlabÖĞµÄÊıÖµÏà²î²»Í¬
+				//å¹³å‡è‰å‘ä¸åŒï¼ŒPsiä¼šä¸Matlabä¸­çš„æ•°å€¼ç›¸å·®ä¸åŒ
 
 				//Phase
 				Phase[kId] = rd*2*PI;
@@ -245,11 +245,11 @@ void Wave::calWave()
 		index ++;
 	}
 
-	//±£´æ²¨ÀË×ÜÊı
+	//ä¿å­˜æ³¢æµªæ€»æ•°
 	nWaves = kId;
 
 	// If using the set number of waves approach (energylim < 0, nwaves = - energylim)
-	// matlab³ÌĞòÖĞÓĞ¼ÆËã£¬´Ë´¦Î´±àĞ´
+	// matlabç¨‹åºä¸­æœ‰è®¡ç®—ï¼Œæ­¤å¤„æœªç¼–å†™
 
 	idxPsi = new int[kId];
 	idxW = new int[kId];
@@ -258,7 +258,7 @@ void Wave::calWave()
 	setWVec(data->dataVes.forceRAO.w, 36);
 }
 
-//ÉèÖÃwÏòÁ¿
+//è®¾ç½®wå‘é‡
 void Wave::setWVec(double w[], int size)
 {
 	wSize = size;
@@ -269,43 +269,43 @@ void Wave::setWVec(double w[], int size)
 	}
 }
 
-//»ñÈ¡²¨ÀË·ùÖµ
+//è·å–æ³¢æµªå¹…å€¼
 double *Wave::getZeta()
 {
 	return Zeta;
 }
 
-//»ñÈ¡²¨ÀË·½Ïò
+//è·å–æ³¢æµªæ–¹å‘
 double *Wave::getPsi()
 {
 	return Psi;
 }
 
-//»ñÈ¡²¨ÀËÆµÂÊ
+//è·å–æ³¢æµªé¢‘ç‡
 double *Wave::getOmega()
 {
 	return Omega;
 }
 
-//»ñÈ¡²¨ÀËÊı
+//è·å–æ³¢æµªæ•°
 double *Wave::getWaveNum()
 {
 	return WaveNum;
 }
 
-//»ñÈ¡²¨ÀËµÄËæ»úÏàÎ»
+//è·å–æ³¢æµªçš„éšæœºç›¸ä½
 double *Wave::getPhase()
 {
 	return Phase;
 }
 
-//»ñÈ¡½á¹ûÏòÁ¿µÄÎ¬Êı
+//è·å–ç»“æœå‘é‡çš„ç»´æ•°
 int Wave::getDim()
 {
 	return kId;
 }
 
-//»ñÈ¡ô¼ÏòÖµµÄÔÚô¼ÏòÁĞ±íÖĞµÄÖµ(2*pi·ÖÎª36·İ)
+//è·å–è‰å‘å€¼çš„åœ¨è‰å‘åˆ—è¡¨ä¸­çš„å€¼(2*piåˆ†ä¸º36ä»½)
 void Wave::headValue(double head, double &value1, double &value2)
 {
 	double index = 0;
@@ -328,7 +328,7 @@ void Wave::headValue(double head, double &value1, double &value2)
 	wt = fabs((value2-head) / (value2-value1));
 }
 
-//¼ÆËãÒ»½×¶ş½×²¨ÀËÁ¦
+//è®¡ç®—ä¸€é˜¶äºŒé˜¶æ³¢æµªåŠ›
 void Wave::calLoadForHead(double WF[], double DF[], const Eta &eta, double head, double time)
 {
 	int speed = 0;
@@ -359,7 +359,7 @@ void Wave::calLoadForHead(double WF[], double DF[], const Eta &eta, double head,
 	}
 }
 
-//¼ÆËãÒ»½×¶ş½×²¨ÀËÁ¦
+//è®¡ç®—ä¸€é˜¶äºŒé˜¶æ³¢æµªåŠ›
 void Wave::calLoad(double WaveF[], double WaveD[])
 {
 	for (int k = 0; k < DOF6; k ++)
@@ -369,7 +369,7 @@ void Wave::calLoad(double WaveF[], double WaveD[])
 	}
 }
 
-//¼ÆËã²¨ÀËÁ¦
+//è®¡ç®—æ³¢æµªåŠ›
 void Wave::cal(const Eta &eta, double time_)
 {
 	double head1, head2;
@@ -379,7 +379,7 @@ void Wave::cal(const Eta &eta, double time_)
 	calLoad(WaveF, WaveD);
 }
 
-//»ñÈ¡PsiÖµµÄË÷Òı(´Ó0¿ªÊ¼£¬¹²36¸öË÷Òı)
+//è·å–Psiå€¼çš„ç´¢å¼•(ä»0å¼€å§‹ï¼Œå…±36ä¸ªç´¢å¼•)
 int Wave::getIndexPsi(double ps)
 {
 	while (0 > ps)
@@ -396,7 +396,7 @@ int Wave::getIndexPsi(double ps)
 	return index;
 }
 
-//»ñÈ¡Ò»½×¶ş½×²¨ÀËÁ¦
+//è·å–ä¸€é˜¶äºŒé˜¶æ³¢æµªåŠ›
 void Wave::getLoad(Force6 &waveForce, Force6 &waveDrift)
 {
 	waveForce.xForce = WaveF[0];
@@ -414,7 +414,7 @@ void Wave::getLoad(Force6 &waveForce, Force6 &waveDrift)
 	waveDrift.nMoment = WaveD[5];
 }
 
-//»ñÈ¡wÖµµÄË÷Òı(´Ó0¿ªÊ¼£¬¹²36¸öË÷Òı)
+//è·å–wå€¼çš„ç´¢å¼•(ä»0å¼€å§‹ï¼Œå…±36ä¸ªç´¢å¼•)
 int Wave::getIndexW(double omega)
 {
 	if (omega < wVec[0])
@@ -435,7 +435,7 @@ int Wave::getIndexW(double omega)
 	}
 }
 
-//¼ÆËãÎ»ÖÃÏàÎ»
+//è®¡ç®—ä½ç½®ç›¸ä½
 double *Wave::posPhase(const Eta &eta, double time)
 {
 	for (int i = 0; i < kId; i ++)
@@ -445,10 +445,10 @@ double *Wave::posPhase(const Eta &eta, double time)
 	return posPhs;
 }
 
-//²¨ÀËÆ×(ITTCË«²ÎÊıÆÕ),µ¥Î»m^2¡¤s	²Î¿¼¡¶´¬²°²Ù×İĞÔÓëÄÍ²¨ĞÔ¡·P108
+//æ³¢æµªè°±(ITTCåŒå‚æ•°æ™®),å•ä½m^2Â·s	å‚è€ƒã€Šèˆ¹èˆ¶æ“çºµæ€§ä¸è€æ³¢æ€§ã€‹P108
 double Wave::waveSpec(double Hs, double T0, double omega)
 {
-	double A, B, Sw;	//T1ÎªÆ×ĞÄÖÜÆÚ
+	double A, B, Sw;	//T1ä¸ºè°±å¿ƒå‘¨æœŸ
 
 	//Pierson-Moskowitz 
 	//A = 0.0081*pow(g, 2);
@@ -469,7 +469,7 @@ double Wave::waveSpec(double Hs, double T0, double omega)
 	return Sw;
 }
 
-//¼ÆËã½×³Ë
+//è®¡ç®—é˜¶ä¹˜
 double Wave::fact(int n)
 {
 	double result = 0.0;

@@ -1,4 +1,4 @@
-/*****************************************************************
+ï»¿/*****************************************************************
 **				Project:	ShipControl(WOPC)					**
 **				Author:		Dong Shengwei						**
 **				Library:	BestSea								**
@@ -22,156 +22,159 @@
 #include "Wave.h"
 #include "Current.h"
 #include <fstream>
+#include <QThread>
 
-class ShipControl
+class ShipControl : public QThread
 {
+    Q_OBJECT
 public:
 	ShipControl(void);
 	~ShipControl(void);
 
-	//³õÊ¼»¯
+	//åˆå§‹åŒ–
 	void init();
 
-	//ÉèÖÃ´¬²°²ÎÊı
+	//è®¾ç½®èˆ¹èˆ¶å‚æ•°
 	void setData(Data *data_);
 	
-	//´ò¿ªÎÄ¼ş
+	//æ‰“å¼€æ–‡ä»¶
 	void openFiles();
 
-	//¹Ø±ÕÎÄ¼ş
+	//å…³é—­æ–‡ä»¶
 	void closeFiles();
 
-	//ÓÃ»§½Ó¿Ú
+	//ç”¨æˆ·æ¥å£
 	void userInterFace();
 
-	//ÉèÖÃ²ÎÊı
-	void setParameter();
-
-	//´¬²°¿ØÖÆÔËĞĞ
-	void run();
+	//è®¾ç½®å‚æ•°
+    void setParameter();
 		
-	//ÖØÔØ<<²Ù×÷·û
+	//é‡è½½<<æ“ä½œç¬¦
 	friend ostream& operator << (ostream &os, const Eta &eta);
+
+protected:
+    //èˆ¹èˆ¶æ§åˆ¶è¿è¡Œ
+    void run();
 
 private:
 	Data *data;
 
 	ShipModel model;
 	
-	double tStep, time;	//Õû¸ö·ÂÕæ¼ÆËã¹ı³Ì²½³¤
+	double tStep, time;	//æ•´ä¸ªä»¿çœŸè®¡ç®—è¿‡ç¨‹æ­¥é•¿
 	ofstream etaFile, outFltFile, nuFile;
 	ofstream centerFile, optHeadFile, targetFile;
 	ofstream wave1File, wave2File, windFile, curFile;
 	ofstream taoFile, thrustFile;
 	ofstream paraFile;
 
-	//´¬²°Î»ÖÃ×ËÌ¬£¬Ä¿±êÎ»ÖÃ×ËÌ¬£¬ ÂË²¨ºóµÄÎ»ÖÃ×ËÌ¬
+	//èˆ¹èˆ¶ä½ç½®å§¿æ€ï¼Œç›®æ ‡ä½ç½®å§¿æ€ï¼Œ æ»¤æ³¢åçš„ä½ç½®å§¿æ€
 	Eta eta, etaTarget, etaFlt;
 	
-	//´¬²°ËÙ¶È½ÇËÙ¶È
+	//èˆ¹èˆ¶é€Ÿåº¦è§’é€Ÿåº¦
 	Nu nu;
 
-	//·ç¸ÉÈÅ
+	//é£å¹²æ‰°
 	Wind wind;
 
-	//²¨ÀË¸ÉÈÅ
+	//æ³¢æµªå¹²æ‰°
 	Wave wave;
 
-	//º£Á÷¸ÉÈÅ
+	//æµ·æµå¹²æ‰°
 	Current cur;
 
-	//ÍÆ½øÆ÷ÍÆÁ¦
+	//æ¨è¿›å™¨æ¨åŠ›
 	Force6 thrust;
 
-	//·çµÄ×÷ÓÃÁ¦
+	//é£çš„ä½œç”¨åŠ›
 	Force6 windForce;
 
-	//²¨ÀËÁ¦
+	//æ³¢æµªåŠ›
 	Force6 wave1Force, wave2Force;
 
-	//Á÷µÄ×÷ÓÃÁ¦
+	//æµçš„ä½œç”¨åŠ›
 	Force6 curForce;
 
 	double thrustArray[DOF6], wave1Array[DOF6], wave2Array[DOF6],
 		windArray[DOF6], curArray[DOF6];
 
-	//ÍÆ½øÆ÷Óë»·¾³µÄºÏÁ¦
+	//æ¨è¿›å™¨ä¸ç¯å¢ƒçš„åˆåŠ›
 	Force6 tao;
 	double taoArray[DOF6];
 
-	//PID¿ØÖÆÆ÷
+	//PIDæ§åˆ¶å™¨
 	PIDController pid;
 
-	//NMPC¿ØÖÆÆ÷
+	//NMPCæ§åˆ¶å™¨
 	NMPCcontroller nmpc;
 
-	//»·¾³×îÓÅô¼Ïò¿ØÖÆÆ÷
+	//ç¯å¢ƒæœ€ä¼˜è‰å‘æ§åˆ¶å™¨
 	OptController optPsiCtrl;
 
 	//WOPC
 	WOPC wopc;
 
-	//»·¾³¹Û²âÆ÷
+	//ç¯å¢ƒè§‚æµ‹å™¨
 	EnvObserver envObs;
 
-	//´´½¨ÂË²¨Æ÷
+	//åˆ›å»ºæ»¤æ³¢å™¨
 	Filter filter;
 
-	//¿ØÖÆÆ÷¼ÆËãµÄÆµÂÊ¼ÆÊıÆ÷
+	//æ§åˆ¶å™¨è®¡ç®—çš„é¢‘ç‡è®¡æ•°å™¨
 	int ctrlCount;
-	//¿ØÖÆÆ÷¼ÆËãÖÜÆÚ(ÊÇ0.05sµÄctrlCyc±¶)
+	//æ§åˆ¶å™¨è®¡ç®—å‘¨æœŸ(æ˜¯0.05sçš„ctrlCycå€)
 	int ctrlCyc;
 	
-	//»·¾³¹À¼ÆÁ¦
+	//ç¯å¢ƒä¼°è®¡åŠ›
 	Force3 envEst;
 
-	//×îÓÅô¼Ïò
+	//æœ€ä¼˜è‰å‘
 	double optPsi;
 
-	//·ÂÕæ×ÜÊ±¼ä
+	//ä»¿çœŸæ€»æ—¶é—´
 	double maxTime;
 
-	//Éè¶¨·çËÙ£¬·çÏò(¡ã)
+	//è®¾å®šé£é€Ÿï¼Œé£å‘(Â°)
 	double SpeedWind, DirWind;
 
-	//Éè¶¨ÀË¸ß£¬ÀËÏò(¡ã)
+	//è®¾å®šæµªé«˜ï¼Œæµªå‘(Â°)
 	double HeightWave, DirWave;
 
-	//Éè¶¨Á÷ËÙ£¬Á÷Ïò(¡ã)
+	//è®¾å®šæµé€Ÿï¼Œæµå‘(Â°)
 	double SpeedCurrent, DirCurrent;
 
-	//³õÊ¼Î»ÖÃÓëô¼Ïò
+	//åˆå§‹ä½ç½®ä¸è‰å‘
 	double xOrigin, yOrigin, psiOrigin;
 
-	//Ä¿±êÎ»ÖÃÓëô¼Ïò
+	//ç›®æ ‡ä½ç½®ä¸è‰å‘
 	double xTarget, yTarget, psiTarget;
 
-	//»·¾³×îÓÅ¶¯Á¦¶¨Î»°ë¾¶
+	//ç¯å¢ƒæœ€ä¼˜åŠ¨åŠ›å®šä½åŠå¾„
 	double radius;
 
-	//¿ØÖÆÆ÷µÈµÄ¸÷ÖÖ²ÎÊı
-	//PID²ÎÊı
+	//æ§åˆ¶å™¨ç­‰çš„å„ç§å‚æ•°
+	//PIDå‚æ•°
 	double kp, ki, kd;
-	//NMPCµÄÔ¤²âÖÜÆÚ
+	//NMPCçš„é¢„æµ‹å‘¨æœŸ
 	double Tpre;
-	//NMPCµÄÈ¨Öµ
+	//NMPCçš„æƒå€¼
 	double w1, w2, w3;
-	//ZPC-WµÄÈı¸ö²ÎÊı
+	//ZPC-Wçš„ä¸‰ä¸ªå‚æ•°
 	double kpZ, kiZ, kdZ;
-	//»·¾³¹Û²âÆ÷µÄÈı¸ö²ÎÊı
+	//ç¯å¢ƒè§‚æµ‹å™¨çš„ä¸‰ä¸ªå‚æ•°
 	double k1Env, k2Env, k3Env;
 
-	//¶¯Á¦¶¨Î»ÈÎÎñÀàĞÍ£º1.³£¹æ¶¯Á¦¶¨Î»£»2.»·¾³×îÓÅ¶¯Á¦¶¨Î»
+	//åŠ¨åŠ›å®šä½ä»»åŠ¡ç±»å‹ï¼š1.å¸¸è§„åŠ¨åŠ›å®šä½ï¼›2.ç¯å¢ƒæœ€ä¼˜åŠ¨åŠ›å®šä½
 	int dpFlag;
-	//¶¯Á¦¶¨Î»¿ØÖÆ·½·¨£º1.PID¿ØÖÆ£»2.·ÇÏßĞÔÄ£ĞÍÔ¤²â¿ØÖÆ
+	//åŠ¨åŠ›å®šä½æ§åˆ¶æ–¹æ³•ï¼š1.PIDæ§åˆ¶ï¼›2.éçº¿æ€§æ¨¡å‹é¢„æµ‹æ§åˆ¶
 	int ctlFlag;
-	//»·¾³×îÓÅ¶¯Á¦¶¨Î»¿ØÖÆ²ßÂÔÀàĞÍ£º
-	//1.WOPCÓëZPC-W½áºÏºóµÄ»·¾³×îÓÅ¶¯Á¦¶¨Î»¿ØÖÆ²ßÂÔ
-	//2.WOPC½èÓÃ»·¾³¹À¼ÆµÄ»·¾³×îÓÅ¶¯Á¦¶¨Î»¿ØÖÆ²ßÂÔ
-	//3.ZPC-W»·¾³×îÓÅ¶¯Á¦¶¨Î»¿ØÖÆ²ßÂÔ
+	//ç¯å¢ƒæœ€ä¼˜åŠ¨åŠ›å®šä½æ§åˆ¶ç­–ç•¥ç±»å‹ï¼š
+	//1.WOPCä¸ZPC-Wç»“åˆåçš„ç¯å¢ƒæœ€ä¼˜åŠ¨åŠ›å®šä½æ§åˆ¶ç­–ç•¥
+	//2.WOPCå€Ÿç”¨ç¯å¢ƒä¼°è®¡çš„ç¯å¢ƒæœ€ä¼˜åŠ¨åŠ›å®šä½æ§åˆ¶ç­–ç•¥
+	//3.ZPC-Wç¯å¢ƒæœ€ä¼˜åŠ¨åŠ›å®šä½æ§åˆ¶ç­–ç•¥
 	int wopcFlag;
 
-	//ÓÃ»§ÉèÖÃ¹ı³ÌÖĞÊ¹ÓÃµÄÁÙÊ±±äÁ¿
+	//ç”¨æˆ·è®¾ç½®è¿‡ç¨‹ä¸­ä½¿ç”¨çš„ä¸´æ—¶å˜é‡
 	char xOriginStr[20], yOriginStr[20], PsiOriginStr[20];
 	char *xOriginStrEnd, *yOriginStrEnd, *PsiOriginStrEnd;
 

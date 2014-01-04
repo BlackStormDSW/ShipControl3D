@@ -1,4 +1,4 @@
-/*****************************************************************
+ï»¿/*****************************************************************
 **				Project:	ShipControl(WOPC)					**
 **				Author:		Dong Shengwei						**
 **				Library:	BestSea								**
@@ -10,17 +10,19 @@
 #include "ShipControl.h"
 #include "Tool.h"
 #include <mat.h>
+#include <stdlib.h>
+#include <QTextStream>
 
 ShipControl::ShipControl(void) :
 tStep(0.05), time(0)
 {
-	//³õÊ¼»¯
+	//åˆå§‹åŒ–
 	init();	
 
-	//ÓÃ»§½øĞĞ³õÊ¼»¯
+	//ç”¨æˆ·è¿›è¡Œåˆå§‹åŒ–
 	userInterFace();
 
-	//³õÊ¼»¯»·¾³µÄĞÅÏ¢
+	//åˆå§‹åŒ–ç¯å¢ƒçš„ä¿¡æ¯
 	wind.setPara(SpeedWind, DirWind);
 	cur.setPara(SpeedCurrent, DirCurrent);
 }
@@ -28,64 +30,64 @@ tStep(0.05), time(0)
 
 ShipControl::~ShipControl(void)
 {
-	//¹Ø±ÕÎÄ¼ş
+	//å…³é—­æ–‡ä»¶
 	closeFiles();
 
 	//delete data;
 }
 
-//³õÊ¼»¯
+//åˆå§‹åŒ–
 void ShipControl::init()
 {
-	//´ò¿ªÎÄ¼ş
+	//æ‰“å¼€æ–‡ä»¶
 	openFiles();
 
-	//·ÂÕæ×ÜÊ±¼ä
+	//ä»¿çœŸæ€»æ—¶é—´
 	maxTime = 1000.0;
 
-	//Éè¶¨·çËÙ£¬·çÏò
+	//è®¾å®šé£é€Ÿï¼Œé£å‘
 	SpeedWind	= 10.0;
 	DirWind		= 90.0;
 
-	//Éè¶¨ÀË¸ß£¬ÀËÏò
+	//è®¾å®šæµªé«˜ï¼Œæµªå‘
 	HeightWave	= 2.0;
 	DirWave		= 150.0;
 
-	//Éè¶¨Á÷ËÙ£¬Á÷Ïò
+	//è®¾å®šæµé€Ÿï¼Œæµå‘
 	SpeedCurrent	= 1.0;
 	DirCurrent		= 120.0;
 
-	//³õÊ¼Î»ÖÃÓëô¼Ïò
+	//åˆå§‹ä½ç½®ä¸è‰å‘
 	xOrigin		= 0.0;
 	yOrigin		= 0.0;
 	psiOrigin	= 0.0;
 
-	//Ä¿±êÎ»ÖÃÓëô¼Ïò
+	//ç›®æ ‡ä½ç½®ä¸è‰å‘
 	xTarget		= 100.0;
 	yTarget		= 100.0;
 	psiTarget	= 30.0;
 
-	//³õÊ¼»¯»·¾³×îÓÅô¼Ïò
+	//åˆå§‹åŒ–ç¯å¢ƒæœ€ä¼˜è‰å‘
 	optPsi = 0.0;
 
-	//³õÊ¼»¯PID²ÎÊı
+	//åˆå§‹åŒ–PIDå‚æ•°
 	kp = 0.15;
 	ki = 0.0;
 	kd = 0.0;
 
-	//³õÊ¼»¯NMPCµÄÔ¤²âÖÜÆÚ
+	//åˆå§‹åŒ–NMPCçš„é¢„æµ‹å‘¨æœŸ
 	Tpre = 9.0;
-	//³õÊ¼»¯NMPCµÄÈı¸öÈ¨Öµ
+	//åˆå§‹åŒ–NMPCçš„ä¸‰ä¸ªæƒå€¼
 	w1 = 0.9;
 	w2 = 0.0005;
 	w3 = 0.0;
 
-	//ZPC-WµÄÈı¸ö²ÎÊı
+	//ZPC-Wçš„ä¸‰ä¸ªå‚æ•°
 	kpZ = 1e-8;
 	kiZ = 0.0;
 	kdZ = 0.0;
 
-	//»·¾³¹À¼ÆµÄÈı¸ö²ÎÊı
+	//ç¯å¢ƒä¼°è®¡çš„ä¸‰ä¸ªå‚æ•°
 	k1Env = 0.8;
 	k2Env = 2.0;
 	k3Env = 2.0;
@@ -108,48 +110,48 @@ void ShipControl::init()
 	ctrlCount = 0;
 	ctrlCyc = 6;
 
-	//»·¾³×îÓÅ¶¯Á¦¶¨Î»°ë¾¶
+	//ç¯å¢ƒæœ€ä¼˜åŠ¨åŠ›å®šä½åŠå¾„
 	radius = 60.0;
 
-	//³õÊ¼»¯´¬²°ËÙ¶È
+	//åˆå§‹åŒ–èˆ¹èˆ¶é€Ÿåº¦
 	Tool::initNu(nu);
 
-	//³õÊ¼»¯´¬²°µÄÎ»ÖÃÓë×ËÌ¬
+	//åˆå§‹åŒ–èˆ¹èˆ¶çš„ä½ç½®ä¸å§¿æ€
 	eta = Tool::setEta(xOrigin, yOrigin, psiOrigin);
 	etaFlt = Tool::setEta(xOrigin, yOrigin, psiOrigin);
 
-	//³õÊ¼»¯×÷ÓÃÁ¦
+	//åˆå§‹åŒ–ä½œç”¨åŠ›
 	Tool::initForce6(thrust);
 
-	//³õÊ¼»¯·ç×÷ÓÃÁ¦
+	//åˆå§‹åŒ–é£ä½œç”¨åŠ›
 	Tool::initForce6(windForce);
 
-	//³õÊ¼»¯Ò»½×¡¢¶ş½×²¨ÀËÁ¦
+	//åˆå§‹åŒ–ä¸€é˜¶ã€äºŒé˜¶æ³¢æµªåŠ›
 	Tool::initForce6(wave1Force);
 	Tool::initForce6(wave2Force);
 
-	//³õÊ¼»¯Á÷×÷ÓÃÁ¦
+	//åˆå§‹åŒ–æµä½œç”¨åŠ›
 	Tool::initForce6(curForce);
 
-	//³õÊ¼»¯¶¯Á¦¶¨Î»ÈÎÎñÀàĞÍ£º1.³£¹æ¶¯Á¦¶¨Î»£»2.»·¾³×îÓÅ¶¯Á¦¶¨Î»
+	//åˆå§‹åŒ–åŠ¨åŠ›å®šä½ä»»åŠ¡ç±»å‹ï¼š1.å¸¸è§„åŠ¨åŠ›å®šä½ï¼›2.ç¯å¢ƒæœ€ä¼˜åŠ¨åŠ›å®šä½
 	dpFlag = 1;
-	//³õÊ¼»¯¶¯Á¦¶¨Î»¿ØÖÆ·½·¨£º1.PID¿ØÖÆ£»2.·ÇÏßĞÔÄ£ĞÍÔ¤²â¿ØÖÆ
+	//åˆå§‹åŒ–åŠ¨åŠ›å®šä½æ§åˆ¶æ–¹æ³•ï¼š1.PIDæ§åˆ¶ï¼›2.éçº¿æ€§æ¨¡å‹é¢„æµ‹æ§åˆ¶
 	ctlFlag = 1;
-	//³õÊ¼»¯»·¾³×îÓÅ¶¯Á¦¶¨Î»¿ØÖÆ²ßÂÔÀàĞÍ£º
-	//1.WOPCÓëZPC-W½áºÏºóµÄ»·¾³×îÓÅ¶¯Á¦¶¨Î»¿ØÖÆ²ßÂÔ
-	//2.WOPC½èÓÃ»·¾³¹À¼ÆµÄ»·¾³×îÓÅ¶¯Á¦¶¨Î»¿ØÖÆ²ßÂÔ
-	//3.ZPC-W»·¾³×îÓÅ¶¯Á¦¶¨Î»¿ØÖÆ²ßÂÔ
+	//åˆå§‹åŒ–ç¯å¢ƒæœ€ä¼˜åŠ¨åŠ›å®šä½æ§åˆ¶ç­–ç•¥ç±»å‹ï¼š
+	//1.WOPCä¸ZPC-Wç»“åˆåçš„ç¯å¢ƒæœ€ä¼˜åŠ¨åŠ›å®šä½æ§åˆ¶ç­–ç•¥
+	//2.WOPCå€Ÿç”¨ç¯å¢ƒä¼°è®¡çš„ç¯å¢ƒæœ€ä¼˜åŠ¨åŠ›å®šä½æ§åˆ¶ç­–ç•¥
+	//3.ZPC-Wç¯å¢ƒæœ€ä¼˜åŠ¨åŠ›å®šä½æ§åˆ¶ç­–ç•¥
 	wopcFlag = 1;
 
 }
 
-//ÉèÖÃ´¬²°²ÎÊı
+//è®¾ç½®èˆ¹èˆ¶å‚æ•°
 void ShipControl::setData(Data *data_)
 {
 	data = data_;
 }
 
-//´ò¿ªÎÄ¼ş
+//æ‰“å¼€æ–‡ä»¶
 void ShipControl::openFiles()
 {
 	paraFile.open("E:/projectProgram/data/parameters.txt");
@@ -167,7 +169,7 @@ void ShipControl::openFiles()
 	thrustFile.open("E:/projectProgram/data/thrust.txt");
 }
 
-//¹Ø±ÕÎÄ¼ş
+//å…³é—­æ–‡ä»¶
 void ShipControl::closeFiles()
 {
 	paraFile.close();
@@ -185,94 +187,96 @@ void ShipControl::closeFiles()
 	thrustFile.close();
 }
 
-//ÓÃ»§½Ó¿Ú
+//ç”¨æˆ·æ¥å£
 void ShipControl::userInterFace()
 {
-	cout << "¡ù¡ù¶¯Á¦¶¨Î»¿ØÖÆ·ÂÕæ¡ù¡ù" << endl << endl << endl;
+    QTextStream out(stdout);
 
-	cout << "¡ïÇëÉèÖÃ»·¾³²ÎÊı£º" << endl;
+    out << "â€»â€»åŠ¨åŠ›å®šä½æ§åˆ¶ä»¿çœŸâ€»â€»\n\n\n";
 
-	cout << "\t·çËÙ(Ä¬ÈÏÎª" << SpeedWind << "m/s) = ";
+    out << "â˜…è¯·è®¾ç½®ç¯å¢ƒå‚æ•°ï¼š\n";
+
+    out << "\té£é€Ÿ(é»˜è®¤ä¸º" << SpeedWind << "m/s) = ";
 
 	gets_s(SpeedWindStr, 20);
 	valueStr = strtod(SpeedWindStr, &SpeedWindStrEnd);
 	SpeedWind = (SpeedWindStrEnd == SpeedWindStr) ? SpeedWind : valueStr;
 
-	cout << "\t·çÏò(Ä¬ÈÏÎª" << DirWind << "¡ã) = ";
+    out << "\té£å‘(é»˜è®¤ä¸º" << DirWind << "Â°) = ";
 
 	gets_s(DirWindStr, 20);
 	valueStr = strtod(DirWindStr, &DirWindStrEnd);
 	DirWind = (DirWindStrEnd == DirWindStr) ? DirWind : valueStr;
 
-	cout << "\tÀË¸ß(Ä¬ÈÏÎª" << HeightWave << "m) = ";
+    out << "\tæµªé«˜(é»˜è®¤ä¸º" << HeightWave << "m) = ";
 
 	gets_s(HeightWaveStr, 20);
 	valueStr = strtod(HeightWaveStr, &HeightWaveStrEnd);
 	HeightWave = (HeightWaveStrEnd == HeightWaveStr) ? HeightWave : valueStr;
 
-	cout << "\tÀËÏò(Ä¬ÈÏÎª" << DirWave << "¡ã) = ";
+    out << "\tæµªå‘(é»˜è®¤ä¸º" << DirWave << "Â°) = ";
 
 	gets_s(DirWaveStr, 20);
 	valueStr = strtod(DirWaveStr, &DirWaveStrEnd);
 	DirWave = (DirWaveStrEnd == DirWaveStr) ? DirWave : valueStr;
 
-	cout << "\tÁ÷ËÙ(Ä¬ÈÏÎª" << SpeedCurrent << "m/s) = ";
+    out << "\tæµé€Ÿ(é»˜è®¤ä¸º" << SpeedCurrent << "m/s) = ";
 
 	gets_s(SpeedCurrentStr, 20);
 	valueStr = strtod(SpeedCurrentStr, &SpeedCurrentStrEnd);
 	SpeedCurrent = (SpeedCurrentStrEnd == SpeedCurrentStr) ? SpeedCurrent : valueStr;
 
-	cout << "\tÁ÷Ïò(Ä¬ÈÏÎª" << DirCurrent << "¡ã) = ";
+    out << "\tæµå‘(é»˜è®¤ä¸º" << DirCurrent << "Â°) = ";
 
 	gets_s(DirCurrentStr, 20);
 	valueStr = strtod(DirCurrentStr, &DirCurrentStrEnd);
 	DirCurrent = (DirCurrentStrEnd == DirCurrentStr) ? DirCurrent : valueStr;
 
-	cout << "\n¡ïÇëÉèÖÃ´¬²°ÔÚ¶¯Á¦¶¨Î»¹ı³ÌÖĞµÄ³õÊ¼Î»ÖÃô¼ÏòÓëÄ¿±êÎ»ÖÃô¼Ïò£º" << endl;
+    out << "\nâ˜…è¯·è®¾ç½®èˆ¹èˆ¶åœ¨åŠ¨åŠ›å®šä½è¿‡ç¨‹ä¸­çš„åˆå§‹ä½ç½®è‰å‘ä¸ç›®æ ‡ä½ç½®è‰å‘ï¼š" << "\n";
 
-	cout << "\t³õÊ¼±±Î»ÖÃ(Ä¬ÈÏÎª" << xOrigin << "m) = ";
+    out << "\tåˆå§‹åŒ—ä½ç½®(é»˜è®¤ä¸º" << xOrigin << "m) = ";
 
 	gets_s(xOriginStr, 20);
 	valueStr = strtod(xOriginStr, &xOriginStrEnd);
 	xOrigin = (xOriginStrEnd == xOriginStr) ? xOrigin : valueStr;
 
-	cout << "\t³õÊ¼¶«Î»ÖÃ(Ä¬ÈÏÎª" << yOrigin << "m) = ";
+    out << "\tåˆå§‹ä¸œä½ç½®(é»˜è®¤ä¸º" << yOrigin << "m) = ";
 
 	gets_s(yOriginStr, 20);
 	valueStr = strtod(yOriginStr, &yOriginStrEnd);
 	yOrigin = (yOriginStrEnd == yOriginStr) ? yOrigin : valueStr;
 
-	cout << "\t³õÊ¼ô¼Ïò(Ä¬ÈÏÎª" << psiOrigin << "¡ã) = ";
+    out << "\tåˆå§‹è‰å‘(é»˜è®¤ä¸º" << psiOrigin << "Â°) = ";
 
 	gets_s(PsiOriginStr, 20);
 	valueStr = strtod(PsiOriginStr, &PsiOriginStrEnd);
 	psiOrigin = (PsiOriginStrEnd == PsiOriginStr) ? psiOrigin : valueStr;
 
-	cout << endl;
+    out << "\n";
 
-	cout << "\tÄ¿±ê±±Î»ÖÃ(Ä¬ÈÏÎª" << xTarget << "m) = ";
+    out << "\tç›®æ ‡åŒ—ä½ç½®(é»˜è®¤ä¸º" << xTarget << "m) = ";
 
 	gets_s(xTargStr, 20);
 	valueStr = strtod(xTargStr, &xTargStrEnd);
 	xTarget = (xTargStrEnd == xTargStr) ? xTarget : valueStr;
 
-	cout << "\tÄ¿±ê¶«Î»ÖÃ(Ä¬ÈÏÎª" << yTarget << "m) = ";
+    out << "\tç›®æ ‡ä¸œä½ç½®(é»˜è®¤ä¸º" << yTarget << "m) = ";
 
 	gets_s(yTargStr, 20);
 	valueStr = strtod(yTargStr, &yTargStrEnd);
 	yTarget = (yTargStrEnd == yTargStr) ? yTarget : valueStr;
 
-	cout << "\tÄ¿±êô¼Ïò(Ä¬ÈÏÎª" << psiTarget << "¡ã) = ";
+    out << "\tç›®æ ‡è‰å‘(é»˜è®¤ä¸º" << psiTarget << "Â°) = ";
 
 	gets_s(PsiTargStr, 20);
 	valueStr = strtod(PsiTargStr, &PsiTargStrEnd);
 	psiTarget = (PsiTargStrEnd == PsiTargStr) ? psiTarget : valueStr;
 
-	cout << "\n¡ïÇëÑ¡Ôñ¶¯Á¦¶¨Î»ÈÎÎñÀàĞÍ(1.³£¹æ¶¯Á¦¶¨Î»£»2.»·¾³×îÓÅ¶¯Á¦¶¨Î»)£º" << endl;
+    out << "\nâ˜…è¯·é€‰æ‹©åŠ¨åŠ›å®šä½ä»»åŠ¡ç±»å‹(1.å¸¸è§„åŠ¨åŠ›å®šä½ï¼›2.ç¯å¢ƒæœ€ä¼˜åŠ¨åŠ›å®šä½)ï¼š" << "\n";
 
 	do 
 	{
-		cout << "\tÄ¬ÈÏÈÎÎñÀàĞÍÎª 1.³£¹æ¶¯Á¦¶¨Î»¡£\n\tÇëÊäÈëÈÎÎñÀàĞÍ´úÂë£º ";
+        out << "\té»˜è®¤ä»»åŠ¡ç±»å‹ä¸º 1.å¸¸è§„åŠ¨åŠ›å®šä½ã€‚\n\tè¯·è¾“å…¥ä»»åŠ¡ç±»å‹ä»£ç ï¼š ";
 
 		cin.get(dpFlagStr, 20);
 		cin.get();
@@ -281,15 +285,15 @@ void ShipControl::userInterFace()
 
 		if (1 != dpFlag && 2 != dpFlag)
 		{
-			cout << "\t¡è¡èÊäÈëÓĞÎó£¬ÇëÈ·ÈÏºóÔÙ´ÎÊäÈë£¡" << endl;
+            out << "\tÂ¤Â¤è¾“å…¥æœ‰è¯¯ï¼Œè¯·ç¡®è®¤åå†æ¬¡è¾“å…¥ï¼" << "\n";
 		}
 	} while (1 != dpFlag && 2 != dpFlag);
 
-	cout << "\n¡ïÇëÑ¡Ôñ¶¯Á¦¶¨Î»¿ØÖÆÆ÷ÀàĞÍ(1.PID¿ØÖÆÆ÷£»2.·ÇÏßĞÔÄ£ĞÍÔ¤²â¿ØÖÆÆ÷)£º" << endl;
+    out << "\nâ˜…è¯·é€‰æ‹©åŠ¨åŠ›å®šä½æ§åˆ¶å™¨ç±»å‹(1.PIDæ§åˆ¶å™¨ï¼›2.éçº¿æ€§æ¨¡å‹é¢„æµ‹æ§åˆ¶å™¨)ï¼š" << "\n";
 
 	do 
 	{
-		cout << "\tÄ¬ÈÏ¿ØÖÆÆ÷ÀàĞÍÎª 1.PID¿ØÖÆÆ÷¡£\n\tÇëÊäÈë¿ØÖÆÆ÷ÀàĞÍ´úÂë£º ";
+        out << "\té»˜è®¤æ§åˆ¶å™¨ç±»å‹ä¸º 1.PIDæ§åˆ¶å™¨ã€‚\n\tè¯·è¾“å…¥æ§åˆ¶å™¨ç±»å‹ä»£ç ï¼š ";
 
 		cin.get(ctlFlagStr, 20);
 		cin.get();
@@ -298,29 +302,29 @@ void ShipControl::userInterFace()
 
 		if (1 != ctlFlag && 2 != ctlFlag)
 		{
-			cout << "\t¡è¡èÊäÈëÓĞÎó£¬ÇëÈ·ÈÏºóÔÙ´ÎÊäÈë£¡" << endl;
+            out << "\tÂ¤Â¤è¾“å…¥æœ‰è¯¯ï¼Œè¯·ç¡®è®¤åå†æ¬¡è¾“å…¥ï¼" << "\n";
 		}
 	} while (1 != ctlFlag && 2 != ctlFlag);
 
-	//ÉèÖÃDP¿ØÖÆÆ÷²ÎÊı
+	//è®¾ç½®DPæ§åˆ¶å™¨å‚æ•°
 	switch (ctlFlag)
 	{
 	case 1:
-		cout << "\n¡ïÇëÊäÈëPID¿ØÖÆÆ÷µÄ²ÎÊı" << endl;
+        out << "\nâ˜…è¯·è¾“å…¥PIDæ§åˆ¶å™¨çš„å‚æ•°" << "\n";
 
-		cout << "\tKp(Ä¬ÈÏÎª" << kp << ") = ";
+        out << "\tKp(é»˜è®¤ä¸º" << kp << ") = ";
 
 		gets_s(kpStr, 20);
 		valueStr = strtod(kpStr, &kpStrEnd);
 		kp = (kpStrEnd == kpStr) ? kp : valueStr;
 
-		cout << "\n\tKi(Ä¬ÈÏÎª" << ki << ") = ";
+        out << "\n\tKi(é»˜è®¤ä¸º" << ki << ") = ";
 
 		gets_s(kiStr, 20);
 		valueStr = strtod(kiStr, &kiStrEnd);
 		ki = (kiStrEnd == kiStr) ? ki : valueStr;
 
-		cout << "n\tKd(Ä¬ÈÏÎª" << kd << ") = ";
+        out << "n\tKd(é»˜è®¤ä¸º" << kd << ") = ";
 
 		gets_s(kdStr, 20);
 		valueStr = strtod(kdStr, &kdStrEnd);
@@ -328,27 +332,27 @@ void ShipControl::userInterFace()
 
 		break;
 	case 2:
-		cout << "\n¡ïÇëÊäÈëNMPC¿ØÖÆÆ÷µÄ²ÎÊı" << endl;
+        out << "\nâ˜…è¯·è¾“å…¥NMPCæ§åˆ¶å™¨çš„å‚æ•°" << "\n";
 
-		cout << "\tÔ¤²âÖÜÆÚT(Ä¬ÈÏÎª" << Tpre << ") = ";
+        out << "\té¢„æµ‹å‘¨æœŸT(é»˜è®¤ä¸º" << Tpre << ") = ";
 
 		gets_s(tStr, 20);
 		valueStr = strtod(tStr, &tStrEnd);
 		Tpre = (tStrEnd == tStr) ? Tpre : valueStr;
 
-		cout << "\tÈ¨Öµw1(Ä¬ÈÏÎª" << w1 << ") = ";
+        out << "\tæƒå€¼w1(é»˜è®¤ä¸º" << w1 << ") = ";
 
 		gets_s(w1Str, 20);
 		valueStr = strtod(w1Str, &w1StrEnd);
 		w1 = (w1StrEnd == w1Str) ? w1 : valueStr;
 
-		cout << "\tÈ¨Öµw2(Ä¬ÈÏÎª" << w2 << ") = ";
+        out << "\tæƒå€¼w2(é»˜è®¤ä¸º" << w2 << ") = ";
 
 		gets_s(w2Str, 20);
 		valueStr = strtod(w2Str, &w2StrEnd);
 		w2 = (w2StrEnd == w2Str) ? w2 : valueStr;
 
-		cout << "\tÈ¨Öµw3(Ä¬ÈÏÎª" << w3 << ") = ";
+        out << "\tæƒå€¼w3(é»˜è®¤ä¸º" << w3 << ") = ";
 
 		gets_s(w3Str, 20);
 		valueStr = strtod(w3Str, &w3StrEnd);
@@ -359,18 +363,18 @@ void ShipControl::userInterFace()
 		break;
 	}
 
-	//ÉèÖÃ»·¾³×îÓÅô¼Ïò¿ØÖÆµÄ²ÎÊı
+	//è®¾ç½®ç¯å¢ƒæœ€ä¼˜è‰å‘æ§åˆ¶çš„å‚æ•°
 	if (2 == dpFlag)
 	{
-	cout << "\n¡ïÇëÑ¡Ôñ»·¾³×îÓÅ¶¯Á¦¶¨Î»¿ØÖÆ²ßÂÔ\n"
-		<< "\t(1.WOPCÓëZPC-W½áºÏºóµÄ»·¾³×îÓÅ¶¯Á¦¶¨Î»¿ØÖÆ²ßÂÔ;\n"
-		<< "\t2.WOPC½èÓÃ»·¾³¹À¼ÆµÄ»·¾³×îÓÅ¶¯Á¦¶¨Î»¿ØÖÆ²ßÂÔ;\n"
-		<< "\t3.ZPC-W»·¾³×îÓÅ¶¯Á¦¶¨Î»¿ØÖÆ²ßÂÔ)£º" << endl;
+    out << "\nâ˜…è¯·é€‰æ‹©ç¯å¢ƒæœ€ä¼˜åŠ¨åŠ›å®šä½æ§åˆ¶ç­–ç•¥\n"
+		<< "\t(1.WOPCä¸ZPC-Wç»“åˆåçš„ç¯å¢ƒæœ€ä¼˜åŠ¨åŠ›å®šä½æ§åˆ¶ç­–ç•¥;\n"
+		<< "\t2.WOPCå€Ÿç”¨ç¯å¢ƒä¼°è®¡çš„ç¯å¢ƒæœ€ä¼˜åŠ¨åŠ›å®šä½æ§åˆ¶ç­–ç•¥;\n"
+        << "\t3.ZPC-Wç¯å¢ƒæœ€ä¼˜åŠ¨åŠ›å®šä½æ§åˆ¶ç­–ç•¥)ï¼š" << "\n";
 
 	do 
 	{
-		cout << "\tÄ¬ÈÏ¿ØÖÆ²ßÂÔÎª 1.WOPCÓëZPC-W½áºÏºóµÄ»·¾³×îÓÅ¶¯Á¦¶¨Î»¿ØÖÆ²ßÂÔ¡£\n"
-			<< "\tÇëÊäÈë¿ØÖÆ²ßÂÔ´úÂë£º ";
+        out << "\té»˜è®¤æ§åˆ¶ç­–ç•¥ä¸º 1.WOPCä¸ZPC-Wç»“åˆåçš„ç¯å¢ƒæœ€ä¼˜åŠ¨åŠ›å®šä½æ§åˆ¶ç­–ç•¥ã€‚\n"
+			<< "\tè¯·è¾“å…¥æ§åˆ¶ç­–ç•¥ä»£ç ï¼š ";
 
 		cin.get(wopcFlagStr, 20);
 		cin.get();
@@ -379,7 +383,7 @@ void ShipControl::userInterFace()
 
 		if (1 != wopcFlag && 2 != wopcFlag && 3 != wopcFlag)
 		{
-			cout << "\t¡è¡èÊäÈëÓĞÎó£¬ÇëÈ·ÈÏºóÔÙ´ÎÊäÈë£¡" << endl;
+            out << "\tÂ¤Â¤è¾“å…¥æœ‰è¯¯ï¼Œè¯·ç¡®è®¤åå†æ¬¡è¾“å…¥ï¼" << "\n";
 		}
 	} while (1 != wopcFlag && 2 != wopcFlag && 3 != wopcFlag);
 
@@ -390,21 +394,21 @@ void ShipControl::userInterFace()
 		case 2:
 			break;
 		case 3:
-			cout << "\n¡ïÇëÊäÈëZPC-W»·¾³×îÓÅô¼Ïò¿ØÖÆÆ÷µÄ²ÎÊı" << endl;
+            out << "\nâ˜…è¯·è¾“å…¥ZPC-Wç¯å¢ƒæœ€ä¼˜è‰å‘æ§åˆ¶å™¨çš„å‚æ•°" << "\n";
 
-			cout << "\tKpZ(Ä¬ÈÏÎª" << kpZ << ") = ";
+            out << "\tKpZ(é»˜è®¤ä¸º" << kpZ << ") = ";
 
 			gets_s(kpZStr, 20);
 			valueStr = strtod(kpZStr, &kpZStrEnd);
 			kpZ = (kpZStrEnd == kpZStr) ? kpZ : valueStr;
 
-			cout << "\tKiZ(Ä¬ÈÏÎª" << kiZ << ") = ";
+            out << "\tKiZ(é»˜è®¤ä¸º" << kiZ << ") = ";
 
 			gets_s(kiZStr, 20);
 			valueStr = strtod(kiZStr, &kiZStrEnd);
 			kiZ = (kiZStrEnd == kiZStr) ? kiZ : valueStr;
 
-			cout << "\tKdZ(Ä¬ÈÏÎª" << kdZ << ") = ";
+            out << "\tKdZ(é»˜è®¤ä¸º" << kdZ << ") = ";
 
 			gets_s(kdZStr, 20);
 			valueStr = strtod(kdZStr, &kdZStrEnd);
@@ -417,49 +421,49 @@ void ShipControl::userInterFace()
 	}
 
 
-	cout << "\nÕıÔÚ½øĞĞ¼ÆËã£¬ÇëÉÔµÈ..." << endl;
+    out << "\næ­£åœ¨è¿›è¡Œè®¡ç®—ï¼Œè¯·ç¨ç­‰..." << "\n";
 
-	paraFile << "¡ù¡ù´¬²°¶¯Á¦¶¨Î»¹ı³ÌÖĞ¸÷²ÎÊıĞÅÏ¢¡ù¡ù\n";
-	paraFile << "´¬²°³õÊ¼Î»ÖÃÓëô¼ÏòÎª£º (" << xOrigin << "m, " << yOrigin << "m, " << psiOrigin << "¡ã).\n";
-	paraFile << "´¬²°Ä¿±êÎ»ÖÃÓëô¼ÏòÎª£º (" << xTarget << "m, " << yTarget << "m, " << psiTarget << "¡ã).\n";
+	paraFile << "â€»â€»èˆ¹èˆ¶åŠ¨åŠ›å®šä½è¿‡ç¨‹ä¸­å„å‚æ•°ä¿¡æ¯â€»â€»\n";
+	paraFile << "èˆ¹èˆ¶åˆå§‹ä½ç½®ä¸è‰å‘ä¸ºï¼š (" << xOrigin << "m, " << yOrigin << "m, " << psiOrigin << "Â°).\n";
+	paraFile << "èˆ¹èˆ¶ç›®æ ‡ä½ç½®ä¸è‰å‘ä¸ºï¼š (" << xTarget << "m, " << yTarget << "m, " << psiTarget << "Â°).\n";
 
-	paraFile << "¡ï»·¾³²ÎÊı¡ï\n";
-	paraFile << "·çËÙÎª£º " << SpeedWind << "m/s, " << "·çÏòÎª£º " << DirWind << "¡ã.\n";
-	paraFile << "ÀË¸ßÎª£º " << HeightWave << "m, " << "ÀËÏòÎª£º " << DirWave << "¡ã.\n";
-	paraFile << "Á÷ËÙÎª£º " << SpeedCurrent << "m/s, " << "Á÷ÏòÎª£º " << DirCurrent << "¡ã.\n";
+	paraFile << "â˜…ç¯å¢ƒå‚æ•°â˜…\n";
+	paraFile << "é£é€Ÿä¸ºï¼š " << SpeedWind << "m/s, " << "é£å‘ä¸ºï¼š " << DirWind << "Â°.\n";
+	paraFile << "æµªé«˜ä¸ºï¼š " << HeightWave << "m, " << "æµªå‘ä¸ºï¼š " << DirWave << "Â°.\n";
+	paraFile << "æµé€Ÿä¸ºï¼š " << SpeedCurrent << "m/s, " << "æµå‘ä¸ºï¼š " << DirCurrent << "Â°.\n";
 
-	paraFile << "¡ï¶¯Á¦¶¨Î»ÈÎÎñÀàĞÍ¡ï\n";
+	paraFile << "â˜…åŠ¨åŠ›å®šä½ä»»åŠ¡ç±»å‹â˜…\n";
 	switch (dpFlag)
 	{
 	case 1:
-		paraFile << "³£¹æ¶¯Á¦¶¨Î»\n";
+		paraFile << "å¸¸è§„åŠ¨åŠ›å®šä½\n";
 		break;
 	case 2:
-		paraFile << "»·¾³×îÓÅ¶¯Á¦¶¨Î»\n";
+		paraFile << "ç¯å¢ƒæœ€ä¼˜åŠ¨åŠ›å®šä½\n";
 		break;
 	default:
 		break;
 	}
 
-	paraFile << "¡ï¶¯Á¦¶¨Î»¿ØÖÆÆ÷ÀàĞÍ¡ï" << endl;
+    paraFile << "â˜…åŠ¨åŠ›å®šä½æ§åˆ¶å™¨ç±»å‹â˜…" << "\n";
 	switch (dpFlag)
 	{
 	case 1:
-		paraFile << "\tPID¿ØÖÆÆ÷" << endl << endl;
-		paraFile << "¡ïPID¿ØÖÆÆ÷²ÎÊı¡ï\n";
-		paraFile << "\tKp = " << kp << endl;
-		paraFile << "\tKi = " << ki << endl;
-		paraFile << "\tKd = " << kd << endl;
-		paraFile << endl;
+        paraFile << "\tPIDæ§åˆ¶å™¨" << "\n" << "\n";
+		paraFile << "â˜…PIDæ§åˆ¶å™¨å‚æ•°â˜…\n";
+        paraFile << "\tKp = " << kp << "\n";
+        paraFile << "\tKi = " << ki << "\n";
+        paraFile << "\tKd = " << kd << "\n";
+        paraFile << "\n";
 		break;
 	case 2:
-		paraFile << "\t·ÇÏßĞÔÄ£ĞÍÔ¤²â¿ØÖÆÆ÷" << endl << endl;
-		paraFile << "¡ï·ÇÏßĞÔÄ£ĞÍÔ¤²â¿ØÖÆÆ÷²ÎÊı¡ï\n";
-		paraFile << "\tT = " << Tpre << endl;
-		paraFile << "\tw1 = " << w1 << endl;
-		paraFile << "\tw2 = " << w2 << endl;
-		paraFile << "\tw3 = " << w3 << endl;
-		paraFile << endl;
+        paraFile << "\téçº¿æ€§æ¨¡å‹é¢„æµ‹æ§åˆ¶å™¨" << "\n" << "\n";
+		paraFile << "â˜…éçº¿æ€§æ¨¡å‹é¢„æµ‹æ§åˆ¶å™¨å‚æ•°â˜…\n";
+        paraFile << "\tT = " << Tpre << "\n";
+        paraFile << "\tw1 = " << w1 << "\n";
+        paraFile << "\tw2 = " << w2 << "\n";
+        paraFile << "\tw3 = " << w3 << "\n";
+        paraFile << "\n";
 		break;
 	default:
 		break;
@@ -470,11 +474,11 @@ void ShipControl::userInterFace()
 		switch (wopcFlag)
 		{
 		case 1:
-			paraFile << "¡ïZPC-W»·¾³×îÓÅô¼Ïò¿ØÖÆÆ÷µÄ²ÎÊı¡ï" << endl;
-			paraFile << "\tKpZ = " << kpZ << endl;
-			paraFile << "\tKiZ = " << kiZ << endl;
-			paraFile << "\tKdZ = " << kdZ << endl;
-			paraFile << endl;
+            paraFile << "â˜…ZPC-Wç¯å¢ƒæœ€ä¼˜è‰å‘æ§åˆ¶å™¨çš„å‚æ•°â˜…" << "\n";
+            paraFile << "\tKpZ = " << kpZ << "\n";
+            paraFile << "\tKiZ = " << kiZ << "\n";
+            paraFile << "\tKdZ = " << kdZ << "\n";
+            paraFile << "\n";
 			break;
 		case 2:
 			break;
@@ -485,31 +489,31 @@ void ShipControl::userInterFace()
 		}
 
 	}
-	targetFile << xTarget << "\t" << yTarget << endl;
+    targetFile << xTarget << "\t" << yTarget << "\n";
 
 	setParameter();
 }
 
-//ÉèÖÃ²ÎÊı
+//è®¾ç½®å‚æ•°
 void ShipControl::setParameter()
 {
 
-	//³õÊ¼»¯»·¾³×îÓÅô¼Ïò¿ØÖÆÆ÷µÄ²ÎÊı
+	//åˆå§‹åŒ–ç¯å¢ƒæœ€ä¼˜è‰å‘æ§åˆ¶å™¨çš„å‚æ•°
 	optPsiCtrl.setStep(tStep*ctrlCyc);
 	optPsiCtrl.setPID(kpZ, kiZ, kdZ);
 
-	//³õÊ¼»¯»·¾³¹Û²âÆ÷
+	//åˆå§‹åŒ–ç¯å¢ƒè§‚æµ‹å™¨
 	envObs.setStep(tStep);
 	envObs.setK(k1Env, k2Env, k3Env);
 
-	//ÉèÖÃ´¬²°Ä£ĞÍµÄ²ÎÊı
+	//è®¾ç½®èˆ¹èˆ¶æ¨¡å‹çš„å‚æ•°
 	model.setStep(tStep);
 	model.setInitEta(eta);
 
-	//³õÊ¼»¯PID
+	//åˆå§‹åŒ–PID
 	pid.initPID(kp, ki, kd);
 
-	//ÉèÖÃNMPCÖĞµÄÖÜÆÚÓëÈ¨Öµ
+	//è®¾ç½®NMPCä¸­çš„å‘¨æœŸä¸æƒå€¼
 	nmpc.setT(Tpre);
 	nmpc.setWeight(w1, w2, w3);
 	nmpc.calM();
@@ -517,59 +521,59 @@ void ShipControl::setParameter()
 
 	filter.setStep(tStep);
 
-	//³õÊ¼»¯´¬²°µÄÄ¿±êÎ»ÖÃÓë×ËÌ¬
+	//åˆå§‹åŒ–èˆ¹èˆ¶çš„ç›®æ ‡ä½ç½®ä¸å§¿æ€
 	Tool::initEtaTarget(etaTarget, xTarget, yTarget, psiTarget*angToRad);
 
 	wopc.setStep(tStep*ctrlCyc);
-	//ÉèÖÃ»·¾³×îÓÅ¶¯Á¦¶¨Î»µÄ°ë¾¶
+	//è®¾ç½®ç¯å¢ƒæœ€ä¼˜åŠ¨åŠ›å®šä½çš„åŠå¾„
 	wopc.setRadius(radius);
 
-	//ÉèÖÃ»·¾³×îÓÅ¶¯Á¦¶¨Î»µÄÄ¿±êÎ»ÖÃ
+	//è®¾ç½®ç¯å¢ƒæœ€ä¼˜åŠ¨åŠ›å®šä½çš„ç›®æ ‡ä½ç½®
 	wopc.setPos(etaTarget);
 }
 
-//´¬²°¿ØÖÆÔËĞĞ
+//èˆ¹èˆ¶æ§åˆ¶è¿è¡Œ
 void ShipControl::run()
 {	
-	//ÉèÖÃ´¬²°µÄ²ÎÊı
+	//è®¾ç½®èˆ¹èˆ¶çš„å‚æ•°
 	model.setData(data);
 	model.calM();
 
-	//³õÊ¼»¯²¨ÀËµÄĞÅÏ¢
+	//åˆå§‹åŒ–æ³¢æµªçš„ä¿¡æ¯
 	wave.setData(data);
 	wave.setPara(HeightWave, DirWave);
 	wave.calWave();
 
-	//Ñ­»·½øĞĞÄ£ĞÍ¼ÆËã
+	//å¾ªç¯è¿›è¡Œæ¨¡å‹è®¡ç®—
 	for (time = 0.0; time <= maxTime; time += tStep)
 	{		
-		//µÃµ½»·¾³¹À¼ÆÁ¦
+		//å¾—åˆ°ç¯å¢ƒä¼°è®¡åŠ›
 		envObs.setNu(nu);
 		envObs.setTao(thrust);
 		envObs.cal();		
 		envEst = envObs.force();
 
-		//ÉèÖÃ»·¾³×îÓÅ¶¯Á¦¶¨Î»µÄµ±Ç°Î»ÖÃô¼ÏòÓëËÙ¶È½ÇËÙ¶È
+		//è®¾ç½®ç¯å¢ƒæœ€ä¼˜åŠ¨åŠ›å®šä½çš„å½“å‰ä½ç½®è‰å‘ä¸é€Ÿåº¦è§’é€Ÿåº¦
 		wopc.setEta(eta);
 		wopc.setNu(nu);
 
-		//·çÊµÊ±ÊäÈëĞÅÏ¢
+		//é£å®æ—¶è¾“å…¥ä¿¡æ¯
 		wind.setHead(eta.psi);
 		wind.setNu(nu);
-		//¼ÆËã·çµÄ×÷ÓÃÁ¦
+		//è®¡ç®—é£çš„ä½œç”¨åŠ›
 		wind.cal();
 
 		windForce = wind.getWindTao();
 		Tool::Force6ToArray(windForce, windArray);
 
-		//²¨ÀËÁ¦¼ÆËã
+		//æ³¢æµªåŠ›è®¡ç®—
 		wave.cal(eta, time);
 		wave.getLoad(wave1Force, wave2Force);
 
 		Tool::Force6ToArray(wave1Force, wave1Array);
 		Tool::Force6ToArray(wave2Force, wave2Array);
 
-		//Á÷Á¦¼ÆËã
+		//æµåŠ›è®¡ç®—
 		cur.setPsi(eta.psi);
 		cur.cal();
 		curForce = cur.force();
@@ -577,17 +581,17 @@ void ShipControl::run()
 
 		if (0 == ctrlCount)
 		{
-			//¶¯Á¦¶¨Î»¿ØÖÆ
+			//åŠ¨åŠ›å®šä½æ§åˆ¶
 			switch (ctlFlag)
 			{
-				//PID¿ØÖÆ
+				//PIDæ§åˆ¶
 			case 1:
 				pid.setTarget(etaTarget);
 				pid.setEta(eta);
 				pid.calculat();
 				thrust = pid.getTao();
 				break;
-				//NMPC¿ØÖÆ
+				//NMPCæ§åˆ¶
 			case 2:
 				nmpc.setTarget(etaTarget);
 				nmpc.setEnv(envEst);
@@ -600,7 +604,7 @@ void ShipControl::run()
 				break;
 			}
 
-			//»·¾³×îÓÅô¼Ïò¿ØÖÆ
+			//ç¯å¢ƒæœ€ä¼˜è‰å‘æ§åˆ¶
 			if (2 == dpFlag)
 			{
 				switch (wopcFlag)
@@ -635,21 +639,21 @@ void ShipControl::run()
 			ctrlCount = 0;
 		}
 
-		//»·¾³×îÓÅ¶¯Á¦¶¨Î»±£´æÊı¾İ
+		//ç¯å¢ƒæœ€ä¼˜åŠ¨åŠ›å®šä½ä¿å­˜æ•°æ®
 		if (2 == dpFlag)
 		{
-			optHeadFile << time << "\t" << optPsi << endl;
+            optHeadFile << time << "\t" << optPsi << "\n";
 			if (1 == wopcFlag || 2 == wopcFlag)
 			{
 				centerFile << time << "\t" << etaTarget.n
-					<< "\t" << etaTarget.e << endl;
+                    << "\t" << etaTarget.e << "\n";
 			}
 		}
 
-		//ÍÆÁ¦½á¹¹Ìå×ª»»ÎªÊı×é
+		//æ¨åŠ›ç»“æ„ä½“è½¬æ¢ä¸ºæ•°ç»„
 		Tool::Force6ToArray(thrust, thrustArray);
 
-		//ÔÚÎÄ¼şÖĞ·Ö±ğ¼ÇÂ¼¸÷ÖÖÁ¦
+		//åœ¨æ–‡ä»¶ä¸­åˆ†åˆ«è®°å½•å„ç§åŠ›
 		taoFile << time << "\t";
 		thrustFile << time << "\t";
 		windFile << time << "\t";
@@ -658,7 +662,7 @@ void ShipControl::run()
 		curFile << time << "\t";
 		for (int i = 0; i < DOF6; ++ i)
 		{
-			//¼ÆËãºÏÁ¦
+			//è®¡ç®—åˆåŠ›
 			taoArray[i] = thrustArray[i] + wave1Array[i] + wave2Array[i] + windArray[i] + curArray[i];
 
 			taoFile << taoArray[i] << "\t";
@@ -668,41 +672,41 @@ void ShipControl::run()
 			wave2File << wave2Array[i] << "\t";
 			curFile << curArray[i] << "\t";
 		}
-		taoFile << endl;
-		thrustFile << endl;
-		windFile << endl;
-		wave1File << endl;
-		wave2File << endl;
-		curFile << endl;
+        taoFile << "\n";
+        thrustFile << "\n";
+        windFile << "\n";
+        wave1File << "\n";
+        wave2File << "\n";
+        curFile << "\n";
 
 		Tool::ArrayToForce6(taoArray, tao);
 
-		//ºÏÍâÁ¦×÷ÓÃµ½´¬²°Ä£ĞÍÉÏ
+		//åˆå¤–åŠ›ä½œç”¨åˆ°èˆ¹èˆ¶æ¨¡å‹ä¸Š
 		model.setForce(tao);
 
-		//½âËã´¬²°Ä£ĞÍ
+		//è§£ç®—èˆ¹èˆ¶æ¨¡å‹
 		model.cal();
 
-		//¼ÆËãºóµÃµ½´¬²°µÄÎ»ÖÃ×ËÌ¬ÒÔ¼°ËÙ¶È½ÇËÙ¶È
+		//è®¡ç®—åå¾—åˆ°èˆ¹èˆ¶çš„ä½ç½®å§¿æ€ä»¥åŠé€Ÿåº¦è§’é€Ÿåº¦
 		eta = model.getEta();
 		nu = model.getNu();		
 
-		//ÂË²¨
+		//æ»¤æ³¢
 		filter.setTao(thrust);
 		filter.setEta(eta);
 		etaFlt = filter.cal();
 
-		etaFile << time << "\t" << eta << endl;
+        etaFile << time << "\t" << eta << "\n";
 
 		nuFile << time << "\t" << nu.u << "\t" << nu.v << "\t" << nu.w 
-			<< "\t" << nu.p << "\t" << nu.q << "\t" << nu.r << endl;
+            << "\t" << nu.p << "\t" << nu.q << "\t" << nu.r << "\n";
 
-		outFltFile << time << "\t" << etaFlt << endl;
+        outFltFile << time << "\t" << etaFlt << "\n";
 	}
 
 }
 
-//ÖØÔØ<<²Ù×÷·û
+//é‡è½½<<æ“ä½œç¬¦
 ostream& operator << (ostream &os, const Eta &eta)
 {
 	os << eta.n << "\t" << eta.e << "\t" << eta.d << "\t"

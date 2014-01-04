@@ -1,4 +1,4 @@
-/*****************************************************************
+ï»¿/*****************************************************************
 **				Project:	ShipControl(WOPC)					**
 **				Author:		Dong Shengwei						**
 **				Library:	BestSea								**
@@ -21,79 +21,79 @@ public:
 	WOPC(void);
 	~WOPC(void);
 
-	//³õÊ¼»¯
+	//åˆå§‹åŒ–
 	void init();
 
-	//¼ÆËãĞéÄâÔ²ĞÄ
+	//è®¡ç®—è™šæ‹Ÿåœ†å¿ƒ
 	void centerControl();
 
-	//¼ÆËã»·¾³×îÓÅô¼Ïò
+	//è®¡ç®—ç¯å¢ƒæœ€ä¼˜è‰å‘
 	void optHeadCal();
 
-	//»·¾³×îÓÅô¼Ïò¿ØÖÆ
+	//ç¯å¢ƒæœ€ä¼˜è‰å‘æ§åˆ¶
 	void wohc();
 
-	//¿ØÖÆ¼ÆËã
+	//æ§åˆ¶è®¡ç®—
 	void calculat();
 
-	//ÉèÖÃÊ±¼ä¼ä¸ô
+	//è®¾ç½®æ—¶é—´é—´éš”
 	void setStep(const double dtime);
 
-	//ÉèÖÃĞéÄâÔ²µÄ°ë¾¶
+	//è®¾ç½®è™šæ‹Ÿåœ†çš„åŠå¾„
 	void setRadius(const double radius);
 
-	//ÉèÖÃÄ¿±êÎ»ÖÃ
+	//è®¾ç½®ç›®æ ‡ä½ç½®
 	void setPos(const Eta etaTarget);
 
-	//ÊµÊ±»ñÈ¡µ±Ç°Î»ÖÃÓëô¼Ïò
+	//å®æ—¶è·å–å½“å‰ä½ç½®ä¸è‰å‘
 	void setEta(const Eta etaIn);
 
-	//ÊµÊ±»ñÈ¡µ±Ç°ËÙ¶ÈÓë½ÇËÙ¶È
+	//å®æ—¶è·å–å½“å‰é€Ÿåº¦ä¸è§’é€Ÿåº¦
 	void setNu(const Nu nuIn);
 
-	//ÊµÊ±»ñÈ¡µ±Ç°µÄ²àÍÆ
+	//å®æ—¶è·å–å½“å‰çš„ä¾§æ¨
 	void setThrust(Force6 thrust);
 
-	//Êä³öĞéÄâÔ²ĞÄÎ»ÖÃ
+	//è¾“å‡ºè™šæ‹Ÿåœ†å¿ƒä½ç½®
 	pair<double, double> getCenterPos();
 
-	//Êä³öÊµÊ±Ä¿±êÎ»ÖÃ
+	//è¾“å‡ºå®æ—¶ç›®æ ‡ä½ç½®
 	pair<double, double> getRTPosDes();
 
-	//Êä³öÊµÊ±Ä¿±êô¼Ïò(ÎÈ¶¨Ê±±ãÊÇ»·¾³×îÓÅô¼Ïò)
+	//è¾“å‡ºå®æ—¶ç›®æ ‡è‰å‘(ç¨³å®šæ—¶ä¾¿æ˜¯ç¯å¢ƒæœ€ä¼˜è‰å‘)
 	double getPsiRTDes();
 
-	//½«ÊıÖµ´Ó(-pi,pi)×ª»»µ½(-inf,inf)
+	//å°†æ•°å€¼ä»(-pi,pi)è½¬æ¢åˆ°(-inf,inf)
 	double piToInf(double valueIn);
 
 private:
 
-	double xDes, yDes;			// Ä¿±êÎ»ÖÃ
-	double xCenter, yCenter;	// ĞéÄâÔ²ĞÄµÄÎ»ÖÃ
-	double x, y, psi;			// µ±Ç°Î»ÖÃÓë×ËÌ¬
-	double u, v, r;				// µ±Ç°ËÙ¶ÈÓë½ÇËÙ¶È
-	double xRTDes, yRTDes, psiRTDes;	// ÊµÊ±Ä¿±êÎ»ÖÃÓëô¼Ïò
-	double psiRTDesDegree;		// ½Ç¶ÈĞÎÊ½µÄÊµÊ±Ä¿±êô¼Ïò
-	double rad;					// °ë¾¶
-	double radRT;				// ´¬²°ÓëĞéÄâÔ²ĞÄµÄµ±Ç°¾àÀë
+	double xDes, yDes;			// ç›®æ ‡ä½ç½®
+	double xCenter, yCenter;	// è™šæ‹Ÿåœ†å¿ƒçš„ä½ç½®
+	double x, y, psi;			// å½“å‰ä½ç½®ä¸å§¿æ€
+	double u, v, r;				// å½“å‰é€Ÿåº¦ä¸è§’é€Ÿåº¦
+	double xRTDes, yRTDes, psiRTDes;	// å®æ—¶ç›®æ ‡ä½ç½®ä¸è‰å‘
+	double psiRTDesDegree;		// è§’åº¦å½¢å¼çš„å®æ—¶ç›®æ ‡è‰å‘
+	double rad;					// åŠå¾„
+	double radRT;				// èˆ¹èˆ¶ä¸è™šæ‹Ÿåœ†å¿ƒçš„å½“å‰è·ç¦»
 
-	double psiC, prePsiC;		// ´¬²°µ±Ç°Î»ÖÃÓëµ±Ç°Ô²ĞÄÁ¬ÏßµÄ½Ç¶È Óë Ç°Ò»Ê±¿Ì½Ç¶È
-	double psiD;				// ´¬²°Ä¿±êÎ»ÖÃÓëµ±Ç°Ô²ĞÄÁ¬ÏßµÄ½Ç¶È
-	double psiCD;				// psiCÓëpsiDÖ®²î
-	double dpsiC;				// psiCµÄÎ¢·Ö
+	double psiC, prePsiC;		// èˆ¹èˆ¶å½“å‰ä½ç½®ä¸å½“å‰åœ†å¿ƒè¿çº¿çš„è§’åº¦ ä¸ å‰ä¸€æ—¶åˆ»è§’åº¦
+	double psiD;				// èˆ¹èˆ¶ç›®æ ‡ä½ç½®ä¸å½“å‰åœ†å¿ƒè¿çº¿çš„è§’åº¦
+	double psiCD;				// psiCä¸psiDä¹‹å·®
+	double dpsiC;				// psiCçš„å¾®åˆ†
 
-	double kGain, hGain, mGain, pGain;	// ¼ÆËã»·¾³×îÓÅÊ±µÄÔöÒæ
-	double mAdd;						// ¼ÆËã»·¾³×îÓÅÊ±µÄ¸½¼ÓÁ¿
-	double upLmt, lowLmt;				// ¼ÆËã»·¾³×îÓÅÊ±µÄÉÏÏÂÏŞ
-	double ep;							// ¼ÆËã»·¾³×îÓÅÊ±µÄÖĞ¼ä±äÁ¿
+	double kGain, hGain, mGain, pGain;	// è®¡ç®—ç¯å¢ƒæœ€ä¼˜æ—¶çš„å¢ç›Š
+	double mAdd;						// è®¡ç®—ç¯å¢ƒæœ€ä¼˜æ—¶çš„é™„åŠ é‡
+	double upLmt, lowLmt;				// è®¡ç®—ç¯å¢ƒæœ€ä¼˜æ—¶çš„ä¸Šä¸‹é™
+	double ep;							// è®¡ç®—ç¯å¢ƒæœ€ä¼˜æ—¶çš„ä¸­é—´å˜é‡
 
-	double tStep;				// ²½³¤
-	bool usedFlag;				// ÊÇ·ñÔËĞĞ¹ıµÄ±êÖ¾
+	double tStep;				// æ­¥é•¿
+	bool usedFlag;				// æ˜¯å¦è¿è¡Œè¿‡çš„æ ‡å¿—
 
-	double xForce;				// ÍÆ½øÆ÷Êä³öµÄ×İÏòÁ¦
-	double yForce;				// ÍÆ½øÆ÷Êä³öµÄºáÏòÁ¦
+	double xForce;				// æ¨è¿›å™¨è¾“å‡ºçš„çºµå‘åŠ›
+	double yForce;				// æ¨è¿›å™¨è¾“å‡ºçš„æ¨ªå‘åŠ›
 
-	int state;					//½Ç¶ÈµÄÏóÏŞ
+	int state;					//è§’åº¦çš„è±¡é™
 	double current_angle, previous_angle;
 	double accumulate;	//
 };

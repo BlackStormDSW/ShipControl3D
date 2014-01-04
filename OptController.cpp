@@ -1,4 +1,4 @@
-/*****************************************************************
+ï»¿/*****************************************************************
 **				Project:	ShipControl(WOPC)					**
 **				Author:		Dong Shengwei						**
 **				Library:	BestSea								**
@@ -21,7 +21,7 @@ OptController::~OptController(void)
 {
 }
 
-//³õÊ¼»¯²ÎÊı
+//åˆå§‹åŒ–å‚æ•°
 void OptController::init()
 {
 	sum = 0.0;
@@ -30,17 +30,17 @@ void OptController::init()
 	storXForce.clear();
 	storYForce.clear();
 
-	//³õÊ¼»¯¼ÆËã»·¾³×îÓÅô¼ÏòÊ±Ê¹ÓÃµÄÁ¦Óë×ª¾Ø
+	//åˆå§‹åŒ–è®¡ç®—ç¯å¢ƒæœ€ä¼˜è‰å‘æ—¶ä½¿ç”¨çš„åŠ›ä¸è½¬çŸ©
 	taoX = 0.0;
 	taoY = 0.0;
 	taoN = 0.0;
 	tagTaoY = 0.0;
-	//³õÊ¼»¯Ô­Ê¼ÍÆÁ¦Óë×ª¾Ø
+	//åˆå§‹åŒ–åŸå§‹æ¨åŠ›ä¸è½¬çŸ©
 	xForce = 0.0;
 	yForce = 0.0;
 	nMoment = 0.0;
 
-	//Îó²îµÈµÄ³õÊ¼»¯
+	//è¯¯å·®ç­‰çš„åˆå§‹åŒ–
 	errY = 0.0;
 	intErrY = 0.0;
 	diffErrY = 0.0;
@@ -51,19 +51,19 @@ void OptController::init()
 	signX = 1.0;
 }
 
-//ÉèÖÃÊ±¼ä¼ä¸ô
+//è®¾ç½®æ—¶é—´é—´éš”
 void OptController::setStep(const double Intval)
 {
 	step = Intval;
 }
 
-//ÉèÖÃµ±Ç°»·¾³×îÓÅô¼Ïò
+//è®¾ç½®å½“å‰ç¯å¢ƒæœ€ä¼˜è‰å‘
 void OptController::setPsi(const double preTagHead)
 {
 	preOptPsi = preTagHead;
 }
 
-//ÉèÖÃµ±Ç°ÍÆ½øÆ÷ÍÆÁ¦Óë×ª¾Ø
+//è®¾ç½®å½“å‰æ¨è¿›å™¨æ¨åŠ›ä¸è½¬çŸ©
 void OptController::setTao(const Force6 Thrust)
 {
 	xForce = Thrust.xForce;
@@ -71,7 +71,7 @@ void OptController::setTao(const Force6 Thrust)
 	nMoment = Thrust.nMoment;
 }
 
-//ÉèÖÃPID²ÎÊı
+//è®¾ç½®PIDå‚æ•°
 void OptController::setPID(const double Pval, const double Ival, const double Dval)
 {
 	P = Pval;
@@ -79,7 +79,7 @@ void OptController::setPID(const double Pval, const double Ival, const double Dv
 	D = Dval;
 }
 
-//¼ÆËãÇó¾ùÖµ
+//è®¡ç®—æ±‚å‡å€¼
 double OptController::meanData(list<double> &valLst, const double inVal)
 {
 	sum = 0.0;
@@ -98,10 +98,10 @@ double OptController::meanData(list<double> &valLst, const double inVal)
 	return sum/static_cast<double>(valLst.size());	 
 }
 
-//PID¼ÆËã
+//PIDè®¡ç®—
 void OptController::cal()
 {
-	//·Ö±ğ¼ÆËãÔÚÒ»¶¨Ê±¼äÄÚ×İÏòÓëºáÏòµÄÆ½¾ùÁ¦
+	//åˆ†åˆ«è®¡ç®—åœ¨ä¸€å®šæ—¶é—´å†…çºµå‘ä¸æ¨ªå‘çš„å¹³å‡åŠ›
 	taoX = meanData(storXForce, xForce);
 	taoY = meanData(storYForce, yForce);
 	
@@ -126,7 +126,7 @@ void OptController::cal()
 	}
 }
 
-//»ñÈ¡»·¾³×îÓÅô¼Ïò
+//è·å–ç¯å¢ƒæœ€ä¼˜è‰å‘
 double OptController::OptPsi()
 {
 	return optPsi;

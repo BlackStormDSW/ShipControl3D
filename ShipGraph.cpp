@@ -1,51 +1,20 @@
-/****************************************************************************
-**
-** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
-** Contact: http://www.qt-project.org/legal
-**
-** This file is part of the examples of the Qt Toolkit.
-**
-** $QT_BEGIN_LICENSE:BSD$
-** You may use this file under the terms of the BSD license as follows:
-**
-** "Redistribution and use in source and binary forms, with or without
-** modification, are permitted provided that the following conditions are
-** met:
-**   * Redistributions of source code must retain the above copyright
-**     notice, this list of conditions and the following disclaimer.
-**   * Redistributions in binary form must reproduce the above copyright
-**     notice, this list of conditions and the following disclaimer in
-**     the documentation and/or other materials provided with the
-**     distribution.
-**   * Neither the name of Digia Plc and its Subsidiary(-ies) nor the names
-**     of its contributors may be used to endorse or promote products derived
-**     from this software without specific prior written permission.
-**
-**
-** THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-** "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-** LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-** A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-** OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-** SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-** LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-** DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-** THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-** (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-** OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
-**
-** $QT_END_LICENSE$
-**
-****************************************************************************/
+ï»¿/*****************************************************************
+**				Project:	ShipControl(WOPC)					**
+**				Author:		Dong Shengwei						**
+**				Library:	BestSea								**
+**				Date:		2014-01-04							**
+******************************************************************/
 
-#include "glwidget.h"
+//ShipGraph.cpp
+
+#include "ShipGraph.h"
 
 #include <QMouseEvent>
 #include <QTimer>
 
 #include <math.h>
 
-GLWidget::GLWidget(QWidget *parent)
+ShipGraph::ShipGraph(QWidget *parent)
     : QGLWidget(parent)
 {
     ship = 0;
@@ -59,7 +28,7 @@ GLWidget::GLWidget(QWidget *parent)
     timer->start(20);
 }
 
-GLWidget::~GLWidget()
+ShipGraph::~ShipGraph()
 {
     makeCurrent();
     glDeleteLists(ship, 1);
@@ -67,7 +36,7 @@ GLWidget::~GLWidget()
     glDeleteLists(goal, 1);
 }
 
-void GLWidget::setXRotation(int angle)
+void ShipGraph::setXRotation(int angle)
 {
     normalizeAngle(&angle);
     if (angle != xRot) {
@@ -77,7 +46,7 @@ void GLWidget::setXRotation(int angle)
     }
 }
 
-void GLWidget::setYRotation(int angle)
+void ShipGraph::setYRotation(int angle)
 {
     normalizeAngle(&angle);
     if (angle != yRot) {
@@ -87,7 +56,7 @@ void GLWidget::setYRotation(int angle)
     }
 }
 
-void GLWidget::setZRotation(int angle)
+void ShipGraph::setZRotation(int angle)
 {
     normalizeAngle(&angle);
     if (angle != zRot) {
@@ -97,7 +66,7 @@ void GLWidget::setZRotation(int angle)
     }
 }
 
-void GLWidget::initializeGL()
+void ShipGraph::initializeGL()
 {
     static const GLfloat lightPos[4] = { 5.0f, 5.0f, 10.0f, 1.0f };
     static const GLfloat reflectanceShip[4] = { 0.195f, 0.195f, 0.195f, 1.0f };
@@ -121,7 +90,7 @@ void GLWidget::initializeGL()
     glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 }
 
-void GLWidget::paintGL()
+void ShipGraph::paintGL()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -137,7 +106,7 @@ void GLWidget::paintGL()
     glPopMatrix();
 }
 
-void GLWidget::resizeGL(int width, int height)
+void ShipGraph::resizeGL(int width, int height)
 {
     int side = qMin(width, height);
     glViewport((width - side) / 2, (height - side) / 2, side, side);
@@ -150,12 +119,12 @@ void GLWidget::resizeGL(int width, int height)
     glTranslated(0.0, 0.0, -40.0);
 }
 
-void GLWidget::mousePressEvent(QMouseEvent *event)
+void ShipGraph::mousePressEvent(QMouseEvent *event)
 {
     lastPos = event->pos();
 }
 
-void GLWidget::mouseMoveEvent(QMouseEvent *event)
+void ShipGraph::mouseMoveEvent(QMouseEvent *event)
 {
     int dx = event->x() - lastPos.x();
     int dy = event->y() - lastPos.y();
@@ -170,13 +139,13 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
     lastPos = event->pos();
 }
 
-void GLWidget::advanceGears()
+void ShipGraph::advanceGears()
 {
     gear1Rot += 2 * 16 * 0;
     updateGL();
 }
 
-GLuint GLWidget::makeShip(const GLfloat *reflectance, GLdouble width, GLdouble length, GLdouble scale)
+GLuint ShipGraph::makeShip(const GLfloat *reflectance, GLdouble width, GLdouble length, GLdouble scale)
 {
     const double Pi = 3.14159265358979323846;
 
@@ -195,7 +164,7 @@ GLuint GLWidget::makeShip(const GLfloat *reflectance, GLdouble width, GLdouble l
     GLdouble x = 0.0, y = 0.0, z = 0.0;
 
 
-    //»æÖÆ´¬Í·Ö÷Ìå²¿·Ö
+    //ç»˜åˆ¶èˆ¹å¤´ä¸»ä½“éƒ¨åˆ†
     glNormal3d(0.0, 0.0, -1.0);
     glBegin(GL_POLYGON);
     for (GLdouble temp = 0.0; temp < rL+delta; temp += delta)
@@ -210,7 +179,7 @@ GLuint GLWidget::makeShip(const GLfloat *reflectance, GLdouble width, GLdouble l
     }
     glEnd();
 
-    //»æÖÆ´¬²°¼ÝÊ»ÊÒ²¿·Ö
+    //ç»˜åˆ¶èˆ¹èˆ¶é©¾é©¶å®¤éƒ¨åˆ†
     glBegin(GL_POLYGON);
     for (GLdouble z =  rH/5.0; z < rH + delta; z += delta)
     {
@@ -226,7 +195,7 @@ GLuint GLWidget::makeShip(const GLfloat *reflectance, GLdouble width, GLdouble l
     glEnd();
 
 
-    //»æÖÆ´¬Ìå²¿·Ö
+    //ç»˜åˆ¶èˆ¹ä½“éƒ¨åˆ†
     glNormal3d(0.0, 0.0, -1.0);
     glBegin(GL_QUADS);
         for (GLdouble angle = -deltaPhi*0.1; angle <= Pi; angle += deltaPhi)
@@ -252,7 +221,7 @@ GLuint GLWidget::makeShip(const GLfloat *reflectance, GLdouble width, GLdouble l
             glVertex3d(x, y, z);
         }
 
-        //»­´¬²°¼×°å
+        //ç”»èˆ¹èˆ¶ç”²æ¿
         glNormal3d(0.0, 0.0, 1.0);
         z = rH/5.0;
         for (double temp = -rH; temp < rH; temp += delta)
@@ -275,7 +244,7 @@ GLuint GLWidget::makeShip(const GLfloat *reflectance, GLdouble width, GLdouble l
         }
         glEnd();
 
-        //»­´¬²°Î²²¿
+        //ç”»èˆ¹èˆ¶å°¾éƒ¨
         glNormal3d(0.0, 0.0, 1.0);
         glBegin(GL_TRIANGLES);
         y = -ll;
@@ -299,7 +268,7 @@ GLuint GLWidget::makeShip(const GLfloat *reflectance, GLdouble width, GLdouble l
     return list;
 }
 
-GLuint GLWidget::makeSea(const GLfloat *reflectance)
+GLuint ShipGraph::makeSea(const GLfloat *reflectance)
 {
     GLuint list = glGenLists(1);
     glNewList(list, GL_COMPILE);
@@ -312,40 +281,40 @@ GLuint GLWidget::makeSea(const GLfloat *reflectance)
     GLdouble zMax = 10000.0;
     GLdouble x = 0.0, y = 0.0, z = 0.0;
 
-    //»æÖÆº£Ñó
+    //ç»˜åˆ¶æµ·æ´‹
     glBegin(GL_QUADS);
 
-    //ÉÏ²ã
+    //ä¸Šå±‚
     glVertex3d(-xMax, -yMax, 0);
     glVertex3d(-xMax, yMax, 0);
     glVertex3d(xMax, yMax, 0);
     glVertex3d(xMax, -yMax, 0);
 
-    //²àÃæ1
+    //ä¾§é¢1
     glVertex3d(xMax, yMax, 0);
     glVertex3d(xMax, -yMax, 0);
     glVertex3d(xMax, -yMax, -zMax);
     glVertex3d(xMax, yMax, -zMax);
 
-    //²àÃæ2
+    //ä¾§é¢2
     glVertex3d(xMax, yMax, 0);
     glVertex3d(-xMax, yMax, 0);
         glVertex3d(-xMax, yMax, -zMax);
     glVertex3d(xMax, yMax, -zMax);
 
-    //²àÃæ3
+    //ä¾§é¢3
     glVertex3d(-xMax, yMax, 0);
     glVertex3d(-xMax, -yMax, 0);
         glVertex3d(-xMax, -yMax, -zMax);
     glVertex3d(-xMax, yMax, -zMax);
 
-    //²àÃæ4
+    //ä¾§é¢4
     glVertex3d(xMax, -yMax, 0);
     glVertex3d(-xMax, -yMax, 0);
         glVertex3d(-xMax, -yMax, -zMax);
     glVertex3d(xMax, -yMax, -zMax);
 
-    //µ×²ã
+    //åº•å±‚
     glVertex3d(-xMax, -yMax, -zMax);
     glVertex3d(-xMax, yMax, -zMax);
     glVertex3d(xMax, yMax, -zMax);
@@ -358,7 +327,7 @@ GLuint GLWidget::makeSea(const GLfloat *reflectance)
     return list;
 }
 
-GLuint GLWidget::makeGoal(const GLfloat *reflectance, const GLdouble xPoint,  const GLdouble yPoint,  const GLdouble radius, GLdouble scale)
+GLuint ShipGraph::makeGoal(const GLfloat *reflectance, const GLdouble xPoint,  const GLdouble yPoint,  const GLdouble radius, GLdouble scale)
 {
     const double Pi = 3.14159265358979323846;
 
@@ -391,7 +360,7 @@ GLuint GLWidget::makeGoal(const GLfloat *reflectance, const GLdouble xPoint,  co
     return list;
 }
 
-void GLWidget::drawShip(GLuint gear, GLdouble dx, GLdouble dy, GLdouble dz,
+void ShipGraph::drawShip(GLuint gear, GLdouble dx, GLdouble dy, GLdouble dz,
                         GLdouble angle)
 {
     glPushMatrix();
@@ -401,7 +370,7 @@ void GLWidget::drawShip(GLuint gear, GLdouble dx, GLdouble dy, GLdouble dz,
     glPopMatrix();
 }
 
-void GLWidget::normalizeAngle(int *angle)
+void ShipGraph::normalizeAngle(int *angle)
 {
     while (*angle < 0)
         *angle += 360 * 16;

@@ -1,4 +1,4 @@
-/*****************************************************************
+ï»¿/*****************************************************************
 **				Project:	ShipControl(WOPC)					**
 **				Author:		Dong Shengwei						**
 **				Library:	BestSea								**
@@ -18,52 +18,52 @@ public:
 	EnvObserver(void);
 	~EnvObserver(void);
 
-	//³õÊ¼»¯
+	//åˆå§‹åŒ–
 	void init();
 
-	//ÉèÖÃÊ±¼ä¼ä¸ô
+	//è®¾ç½®æ—¶é—´é—´éš”
 	void setStep(const double deltaT);
 
-	//ÉèÖÃ²ÎÊı
+	//è®¾ç½®å‚æ•°
 	void setK(const double k1, const double k2, const double k3);
 
-	//ÊäÈëM¾ØÕó(3Î¬)
+	//è¾“å…¥MçŸ©é˜µ(3ç»´)
 	void setM(const double (*Mmat)[DOF3]);
 
-	//ÊäÈëD¾ØÕó(3Î¬)
+	//è¾“å…¥DçŸ©é˜µ(3ç»´)
 	void setD(const double (*Dmat)[DOF3]);
 
-	//ÊäÈëÍÆ½øÆ÷ÍÆÁ¦ÓëÁ¦¾Ø
+	//è¾“å…¥æ¨è¿›å™¨æ¨åŠ›ä¸åŠ›çŸ©
 	void setTao(const Force6 thrust);
 
-	//ÊäÈë´¬²°ÔË¶¯ËÙ¶È
+	//è¾“å…¥èˆ¹èˆ¶è¿åŠ¨é€Ÿåº¦
 	void setNu(const Nu nuIn);
 
-	//Êä³ö»·¾³Á¦(3×ÔÓÉ¶È)
+	//è¾“å‡ºç¯å¢ƒåŠ›(3è‡ªç”±åº¦)
 	Force3 force();
 
-	//¾ØÕó³Ë·¨£¬6x6¾ØÕóÓë6x1¾ØÕóÏà³Ë
+	//çŸ©é˜µä¹˜æ³•ï¼Œ6x6çŸ©é˜µä¸6x1çŸ©é˜µç›¸ä¹˜
 	void multiMx(const double (*dataMx1)[DOF3], const double dataMx2[], double resultMx[]);
 
-	//»·¾³¹À¼Æ
+	//ç¯å¢ƒä¼°è®¡
 	void cal();
 
 private:
-	//M¡¢D¾ØÕó
+	//Mã€DçŸ©é˜µ
 	double M[DOF3][DOF3], D[DOF3][DOF3];
-	//²ÎÊıK0
+	//å‚æ•°K0
 	double K0[DOF3][DOF3];
-	//ÖĞ¼ä±äÁ¿¦Â¡¢Æäµ¼ÊıÓëÖĞ¼ä±äÁ¿
+	//ä¸­é—´å˜é‡Î²ã€å…¶å¯¼æ•°ä¸ä¸­é—´å˜é‡
 	double beta[DOF3], dBeta[DOF3], betaTmp[DOF3];
-	//»·¾³¹À¼ÆÁ¦¡¢Á¦¾Ø
+	//ç¯å¢ƒä¼°è®¡åŠ›ã€åŠ›çŸ©
 	Force3 env;
-	//ÍÆ½øÆ÷ÍÆÁ¦¡¢Á¦¾ØÓë»·¾³¹À¼ÆÁ¦¡¢Á¦¾Ø
+	//æ¨è¿›å™¨æ¨åŠ›ã€åŠ›çŸ©ä¸ç¯å¢ƒä¼°è®¡åŠ›ã€åŠ›çŸ©
 	double tao[DOF3], envTao[DOF3];
-	//ËÙ¶ÈÏî
+	//é€Ÿåº¦é¡¹
 	double nu[DOF3];
-	//¼ÆËã¹ı³ÌÖĞ¼ä±äÁ¿
+	//è®¡ç®—è¿‡ç¨‹ä¸­é—´å˜é‡
 	double D_nu[DOF3], M_nu[DOF3], K_M_nu[DOF3];
-	//Ê±¼ä¼ä¸ô
+	//æ—¶é—´é—´éš”
 	double tStep;
 };
 

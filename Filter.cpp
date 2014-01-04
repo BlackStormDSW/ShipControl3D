@@ -1,4 +1,4 @@
-/*****************************************************************
+ï»¿/*****************************************************************
 **				Project:	ShipControl(WOPC)					**
 **				Author:		Dong Shengwei						**
 **				Library:	BestSea								**
@@ -6,8 +6,8 @@
 ******************************************************************/
 
 //filter.cpp
-//²Î¿¼¡¶Handbook of Marine Craft Hydrodynamics and Motion Control¡·
-//ÖĞ ¡¶Nonlinear Passive Observer Dsigns¡· 11.4Ò»½Ú
+//å‚è€ƒã€ŠHandbook of Marine Craft Hydrodynamics and Motion Controlã€‹
+//ä¸­ ã€ŠNonlinear Passive Observer Dsignsã€‹ 11.4ä¸€èŠ‚
 
 #include "filter.h"
 #include "Tool.h"
@@ -24,7 +24,7 @@ Filter::~Filter(void)
 {
 }
 
-//³õÊ¼»¯¸÷²ÎÊı
+//åˆå§‹åŒ–å„å‚æ•°
 void Filter::init()
 {
 	for (int i = 0; i < DOF3; i ++)
@@ -84,12 +84,12 @@ void Filter::init()
 	K4[1][1] = pow(40.0, 4.0);
 	K4[2][2] = pow(40.0, 4.0)*0.1;
 
-	//ÏµÍ³¹ßĞÔ¾ØÕó(Ô­6×ÔÓÉ¶ÈÏµÍ³¹ßĞÔ¾ØÕó¼ò»¯¶øÀ´)
+	//ç³»ç»Ÿæƒ¯æ€§çŸ©é˜µ(åŸ6è‡ªç”±åº¦ç³»ç»Ÿæƒ¯æ€§çŸ©é˜µç®€åŒ–è€Œæ¥)
 	M[0][0] = 0.0026e+10;
 	M[1][1] = 0.0033e+10;
 	M[2][2] = 6.5209e+10;
 
-	//×èÄá¾ØÕó(Ô­6×ÔÓÉ¶È×èÄá¾ØÕó¼ò»¯¶øÀ´)
+	//é˜»å°¼çŸ©é˜µ(åŸ6è‡ªç”±åº¦é˜»å°¼çŸ©é˜µç®€åŒ–è€Œæ¥)
 	D[0][0] = 0.0002e+8;
 	D[1][1] = 0.0022e+8;
 	D[1][2] = -0.0177e+8;
@@ -100,7 +100,7 @@ void Filter::init()
 	invM[1][1] = 1.0/M[1][1];
 	invM[2][2] = 1.0/M[2][2];
 
-	//³õÊ¼»¯etaÊä³öÖµ
+	//åˆå§‹åŒ–etaè¾“å‡ºå€¼
 	etaResult.n = 0.0;
 	etaResult.e = 0.0;
 	etaResult.d = 0.0;
@@ -135,7 +135,7 @@ void Filter::setStep(const double step)
 	tStep = step;
 }
 
-//¼ÆËã
+//è®¡ç®—
 Eta Filter::cal()
 {
 	double psi0 = eta.psi;
@@ -153,14 +153,14 @@ Eta Filter::cal()
 	double psiWF[DOF3] = {0.0, 0.0, 0.0};
 	double nuArr1[DOF3] = {0.0, 0.0, 0.0};
 	double xiww[DOF3] = {0.0, 0.0, 0.0};
-	//¼ÆËãeta²î£¬²¢½«psi×ª»»µ½-pi~piÄÚ
+	//è®¡ç®—etaå·®ï¼Œå¹¶å°†psiè½¬æ¢åˆ°-pi~piå†…
 	Tool::EtaToArr3(eta, etaArr, DOF3);
 
 	Tool::addArr3(etaResArr, etaw, xiww, DOF3);
 	Tool::subArr3(etaArr, xiww, subArr, DOF3);
 	subArr[2] = Tool::infToPi(subArr[2]);
 
-	//¼ÆËãbias
+	//è®¡ç®—bias
 	Tool::multiVector(K3, subArr, K3u, DOF3);
 	for (int i = 0; i < DOF3; i ++)
 	{
@@ -168,16 +168,16 @@ Eta Filter::cal()
 	}
 	Tool::multiVector(Ktb, bias, invTb, DOF3);
 
-	//¼ÆËã¸½¼Ótao 1
+	//è®¡ç®—é™„åŠ tao 1
 	Tool::Force6ToArr3(tao, taoArr, DOF3);
 	Tool::transRot(psi0, bias, tao1, DOF3);
 	Tool::addArr3(taoArr, tao1, tao0, DOF3);
 
-	//¼ÆËã¸½¼Ótao 2
+	//è®¡ç®—é™„åŠ tao 2
 	Tool::multiVector(K4, subArr, K4u, DOF3);
 	Tool::transRot(psi0, K4u, tao2, DOF3);
 
-	//¼ÆËãnu
+	//è®¡ç®—nu
 	Tool::addArr3(tao0, tao2, tao0, DOF3);
 	Tool::subArr3(tao0, Du, tao0, DOF3);
 	Tool::multiVector(invM, tao0, tao3, DOF3);
@@ -187,9 +187,9 @@ Eta Filter::cal()
 	}
 	Tool::multiVector(D, nuArr, Du, DOF3);
 
-	//±ä»»nu
+	//å˜æ¢nu
 	Tool::rotMat(psi0, nuArr, nuArr1, DOF3);
-	//¼ÆËãeta½á¹û
+	//è®¡ç®—etaç»“æœ
 	Tool::multiVector(w_c, subArr, K2u, DOF3);
 	Tool::addArr3(nuArr1, K2u, nuArr1, DOF3);
 
@@ -199,7 +199,7 @@ Eta Filter::cal()
 	}
 	//etaResArr[2] = Tool::infToPi(etaResArr[2]);
 
-	//¼ÆËãeta_w
+	//è®¡ç®—eta_w
 	Tool::multiVector(K11, subArr, K11u, DOF3);
 	Tool::multiVector(K12, subArr, K12u, DOF3);
 	Tool::subArr3(K12u, Ku, K12u, DOF3);

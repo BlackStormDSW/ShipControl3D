@@ -7,7 +7,13 @@
 
 //mainwindow.cpp
 
-#include "glwidget.h"
+#include "ShipGraph.h"
+//#include "ShipControl.h"
+//#include "ShipParameter.h"
+#include "DataStruct.h"
+#include <iostream>
+using namespace std;
+
 #include "mainwindow.h"
 
 #include <QtWidgets>
@@ -17,6 +23,16 @@ MainWindow::MainWindow()
 {
     centralWidget = new QWidget;
     setCentralWidget(centralWidget);
+
+//    shipPara = new ShipParameter;
+//    shipCtrl = new ShipControl;
+
+//    shipPara->readMat("E:/Program/matlab_program/s175.mat");
+
+////    Data *shipData = new Data;
+////    shipData = &shipPara->getData();
+
+////    shipCtrl.setData(shipData);
 
     glWidget = new ShipGraph;
 
@@ -50,7 +66,7 @@ MainWindow::MainWindow()
     zSlider->setValue(0 * 16);
 
     QTextCodec *codec = QTextCodec::codecForName("GB18030");
-    setWindowTitle(codec->toUnicode("´¬²°Ä£ÄâÆ÷"));
+    setWindowTitle(codec->toUnicode("èˆ¹èˆ¶æ¨¡æ‹Ÿå™¨"));
     resize(500, 600);
 }
 

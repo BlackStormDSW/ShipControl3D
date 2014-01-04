@@ -1,4 +1,4 @@
-/*****************************************************************
+﻿/*****************************************************************
 **				Project:	ShipControl(WOPC)					**
 **				Author:		Dong Shengwei						**
 **				Library:	BestSea								**
@@ -20,6 +20,8 @@ class QSlider;
 QT_END_NAMESPACE
 
 class ShipGraph;
+class ShipControl;
+class ShipParameter;
 
 class MainWindow : public QMainWindow
 {
@@ -36,6 +38,9 @@ private:
     void createMenus();
     QSlider *createSlider(const char *changedSignal, const char *setterSlot);
     QSize getSize();
+
+    ShipControl *shipCtrl;
+    ShipParameter *shipPara;
 
     QWidget *centralWidget;
     QScrollArea *glWidgetArea;

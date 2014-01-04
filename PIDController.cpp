@@ -1,4 +1,4 @@
-/*****************************************************************
+ï»¿/*****************************************************************
 **				Project:	ShipControl(WOPC)					**
 **				Author:		Dong Shengwei						**
 **				Library:	BestSea								**
@@ -17,7 +17,7 @@ using namespace std;
 #define Nmax 60000000
 
 PIDController::PIDController(void)
-	: tStep(0.05), Kp(0.001), Ki(0.0), Kd(0.0) //³õÖµP:0.01, I:0.0003, D:0.2
+	: tStep(0.05), Kp(0.001), Ki(0.0), Kd(0.0) //åˆå€¼P:0.01, I:0.0003, D:0.2
 {
 	init();
 }
@@ -91,10 +91,10 @@ void PIDController::setEta( Eta eta )
 
 void PIDController::calculat()
 {
-	//eta×ª»¯Îª3Î¬ÏòÁ¿
+	//etaè½¬åŒ–ä¸º3ç»´å‘é‡
 	Tool::EtaToArr3(etaTarget, etaTgt, DOF3);
 
-	//¼ÆËãetaÆ«²î
+	//è®¡ç®—etaåå·®
 	for (int i = 0; i < DOF3; i ++)
 	{
 		etaErr[i] = etaTgt[i] - etaPre[i];
@@ -113,7 +113,7 @@ void PIDController::calculat()
 
 	errFile << endl;
 
-	//¼ÆËãPID½á¹û
+	//è®¡ç®—PIDç»“æœ
 	Tool::multiVector(Mp, etaErr, pRst, DOF3);
 
 	Tool::multiVector(Mi, etaErrSum, iRst, DOF3);
@@ -132,7 +132,7 @@ void PIDController::calculat()
 	taoArr[1] = (taoArr[1] < -Ymax) ? -Ymax : taoArr[1];
 	taoArr[2] = (taoArr[2] < -Nmax) ? -Nmax : taoArr[2];
 
-	//±£´æÉÏÒ»´ÎµÄeta¡¢etaErr
+	//ä¿å­˜ä¸Šä¸€æ¬¡çš„etaã€etaErr
 	for (int i = 0; i < DOF3; i ++)
 	{
 		etaPre[i] = etaArr[i];
@@ -141,7 +141,7 @@ void PIDController::calculat()
 	}
 }
 
-//»ñÈ¡
+//è·å–
 Force6 PIDController::getTao()
 {
 	outTao.xForce = taoArr[0];

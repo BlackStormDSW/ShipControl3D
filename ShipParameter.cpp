@@ -1,4 +1,4 @@
-/*****************************************************************
+ï»¿/*****************************************************************
 **				Project:	ShipControl(WOPC)					**
 **				Author:		Dong Shengwei						**
 **				Library:	BestSea								**
@@ -30,24 +30,24 @@ ShipParameter::~ShipParameter(void)
 	//delete dimAmpRAO;
 }
 
-//¶ÁÈ¡matÎÄ¼ş
+//è¯»å–matæ–‡ä»¶
 void ShipParameter::readMat(string fileName)
 {
-	//ÒÔÖ»¶ÁĞÎÊ½´ò¿ªmatÎÄ¼ş
+	//ä»¥åªè¯»å½¢å¼æ‰“å¼€matæ–‡ä»¶
 	pmatFileIn = matOpen(fileName.c_str(), "r");
 	if (NULL == pmatFileIn)
 	{
 		cout << "error open the file " << fileName << endl;
 		exit(EXIT_FAILURE);
 	}
-	//½«matÎÄ¼şÖĞµÄvessel¡¢vesselABC½á¹¹Ìå·Ö±ğ¸³¸øvessel¡¢vesselABC
+	//å°†matæ–‡ä»¶ä¸­çš„vesselã€vesselABCç»“æ„ä½“åˆ†åˆ«èµ‹ç»™vesselã€vesselABC
 	vessel = matGetVariable(pmatFileIn, "vessel");
 	vesselABC = matGetVariable(pmatFileIn, "vesselABC");
 	M = matGetVariable(pmatFileIn, "M");
 	D = matGetVariable(pmatFileIn, "D");
 	CD = matGetVariable(pmatFileIn, "CD_DATA");
 
-	//½«vessel½á¹¹ÌåÖĞµÄ¾ØÕó¸³¸øÏàÓ¦±äÁ¿
+	//å°†vesselç»“æ„ä½“ä¸­çš„çŸ©é˜µèµ‹ç»™ç›¸åº”å˜é‡
 	main = mxGetField(vessel, 0, "main");
 	MRB = mxGetField(vessel, 0, "MRB");
 	veloc = mxGetField(vessel, 0, "velocities");
@@ -60,7 +60,7 @@ void ShipParameter::readMat(string fileName)
 	phaseDriftfrc = mxGetField(driftfrc, 0, "phase");
 	wDriftfrc = mxGetField(driftfrc, 0, "w");
 
-	//½«vesselABC½á¹¹ÌåÖĞµÄ¸÷¾ØÕó¸³¸øÏàÓ¦±äÁ¿
+	//å°†vesselABCç»“æ„ä½“ä¸­çš„å„çŸ©é˜µèµ‹ç»™ç›¸åº”å˜é‡
 	AinfABC = mxGetField(vesselABC, 0, "Ainf");
 	BinfABC = mxGetField(vesselABC, 0, "Binf");
 	ArABC = mxGetField(vesselABC, 0, "Ar");
@@ -80,8 +80,8 @@ void ShipParameter::readMat(string fileName)
 	BABC = mxGetField(vesselABC, 0, "B");
 	freqsABC = mxGetField(vesselABC, 0, "freqs");
 
-	/*¶ÁÈ¡matÎÄ¼şÖĞµÄmain²¢¸³¸ø³ÌĞò½á¹¹ÌåÖĞ*/
-	//main½á¹¹ÌåÖĞµÄ¸÷Êı¾İ¸³¸ø³ÌĞò½á¹¹ÌåµÄmainÖĞ¸÷ÔªËØ
+	/*è¯»å–matæ–‡ä»¶ä¸­çš„mainå¹¶èµ‹ç»™ç¨‹åºç»“æ„ä½“ä¸­*/
+	//mainç»“æ„ä½“ä¸­çš„å„æ•°æ®èµ‹ç»™ç¨‹åºç»“æ„ä½“çš„mainä¸­å„å…ƒç´ 
 	pmxName = mxGetField(main, 0, "name");
 	int strSize = (int)mxGetNumberOfElements(pmxName)+1;
 	vesselName = (char *)mxCalloc(strSize, sizeof(char));
@@ -126,17 +126,17 @@ void ShipParameter::readMat(string fileName)
 	}
 
 	/************************************************************************/
-	/*          ½«vesselÖĞµÄÊı¾İ¸³¸ødata½á¹¹ÌåÖĞ¸÷ÔªËØ                           */
+	/*          å°†vesselä¸­çš„æ•°æ®èµ‹ç»™dataç»“æ„ä½“ä¸­å„å…ƒç´                            */
 	/************************************************************************/
-	/*¶ÁÈ¡matÎÄ¼şÖĞµÄMRB²¢¸³¸ø³ÌĞò½á¹¹ÌåÖĞ*/
-	//MRB¾ØÕóÖĞµÄÊı¾İ¸³¸øinitMRB
+	/*è¯»å–matæ–‡ä»¶ä¸­çš„MRBå¹¶èµ‹ç»™ç¨‹åºç»“æ„ä½“ä¸­*/
+	//MRBçŸ©é˜µä¸­çš„æ•°æ®èµ‹ç»™initMRB
 	initMRB = (double *)mxGetData(MRB);
-	//MRB¾ØÕóµÄĞĞÓëÁĞ
+	//MRBçŸ©é˜µçš„è¡Œä¸åˆ—
 	rowCount = (int)mxGetM(MRB);
 	columnCount = (int)mxGetM(MRB);
 	if (DOF6 == rowCount && DOF6 == columnCount)
 	{
-		//¶ÔMRB±äÁ¿¸³Öµ£¬²¢ÏÔÊ¾
+		//å¯¹MRBå˜é‡èµ‹å€¼ï¼Œå¹¶æ˜¾ç¤º
 		for (int row = 0; row < rowCount; ++ row)
 		{
 			for (int column = 0; column < columnCount; ++ column)
@@ -145,26 +145,26 @@ void ShipParameter::readMat(string fileName)
 			}
 		}
 	} else {
-		cout << "mat ÎÄ¼şÖĞµÄ MRB²»ÊÇ6½×·½Õó£¬ Çë¼ì²éºóÔÙ´ÎÔËĞĞ³ÌĞò£¡" << endl;
+		cout << "mat æ–‡ä»¶ä¸­çš„ MRBä¸æ˜¯6é˜¶æ–¹é˜µï¼Œ è¯·æ£€æŸ¥åå†æ¬¡è¿è¡Œç¨‹åºï¼" << endl;
 		exit(EXIT_FAILURE);
 	}
 
-	/*¶ÁÈ¡matÎÄ¼şÖĞµÄforceRAO²¢¸³¸ø³ÌĞò½á¹¹ÌåÖĞ*/
-	//forceRAOÖĞamp¾ØÕóÖĞµÄÊı¾İ¸³¸øamp
+	/*è¯»å–matæ–‡ä»¶ä¸­çš„forceRAOå¹¶èµ‹ç»™ç¨‹åºç»“æ„ä½“ä¸­*/
+	//forceRAOä¸­ampçŸ©é˜µä¸­çš„æ•°æ®èµ‹ç»™amp
 	for (int i = 0; i < DOF6; ++ i)
 	{
-		//½«amp¡¢phaseÖĞÃ¿¸ö°ûÔªµ¥¶À²ğ³öÀ´
+		//å°†ampã€phaseä¸­æ¯ä¸ªèƒå…ƒå•ç‹¬æ‹†å‡ºæ¥
 		ampRAO[i] = mxGetCell(ampForceRAO, i);
 		phase[i] = mxGetCell(phaseForceRAO, i);
 		ampDrift[i] = mxGetCell(ampDriftfrc, i);
 
-		//ampRAOÈı²ãÏÂ±ê£¬phase¡¢ampDriftÓëampRAOÒ»ÖÂ
+		//ampRAOä¸‰å±‚ä¸‹æ ‡ï¼Œphaseã€ampDriftä¸ampRAOä¸€è‡´
 		dimAmpRAO = mxGetDimensions(ampRAO[i]);
-		//½«amp[i]Ê×ÔªËØÖ¸Õë¸³¸ødataAmpRAO
+		//å°†amp[i]é¦–å…ƒç´ æŒ‡é’ˆèµ‹ç»™dataAmpRAO
 		dataAmpRAO = (double *)mxGetPr(ampRAO[i]);
 		dataPhaseRAO = (double *)mxGetPr(phase[i]);
 		dataAmpDrift = (double *)mxGetPr(ampDrift[i]);
-		//½«matÎÄ¼şÖĞamp¸÷ÔªËØÊı¾İ¸³¸ø½á¹¹ÌåÖĞampÏàÓ¦ÔªËØ
+		//å°†matæ–‡ä»¶ä¸­ampå„å…ƒç´ æ•°æ®èµ‹ç»™ç»“æ„ä½“ä¸­ampç›¸åº”å…ƒç´ 
 		for (int page = 0; page < velTotal/*dimAmpRAO[2]*/; ++ page)
 		{
 			for (int row = 0; row < dimAmpRAO[0]; ++ row)
@@ -181,7 +181,7 @@ void ShipParameter::readMat(string fileName)
 			}
 		}
 	}
-	//½«matÎÄ¼şÖĞOmegaÏàÓ¦Êı¾İÌáÈ¡³öÀ´
+	//å°†matæ–‡ä»¶ä¸­Omegaç›¸åº”æ•°æ®æå–å‡ºæ¥
 	dimOmegaRAO = mxGetDimensions(wForceRAO);
 	dataOmegaRAO = (double *)mxGetPr(wForceRAO);
 	dataOmegaDrift = (double *)mxGetPr(wDriftfrc);
@@ -192,7 +192,7 @@ void ShipParameter::readMat(string fileName)
 	}
 
 	/************************************************************************/
-	/*              ½«vesselABCÖĞµÄÊı¾İ¸³¸ødataVessel½á¹¹ÌåÖĞ¸÷ÔªËØ              */
+	/*              å°†vesselABCä¸­çš„æ•°æ®èµ‹ç»™dataVesselç»“æ„ä½“ä¸­å„å…ƒç´               */
 	/************************************************************************/
 	dataAinf = (double *)mxGetData(AinfABC);
 	dataBinf = (double *)mxGetData(BinfABC);
@@ -216,7 +216,7 @@ void ShipParameter::readMat(string fileName)
 			{
 				for (int m = 0; m < velTotal; ++ m)
 				{
-					//×¢Òâ¾ØÕóÖĞĞĞºÍÁĞµÄË³Ğò
+					//æ³¨æ„çŸ©é˜µä¸­è¡Œå’Œåˆ—çš„é¡ºåº
 					data.dataVesABC.Ar[i][j][k][m] = dataAr[(((i*DOF6)+j)*velTotal+m)*velTotal+k];
 				}
 				data.dataVesABC.Br[i][j][k] = dataBr[((i*DOF6)+j)*velTotal+k];
@@ -285,18 +285,18 @@ void ShipParameter::readMat(string fileName)
 		}
 	}
 
-	//ÊÍ·ÅÁÙÊ±Êı¾İ
+	//é‡Šæ”¾ä¸´æ—¶æ•°æ®
 	mxFree(dataAmpRAO);
 	mxFree(dataPhaseRAO);
 	mxFree(dataAmpDrift);
 	mxFree(dataOmegaRAO);
 	mxFree(dataOmegaDrift);
 
-	//¹Ø±Õ´ò¿ªµÄmatÎÄ¼ş
+	//å…³é—­æ‰“å¼€çš„matæ–‡ä»¶
 	matClose(pmatFileIn);
 }
 
-//Êä³öÊı¾İ
+//è¾“å‡ºæ•°æ®
 Data ShipParameter::getData()
 {
 	return data;

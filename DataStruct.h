@@ -1,4 +1,4 @@
-/*****************************************************************
+ï»¿/*****************************************************************
 **				Project:	ShipControl(WOPC)					**
 **				Author:		Dong Shengwei						**
 **				Library:	BestSea								**
@@ -21,60 +21,60 @@ using namespace std;
 #define PI	3.141592653589793
 #define E	2.718281828459046
 
-//ËÙ¶ÈµÄÃ×Ã¿Ãë×ª»»µ½½Ú
+//é€Ÿåº¦çš„ç±³æ¯ç§’è½¬æ¢åˆ°èŠ‚
 #define M2KNOT 0.5144
 
-//½Ç¶È×ª»¡¶ÈÏµÊı
+//è§’åº¦è½¬å¼§åº¦ç³»æ•°
 #define angToRad (PI/180)
-//»¡¶È×ª½Ç¶ÈÏµÊı
+//å¼§åº¦è½¬è§’åº¦ç³»æ•°
 #define radToAng (180/PI)
-//ÖØÁ¦¼ÓËÙ¶È
+//é‡åŠ›åŠ é€Ÿåº¦
 #define g 9.81
-//vesselABCÖĞfreqsÊı
+//vesselABCä¸­freqsæ•°
 #define freqNum 1146
-//HoernerÊı¾İµÄ¸öÊı
+//Hoerneræ•°æ®çš„ä¸ªæ•°
 #define  HoerNum 20
 
 #pragma pack(1)
 
-//Á¦¡¢×ª¾Ø½á¹¹Ìå
+//åŠ›ã€è½¬çŸ©ç»“æ„ä½“
 struct Force3
 {
-	double xForce;		//×İÏòÁ¦
-	double yForce;		//ºáÏòÁ¦
-	double nMoment;		//×ª¾Ø
+	double xForce;		//çºµå‘åŠ›
+	double yForce;		//æ¨ªå‘åŠ›
+	double nMoment;		//è½¬çŸ©
 };
 
 struct Force6
 {
-	double xForce;		//×İÏòÁ¦
-	double yForce;		//ºáÏòÁ¦
-	double zForce;		//´¹ÏòÁ¦
-	double kMoment;		//×ª¾Ø
-	double mMoment;		//×ª¾Ø
-	double nMoment;		//×ª¾Ø
+	double xForce;		//çºµå‘åŠ›
+	double yForce;		//æ¨ªå‘åŠ›
+	double zForce;		//å‚å‘åŠ›
+	double kMoment;		//è½¬çŸ©
+	double mMoment;		//è½¬çŸ©
+	double nMoment;		//è½¬çŸ©
 };
 
-//Î»ÖÃºÍ×ËÌ¬½á¹¹Ìå
+//ä½ç½®å’Œå§¿æ€ç»“æ„ä½“
 struct Eta
 {
-	double n;			//±±Î»ÖÃ
-	double e;			//¶«Î»ÖÃ
+	double n;			//åŒ—ä½ç½®
+	double e;			//ä¸œä½ç½®
 	double d;			//
-	double phi;			//ºáÒ¡½Ç »¡¶È
-	double theta;		//×İÒ¡½Ç »¡¶È
-	double psi;			//ô¼Ïò½Ç »¡¶È
+	double phi;			//æ¨ªæ‘‡è§’ å¼§åº¦
+	double theta;		//çºµæ‘‡è§’ å¼§åº¦
+	double psi;			//è‰å‘è§’ å¼§åº¦
 };
 
-//ÏßËÙ¶ÈºÍ½ÇËÙ¶È½á¹¹Ìå
+//çº¿é€Ÿåº¦å’Œè§’é€Ÿåº¦ç»“æ„ä½“
 struct Nu
 {
-	double u;			//×İÏòËÙ¶È
-	double v;			//ºáÏòËÙ¶È
-	double w;			//Éı³ÁËÙ¶È
-	double p;			//ºáÒ¡½ÇËÙ¶È
-	double q;			//×İÒ¡½ÇËÙ¶È
-	double r;			//ô¼Ò¡½ÇËÙ¶È
+	double u;			//çºµå‘é€Ÿåº¦
+	double v;			//æ¨ªå‘é€Ÿåº¦
+	double w;			//å‡æ²‰é€Ÿåº¦
+	double p;			//æ¨ªæ‘‡è§’é€Ÿåº¦
+	double q;			//çºµæ‘‡è§’é€Ÿåº¦
+	double r;			//è‰æ‘‡è§’é€Ÿåº¦
 };
 
 struct Coord
@@ -115,7 +115,7 @@ struct Driftfrc
 	double w[wNum];
 };
 
-//vesselÄÚµÄÊı¾İ
+//vesselå†…çš„æ•°æ®
 struct VesselData
 {
 	VesselMain main;
@@ -125,7 +125,7 @@ struct VesselData
 	double vel[velTotal];
 };
 
-//vesselABCÄÚµÄÊı¾İ
+//vesselABCå†…çš„æ•°æ®
 struct VesselABCData
 {
 	double Ainf[DOF6][DOF6];

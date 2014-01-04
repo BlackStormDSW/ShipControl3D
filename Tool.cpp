@@ -1,4 +1,4 @@
-/*****************************************************************
+ï»¿/*****************************************************************
 **				Project:	ShipControl(WOPC)					**
 **				Author:		Dong Shengwei						**
 **				Library:	BestSea								**
@@ -20,7 +20,7 @@ Tool::~Tool(void)
 {
 }
 
-//Force6×ª»»ÎªÊı×é
+//Force6è½¬æ¢ä¸ºæ•°ç»„
 void Tool::Force6ToArray(const Force6 &tao, double taoArray[])
 {
 	taoArray[0] = tao.xForce;
@@ -31,7 +31,7 @@ void Tool::Force6ToArray(const Force6 &tao, double taoArray[])
 	taoArray[5] = tao.nMoment;
 }
 
-//Êı×é×ª»»ÎªForce6
+//æ•°ç»„è½¬æ¢ä¸ºForce6
 void Tool::ArrayToForce6(const double taoArray[], Force6 &tao)
 {
 	tao.xForce  = taoArray[0]; 
@@ -43,7 +43,7 @@ void Tool::ArrayToForce6(const double taoArray[], Force6 &tao)
 }
 
 
-//½«ÊıÖµ×ª»»µ½-PI~PI
+//å°†æ•°å€¼è½¬æ¢åˆ°-PI~PI
 double Tool::infToPi(double inValue)
 {
 	while (inValue > PI)
@@ -58,7 +58,7 @@ double Tool::infToPi(double inValue)
 	return inValue;
 }
 
-//³õÊ¼»¯Nu
+//åˆå§‹åŒ–Nu
 void Tool::initNu(Nu &nu)
 {
 	nu.u = 0.0;
@@ -69,7 +69,7 @@ void Tool::initNu(Nu &nu)
 	nu.r = 0.0;
 }
 
-//³õÊ¼»¯Force6
+//åˆå§‹åŒ–Force6
 void Tool::initForce6(Force6 &force)
 {
 	force.xForce = 0.0;
@@ -80,7 +80,7 @@ void Tool::initForce6(Force6 &force)
 	force.nMoment = 0.0;
 }
 
-//ÉèÖÃEta
+//è®¾ç½®Eta
 Eta Tool::setEta(const double x, const double y, const double psi)
 {
 	Eta eta;
@@ -93,7 +93,7 @@ Eta Tool::setEta(const double x, const double y, const double psi)
 	return eta;
 }
 
-//³õÊ¼»¯Eta
+//åˆå§‹åŒ–Eta
 void Tool::initEta(Eta &eta)
 {
 	eta.n = 0.0;
@@ -104,7 +104,7 @@ void Tool::initEta(Eta &eta)
 	eta.psi = 0.0;
 }
 
-//³õÊ¼»¯Ä¿±êeta
+//åˆå§‹åŒ–ç›®æ ‡eta
 void Tool::initEtaTarget( Eta &eta, double x, double y, double psi )
 {
 	eta.n = x;
@@ -116,16 +116,16 @@ void Tool::initEtaTarget( Eta &eta, double x, double y, double psi )
 }
 
 //----------------------------------------------
-//¹¦ÄÜ£º²ÉÓÃ²¿·ÖÖ÷ÔªµÄ¸ßË¹ÏûÈ¥·¨Çó6x6·½ÕóAµÄÄæ¾ØÕóB
-//Èë¿Ú²ÎÊı£ºÊäÈë·½ÕóA£¬Êä³ö·½ÕóB,·½Õó½×Êın
-//·µ»ØÖµ£ºtrue or false
+//åŠŸèƒ½ï¼šé‡‡ç”¨éƒ¨åˆ†ä¸»å…ƒçš„é«˜æ–¯æ¶ˆå»æ³•æ±‚6x6æ–¹é˜µAçš„é€†çŸ©é˜µB
+//å…¥å£å‚æ•°ï¼šè¾“å…¥æ–¹é˜µAï¼Œè¾“å‡ºæ–¹é˜µB,æ–¹é˜µé˜¶æ•°n
+//è¿”å›å€¼ï¼štrue or false
 //----------------------------------------------
 bool Tool::inv(double (*A)[DOF6], double (*B)[DOF6])
 {
 	double max = 0.0, temp = 0.0;
-	double t[DOF6][DOF6];		//ÁÙÊ±¾ØÕó
+	double t[DOF6][DOF6];		//ä¸´æ—¶çŸ©é˜µ
 
-	//½«A¾ØÕó´æ·ÅÔÚÁÙÊ±¾ØÕót[][]ÖĞ
+	//å°†AçŸ©é˜µå­˜æ”¾åœ¨ä¸´æ—¶çŸ©é˜µt[][]ä¸­
 	for (int i = 0; i < DOF6; i++)
 	{
 		for (int j = 0; j < DOF6; j++)
@@ -133,7 +133,7 @@ bool Tool::inv(double (*A)[DOF6], double (*B)[DOF6])
 			t[i][j] = A[i][j];
 		}
 	}
-	//³õÊ¼»¯B¾ØÕóÎªµ¥Î»Õó
+	//åˆå§‹åŒ–BçŸ©é˜µä¸ºå•ä½é˜µ
 	for (int i = 0; i < DOF6; i++)
 	{
 		for (int j = 0; j < DOF6; j++)
@@ -143,7 +143,7 @@ bool Tool::inv(double (*A)[DOF6], double (*B)[DOF6])
 	}
 	for (int i = 0; i < DOF6; i++)
 	{
-		//Ñ°ÕÒÖ÷Ôª
+		//å¯»æ‰¾ä¸»å…ƒ
 		max= t[i][i];
 		int k= i;
 		for (int j = i+1; j < DOF6; j++)
@@ -155,7 +155,7 @@ bool Tool::inv(double (*A)[DOF6], double (*B)[DOF6])
 			}
 		}
 
-		//Èç¹ûÖ÷ÔªËùÔÚĞĞ²»×ãiĞĞ£¬½øĞĞĞĞ½»»»
+		//å¦‚æœä¸»å…ƒæ‰€åœ¨è¡Œä¸è¶³iè¡Œï¼Œè¿›è¡Œè¡Œäº¤æ¢
 		if (k != i)
 		{
 			for (int j = 0; j < DOF6;j++)
@@ -163,31 +163,31 @@ bool Tool::inv(double (*A)[DOF6], double (*B)[DOF6])
 				temp= t[i][j];
 				t[i][j] = t[k][j];
 				t[k][j] =temp;
-				//B°éËæ½»»»
+				//Bä¼´éšäº¤æ¢
 				temp= B[i][j];
 				B[i][j] = B[k][j];
 				B[k][j] =temp;
 			}
 		}
-		//ÅĞ¶ÏÖ÷ÔªÊÇ·ñÎª0£¬ ÈôÊÇ£¬ Ôò¾ØÕóA²»ÊÇÂúÖÈ¾ØÕó£¬²»´æÔÚÄæ¾ØÕó
+		//åˆ¤æ–­ä¸»å…ƒæ˜¯å¦ä¸º0ï¼Œ è‹¥æ˜¯ï¼Œ åˆ™çŸ©é˜µAä¸æ˜¯æ»¡ç§©çŸ©é˜µï¼Œä¸å­˜åœ¨é€†çŸ©é˜µ
 		if (t[i][i] == 0)
 		{
 			cout <<"There is no inverse matrix!";
 			return false;
 		}
-		//ÏûÈ¥AµÄµÚiÁĞÖĞ³ıÈ¥iĞĞÒÔÍâµÄ¸÷ĞĞÔªËØ
+		//æ¶ˆå»Açš„ç¬¬iåˆ—ä¸­é™¤å»iè¡Œä»¥å¤–çš„å„è¡Œå…ƒç´ 
 		temp= t[i][i];
 		for (int j = 0; j < DOF6; j++)
 		{
-			t[i][j] = t[i][j] / temp; //Ö÷Ö÷¶Ô½ÇÏßÉÏµÄÔªËØ±äÎª1
-			B[i][j] = B[i][j] / temp; //°éËæ¼ÆËã
+			t[i][j] = t[i][j] / temp; //ä¸»ä¸»å¯¹è§’çº¿ä¸Šçš„å…ƒç´ å˜ä¸º1
+			B[i][j] = B[i][j] / temp; //ä¼´éšè®¡ç®—
 		}
-		for (int j = 0; j < DOF6; j++) //µÚ0ĞĞ->µÚDOF6-1ĞĞ
+		for (int j = 0; j < DOF6; j++) //ç¬¬0è¡Œ->ç¬¬DOF6-1è¡Œ
 		{
-			if (j != i)			//²»ÊÇµÚiĞĞ
+			if (j != i)			//ä¸æ˜¯ç¬¬iè¡Œ
 			{
 				temp= t[j][i];
-				for (int k = 0; k < DOF6; k ++)	//µÚjĞĞÔªËØ-iĞĞÔªËØ*µÚjÁĞiĞĞÔªËØ
+				for (int k = 0; k < DOF6; k ++)	//ç¬¬jè¡Œå…ƒç´ -iè¡Œå…ƒç´ *ç¬¬jåˆ—iè¡Œå…ƒç´ 
 				{
 					t[j][k] = t[j][k]- t[i][k]*temp;
 					B[j][k] = B[j][k]- B[i][k]*temp;
@@ -198,7 +198,7 @@ bool Tool::inv(double (*A)[DOF6], double (*B)[DOF6])
 	return true;
 }
 
-//¾ØÕó³Ë·¨£¬6x6¾ØÕóÓë6x1¾ØÕóÏà³Ë
+//çŸ©é˜µä¹˜æ³•ï¼Œ6x6çŸ©é˜µä¸6x1çŸ©é˜µç›¸ä¹˜
 void Tool::multiMx(const double (*dataMx1)[DOF6], const double dataMx2[], double resultMx[])
 {
 	for (int i = 0; i < DOF6; ++ i)
@@ -211,7 +211,7 @@ void Tool::multiMx(const double (*dataMx1)[DOF6], const double dataMx2[], double
 	}
 }
 
-//¾ØÕó¼Ó·¨£¬6x6¾ØÕóÓë6x6¾ØÕóÏà¼Ó
+//çŸ©é˜µåŠ æ³•ï¼Œ6x6çŸ©é˜µä¸6x6çŸ©é˜µç›¸åŠ 
 void Tool::plusMx( const double (*dataMx1)[DOF6], const double (*dataMx2)[DOF6], double (*resultMx)[DOF6])
 {
 	for (int i = 0; i < DOF6; ++ i)
@@ -235,7 +235,7 @@ void Tool::multiVector(double A[][DOF3], double B[], double C[], int sz)
 	}
 }
 
-//Eta×ª»»ÎªÊı×é
+//Etaè½¬æ¢ä¸ºæ•°ç»„
 void Tool::Eta6ToArray(const Eta &eta, double etaArray[])
 {
 	etaArray[0] = eta.n;
@@ -246,7 +246,7 @@ void Tool::Eta6ToArray(const Eta &eta, double etaArray[])
 	etaArray[5] = eta.psi;
 }
 
-//Êı×é×ª»»ÎªEta
+//æ•°ç»„è½¬æ¢ä¸ºEta
 void Tool::ArrayToEta(const double etaArray[], Eta &eta)
 {
 	eta.n	= etaArray[0]; 
@@ -257,7 +257,7 @@ void Tool::ArrayToEta(const double etaArray[], Eta &eta)
 	eta.psi	= etaArray[5];
 }
 
-//Nu×ª»»ÎªÊı×é
+//Nuè½¬æ¢ä¸ºæ•°ç»„
 void Tool::Nu6ToArray(const Nu &nu, double nuArray[])
 {
 	nuArray[0] = nu.u;
@@ -268,7 +268,7 @@ void Tool::Nu6ToArray(const Nu &nu, double nuArray[])
 	nuArray[5] = nu.r;
 }
 
-//Êı×é×ª»»ÎªNu
+//æ•°ç»„è½¬æ¢ä¸ºNu
 void Tool::ArrayToNu(const double nuArray[], Nu &nu)
 {
 	nu.u = nuArray[0]; 
@@ -279,7 +279,7 @@ void Tool::ArrayToNu(const double nuArray[], Nu &nu)
 	nu.r = nuArray[5];
 }
 
-//Áù×ÔÓÉ¶ÈµÄÁ¦×ª»»ÎªÈıÎ¬Êı×é
+//å…­è‡ªç”±åº¦çš„åŠ›è½¬æ¢ä¸ºä¸‰ç»´æ•°ç»„
 void Tool::Force6ToArr3(Force6 force, double arr[], int sz)
 {
 	arr[0] = force.xForce;
@@ -287,7 +287,7 @@ void Tool::Force6ToArr3(Force6 force, double arr[], int sz)
 	arr[2] = force.nMoment;
 }
 
-//Áù×ÔÓÉ¶ÈµÄËÙ¶È½ÇËÙ¶È×ª»»ÎªÈıÎ¬Êı×é
+//å…­è‡ªç”±åº¦çš„é€Ÿåº¦è§’é€Ÿåº¦è½¬æ¢ä¸ºä¸‰ç»´æ•°ç»„
 void Tool::NuToArr3(Nu nu0, double arr[], int sz)
 {
 	arr[0] = nu0.u;
@@ -295,7 +295,7 @@ void Tool::NuToArr3(Nu nu0, double arr[], int sz)
 	arr[2] = nu0.r;
 }
 
-//Áù×ÔÓÉ¶ÈÎ»ÖÃ×ËÌ¬×ª»»ÎªÈıÎ¬Êı×é
+//å…­è‡ªç”±åº¦ä½ç½®å§¿æ€è½¬æ¢ä¸ºä¸‰ç»´æ•°ç»„
 void Tool::EtaToArr3(Eta eta0, double arr[], int sz)
 {
 	arr[0] = eta0.n;
@@ -303,7 +303,7 @@ void Tool::EtaToArr3(Eta eta0, double arr[], int sz)
 	arr[2] = eta0.psi;
 }
 
-//ÈıÎ¬Êı×é×ª»»ÎªÁù×ÔÓÉ¶ÈÎ»ÖÃ×ËÌ¬
+//ä¸‰ç»´æ•°ç»„è½¬æ¢ä¸ºå…­è‡ªç”±åº¦ä½ç½®å§¿æ€
 void Tool::Arr3ToEta(double arr[], Eta &eta0, int sz)
 {
 	eta0.n = arr[0];
@@ -314,7 +314,7 @@ void Tool::Arr3ToEta(double arr[], Eta &eta0, int sz)
 	eta0.psi = arr[2];
 }
 
-//ÈıÎ¬Êı×éÏà¼õ
+//ä¸‰ç»´æ•°ç»„ç›¸å‡
 void Tool::subArr3(double arr1[], double arr2[], double arr[], int sz)
 {
 	for (int i = 0; i < sz; i ++)
@@ -323,7 +323,7 @@ void Tool::subArr3(double arr1[], double arr2[], double arr[], int sz)
 	}
 }
 
-//ÈıÎ¬Êı×éÏà¼Ó
+//ä¸‰ç»´æ•°ç»„ç›¸åŠ 
 void Tool::addArr3(double arr1[], double arr2[], double arr[], int sz)
 {
 	for (int i = 0; i < sz; i ++)
@@ -332,7 +332,7 @@ void Tool::addArr3(double arr1[], double arr2[], double arr[], int sz)
 	}
 }
 
-//Ğı×ª¾ØÕó
+//æ—‹è½¬çŸ©é˜µ
 void Tool::rotMat(double psi, double inValue[], double outValue[], int sz)
 {
 	outValue[0] = cos(psi)*inValue[0] - sin(psi)*inValue[1];
@@ -347,7 +347,7 @@ void Tool::transRot(double psi, double inValue[], double outValue[], int sz)
 	outValue[2] = inValue[2];
 }
 
-//Á¦ÓÉ±±¶«×ø±êÏµ×ª»»Îª´¬Ìå×ø±êÏµ
+//åŠ›ç”±åŒ—ä¸œåæ ‡ç³»è½¬æ¢ä¸ºèˆ¹ä½“åæ ‡ç³»
 Force6 Tool::NedToboat(const Force6 &force, const Eta &eta)
 {
 	Force6 forceResult;

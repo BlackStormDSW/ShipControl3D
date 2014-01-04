@@ -1,4 +1,4 @@
-/*****************************************************************
+ï»¿/*****************************************************************
 **				Project:	ShipControl(WOPC)					**
 **				Author:		Dong Shengwei						**
 **				Library:	BestSea								**
@@ -22,22 +22,22 @@ NMPCcontroller::~NMPCcontroller(void)
 	outFile.close();
 }
 
-//²ÎÊý³õÊ¼»¯
+//å‚æ•°åˆå§‹åŒ–
 void NMPCcontroller::init()
 {
-	//³õÊ¼»¯Ô¤²âÊ±¼ä³¤¶ÈTÓëÈ¨Öµ
+	//åˆå§‹åŒ–é¢„æµ‹æ—¶é—´é•¿åº¦Tä¸Žæƒå€¼
 	T = 9.0;
 
 	lambda[0] = 20.0;		//>=0
 	lambda[1] = 20.0;			//>0
 	lambda[2] = 0.00000001;			//>=0
 
-	//³õÊ¼»¯ÍÆ½øÆ÷ÍÆÁ¦ÓëÁ¦¾ØµÄÏÞÖµ
+	//åˆå§‹åŒ–æŽ¨è¿›å™¨æŽ¨åŠ›ä¸ŽåŠ›çŸ©çš„é™å€¼
 	lmtForce[0] = MAXSURGE;
 	lmtForce[1] = MAXSWAY;
 	lmtForce[2] = MAXYAW;
 
-	//³õÊ¼»¯ÍÆ½øÆ÷µÄÍÆÁ¦ÓëÁ¦¾Ø
+	//åˆå§‹åŒ–æŽ¨è¿›å™¨çš„æŽ¨åŠ›ä¸ŽåŠ›çŸ©
 	force.xForce = 0.0;
 	force.yForce = 0.0;
 	force.zForce = 0.0;
@@ -45,7 +45,7 @@ void NMPCcontroller::init()
 	force.mMoment = 0.0;
 	force.nMoment = 0.0;
 
-	//³õÊ¼»¯´¬²°ÏµÍ³¹ßÐÔ¾ØÕó¡¢×èÄá¾ØÕóµÈ
+	//åˆå§‹åŒ–èˆ¹èˆ¶ç³»ç»Ÿæƒ¯æ€§çŸ©é˜µã€é˜»å°¼çŸ©é˜µç­‰
 	for (int i = 0; i < DOF3; i ++)
 	{
 		for (int j = 0; j < DOF3; j ++)
@@ -63,29 +63,29 @@ void NMPCcontroller::init()
 		U[i] = 0.0;
 	}
 
-	//ÏµÍ³¹ßÐÔ¾ØÕó(Ô­6×ÔÓÉ¶ÈÏµÍ³¹ßÐÔ¾ØÕó¼ò»¯¶øÀ´)
+	//ç³»ç»Ÿæƒ¯æ€§çŸ©é˜µ(åŽŸ6è‡ªç”±åº¦ç³»ç»Ÿæƒ¯æ€§çŸ©é˜µç®€åŒ–è€Œæ¥)
 	m[0][0] = 0.0026e+10;
 	m[1][1] = 0.0033e+10;
 	m[2][2] = 6.5209e+10;
 
-	//×èÄá¾ØÕó(Ô­6×ÔÓÉ¶È×èÄá¾ØÕó¼ò»¯¶øÀ´)
+	//é˜»å°¼çŸ©é˜µ(åŽŸ6è‡ªç”±åº¦é˜»å°¼çŸ©é˜µç®€åŒ–è€Œæ¥)
 	d[0][0] = 0.0002e+8;
 	d[1][1] = 0.0022e+8;
 	d[2][2] = 7.1506e+8;
 
-	//¼ÆËã¹ý³ÌÖÐµÄÖÐ¼äÏµÊýa
+	//è®¡ç®—è¿‡ç¨‹ä¸­çš„ä¸­é—´ç³»æ•°a
 	a[0][0] = -d[0][0]/m[0][0];
 	a[1][1] = -(m[2][2]*d[1][1]-m[1][2]*d[2][1])/(m[1][1]*m[2][2]-m[1][2]*m[2][1]);
 	a[1][2] = -(m[2][2]*d[1][2]-m[1][2]*d[2][2])/(m[1][1]*m[2][2]-m[1][2]*m[2][1]);
 	a[2][1] = -(m[1][1]*d[2][1]-m[2][1]*d[1][1])/(m[1][1]*m[2][2]-m[1][2]*m[2][1]);
 	a[2][2] = -(m[1][1]*d[2][2]-m[2][1]*d[1][2])/(m[1][1]*m[2][2]-m[1][2]*m[2][1]);
 
-	//¼ÆËã¹ý³ÌÖÐµÄÖÐ¼äÏµÊýb
+	//è®¡ç®—è¿‡ç¨‹ä¸­çš„ä¸­é—´ç³»æ•°b
 	b[0] = 1.0/m[0][0];
 	b[1] = 1.0/m[1][1];
 	b[2] = 1.0/m[2][2];
 	
-	//³õÊ¼»¯¼ÆËã¹ý³ÌÖÐµÄ¾ØÕó±äÁ¿
+	//åˆå§‹åŒ–è®¡ç®—è¿‡ç¨‹ä¸­çš„çŸ©é˜µå˜é‡
 	for (int i = 0; i < MAXDIM; i ++)
 	{
 		for (int j = 0; j < MAXDIM; j ++)
@@ -105,10 +105,10 @@ void NMPCcontroller::init()
 	outFile.open("E:/projectProgram/data/nmpcTest.txt");
 }
 
-//¼ÆËãM¾ØÕó
+//è®¡ç®—MçŸ©é˜µ
 void NMPCcontroller::calM()
 {
-	//¼ÆËãM3ºÍM¾ØÕó
+	//è®¡ç®—M3å’ŒMçŸ©é˜µ
 	for (int i = 0; i < DOF3; i ++)
 	{
 		M3[i][i] = lambda[2]*T;
@@ -134,7 +134,7 @@ void NMPCcontroller::calM()
 	M[3][2] = M[2][3];
 	M[3][3] = lambda[0]*pow(T,6)/36.0 + lambda[1]*pow(T,7.0)/252.0;
 
-	//¼ÆËã¾ØÕó±äÁ¿ÖÐµÄ¸÷ÔªËØ
+	//è®¡ç®—çŸ©é˜µå˜é‡ä¸­çš„å„å…ƒç´ 
 	for (int i = 0; i < MAXDIM/3; i ++)
 	{
 		for (int j = 0; j < MAXDIM/3; j ++)
@@ -145,10 +145,10 @@ void NMPCcontroller::calM()
 	}
 }
 
-//¿ØÖÆÆ÷¼ÆËã
+//æŽ§åˆ¶å™¨è®¡ç®—
 void NMPCcontroller::cal()
 {
-	//Ã¿´Î¼ÆËã¶¼ÐèÒª³õÊ¼»¯µÄ¾ØÕó±äÁ¿
+	//æ¯æ¬¡è®¡ç®—éƒ½éœ€è¦åˆå§‹åŒ–çš„çŸ©é˜µå˜é‡
 	for (int i = 0; i < DOF3; i ++)
 	{
 		for (int j = 0; j < MAXDIM; j ++)
@@ -166,7 +166,7 @@ void NMPCcontroller::cal()
 		U[i] = 0.0;
 	}
 
-	//¼ÆËãq0¾ØÕó12x1
+	//è®¡ç®—q0çŸ©é˜µ12x1
 	q0[0]=x;
 	q0[1]=u*cos(psi)-v*sin(psi);
 	q0[2]=-u*r*sin(psi)-v*r*cos(psi)+a[0][0]*u*cos(psi)-a[1][1]*v*sin(psi)-a[1][2]*r*sin(psi);
@@ -188,7 +188,7 @@ void NMPCcontroller::cal()
 	q0[10]=a[2][1]*v+a[2][2]*r;
 	q0[11]=a[2][1]*a[1][1]*v+a[2][1]*a[1][2]*r+a[2][2]*a[2][1]*v+a[2][2]*a[2][2]*r;
 
-	//¼ÆËãq1¾ØÕó12x3
+	//è®¡ç®—q1çŸ©é˜µ12x3
 	q1[2][0]=b[0]*cos(psi);
 	q1[2][1]=-b[1]*sin(psi);
 	q1[2][2]=0;
@@ -214,7 +214,7 @@ void NMPCcontroller::cal()
 	q1[11][1]=a[2][1]*b[1];
 	q1[11][2]=a[2][2]*b[2];
 	
-	//¼ÆËãq1T¾ØÕó12x3
+	//è®¡ç®—q1TçŸ©é˜µ12x3
 	for (int i = 0; i < DOF3; i ++)
 	{
 		for (int j = 0; j < MAXDIM; j ++)
@@ -223,7 +223,7 @@ void NMPCcontroller::cal()
 		}
 	}
 
-	//¼ÆËãA=q1T¡ÁM¾ØÕó3x12
+	//è®¡ç®—A=q1TÃ—MçŸ©é˜µ3x12
 	for (int i = 0; i < DOF3; i ++)
 	{
 		for (int j = 0; j < MAXDIM; j ++)
@@ -235,7 +235,7 @@ void NMPCcontroller::cal()
 		}
 	}
 
-	//¼ÆËãB=q1T¡ÁM¡Áq1=A¡Áq1¾ØÕó3x3
+	//è®¡ç®—B=q1TÃ—MÃ—q1=AÃ—q1çŸ©é˜µ3x3
 	for (int i = 0; i < DOF3; i ++)
 	{
 		for (int j = 0; j < DOF3; j ++)
@@ -247,7 +247,7 @@ void NMPCcontroller::cal()
 		}
 	}
 
-	//¼ÆËãC=B+M3¾ØÕó3x3
+	//è®¡ç®—C=B+M3çŸ©é˜µ3x3
 	for (int i = 0; i < DOF3; i ++)
 	{
 		for (int j = 0; j < DOF3; j ++)
@@ -256,10 +256,10 @@ void NMPCcontroller::cal()
 		}
 	}
 
-	//¼ÆËã¾ØÕóCµÄÄæ
+	//è®¡ç®—çŸ©é˜µCçš„é€†
 	inv(C, invC);
 	
-	//¼ÆËãD=invC¡ÁA¾ØÕó3x12
+	//è®¡ç®—D=invCÃ—AçŸ©é˜µ3x12
 	for (int i = 0; i < DOF3; i ++)
 	{
 		for (int j = 0; j < MAXDIM; j ++)
@@ -273,13 +273,13 @@ void NMPCcontroller::cal()
 	}
 	outFile << endl;
 
-	//¼ÆËãF=q0-yd¾ØÕó12x1
+	//è®¡ç®—F=q0-ydçŸ©é˜µ12x1
 	for (int i = 0; i < MAXDIM; i ++)
 	{
 		F[i] = q0[i] - yd[i];
 	}
 
-	//¼ÆËãU= - DxF ¾ØÕó3x1
+	//è®¡ç®—U= - DxF çŸ©é˜µ3x1
 	for (int i = 0; i < DOF3; i ++)
 	{
 		for (int j = 0; j < MAXDIM; j ++)
@@ -288,7 +288,7 @@ void NMPCcontroller::cal()
 		}
 	}
 
-	//ÏÞÖÆÍÆ½øÆ÷µÄÍÆÁ¦ÓëÁ¦¾Ø
+	//é™åˆ¶æŽ¨è¿›å™¨çš„æŽ¨åŠ›ä¸ŽåŠ›çŸ©
 	for (int i = 0; i < DOF3; i ++)
 	{
 		if (lmtForce[i] < U[i])
@@ -306,13 +306,13 @@ void NMPCcontroller::cal()
 
 }
 
-//ÉèÖÃÔ¤²âÖÜÆÚ
+//è®¾ç½®é¢„æµ‹å‘¨æœŸ
 void NMPCcontroller::setT(const double period)
 {
 	T = period;
 }
 
-//ÉèÖÃÈ¨Öµ
+//è®¾ç½®æƒå€¼
 void NMPCcontroller::setWeight(const double lmd1, const double lmd2, const double lmd3)
 {
 	lambda[0] = lmd1;
@@ -320,7 +320,7 @@ void NMPCcontroller::setWeight(const double lmd1, const double lmd2, const doubl
 	lambda[2] = lmd3;
 }
 
-//ËÙ¶ÈÊäÈë
+//é€Ÿåº¦è¾“å…¥
 void NMPCcontroller::setNu( const Nu nu )
 {
 	u = nu.u;
@@ -328,7 +328,7 @@ void NMPCcontroller::setNu( const Nu nu )
 	r = nu.r;
 }
 
-//Î»ÖÃÊäÈë
+//ä½ç½®è¾“å…¥
 void NMPCcontroller::setEta( const Eta eta )
 {
 	x = eta.n;
@@ -336,7 +336,7 @@ void NMPCcontroller::setEta( const Eta eta )
 	psi = eta.psi;
 }
 
-//ÊäÈëÄ¿±êÎ»ÖÃ×ËÌ¬
+//è¾“å…¥ç›®æ ‡ä½ç½®å§¿æ€
 void NMPCcontroller::setTarget( const Eta eta )
 {
 	yd[0] = eta.n;
@@ -344,7 +344,7 @@ void NMPCcontroller::setTarget( const Eta eta )
 	yd[8] = eta.psi;
 }
 
-//ÊäÈëÍâ½ç¸ÉÈÅÁ¦
+//è¾“å…¥å¤–ç•Œå¹²æ‰°åŠ›
 void NMPCcontroller::setEnv(const Force3 forcEnv)
 {
 	env.xForce = forcEnv.xForce;
@@ -352,24 +352,24 @@ void NMPCcontroller::setEnv(const Force3 forcEnv)
 	env.nMoment = forcEnv.nMoment;
 }
 
-//¿ØÖÆÁ¦Êä³ö
+//æŽ§åˆ¶åŠ›è¾“å‡º
 Force6 NMPCcontroller::Force()
 {
 	return force;
 }
 
 //----------------------------------------------
-//¹¦ÄÜ£º²ÉÓÃ²¿·ÖÖ÷ÔªµÄ¸ßË¹ÏûÈ¥·¨Çó3x3·½ÕóAµÄÄæ¾ØÕóB
-//Èë¿Ú²ÎÊý£ºÊäÈë·½ÕóA£¬Êä³ö·½ÕóB,·½Õó½×Êýn
-//·µ»ØÖµ£ºtrue or false
+//åŠŸèƒ½ï¼šé‡‡ç”¨éƒ¨åˆ†ä¸»å…ƒçš„é«˜æ–¯æ¶ˆåŽ»æ³•æ±‚3x3æ–¹é˜µAçš„é€†çŸ©é˜µB
+//å…¥å£å‚æ•°ï¼šè¾“å…¥æ–¹é˜µAï¼Œè¾“å‡ºæ–¹é˜µB,æ–¹é˜µé˜¶æ•°n
+//è¿”å›žå€¼ï¼štrue or false
 //----------------------------------------------
 bool NMPCcontroller::inv(double (*A)[DOF3], double (*B)[DOF3])
 {
 	int i, j, k;
 	double max, temp;
-	double t[DOF3][DOF3];		//ÁÙÊ±¾ØÕó
+	double t[DOF3][DOF3];		//ä¸´æ—¶çŸ©é˜µ
 
-	//½«A¾ØÕó´æ·ÅÔÚÁÙÊ±¾ØÕót[][]ÖÐ
+	//å°†AçŸ©é˜µå­˜æ”¾åœ¨ä¸´æ—¶çŸ©é˜µt[][]ä¸­
 	for (i = 0; i < DOF3; i++)
 	{
 		for (j = 0; j < DOF3; j++)
@@ -377,7 +377,7 @@ bool NMPCcontroller::inv(double (*A)[DOF3], double (*B)[DOF3])
 			t[i][j] = A[i][j];
 		}
 	}
-	//³õÊ¼»¯B¾ØÕóÎªµ¥Î»Õó
+	//åˆå§‹åŒ–BçŸ©é˜µä¸ºå•ä½é˜µ
 	for (i = 0; i < DOF3; i++)
 	{
 		for (j = 0; j < DOF3; j++)
@@ -387,7 +387,7 @@ bool NMPCcontroller::inv(double (*A)[DOF3], double (*B)[DOF3])
 	}
 	for (i = 0; i < DOF3; i++)
 	{
-		//Ñ°ÕÒÖ÷Ôª
+		//å¯»æ‰¾ä¸»å…ƒ
 		max= t[i][i];
 		k= i;
 		for (j = i+1; j < DOF3; j++)
@@ -399,7 +399,7 @@ bool NMPCcontroller::inv(double (*A)[DOF3], double (*B)[DOF3])
 			}
 		}
 
-		//Èç¹ûÖ÷ÔªËùÔÚÐÐ²»×ãiÐÐ£¬½øÐÐÐÐ½»»»
+		//å¦‚æžœä¸»å…ƒæ‰€åœ¨è¡Œä¸è¶³iè¡Œï¼Œè¿›è¡Œè¡Œäº¤æ¢
 		if (k != i)
 		{
 			for (j = 0;j < DOF3;j++)
@@ -407,31 +407,31 @@ bool NMPCcontroller::inv(double (*A)[DOF3], double (*B)[DOF3])
 				temp= t[i][j];
 				t[i][j] = t[k][j];
 				t[k][j] =temp;
-				//B°éËæ½»»»
+				//Bä¼´éšäº¤æ¢
 				temp= B[i][j];
 				B[i][j] = B[k][j];
 				B[k][j] =temp;
 			}
 		}
-		//ÅÐ¶ÏÖ÷ÔªÊÇ·ñÎª0£¬ ÈôÊÇ£¬ Ôò¾ØÕóA²»ÊÇÂúÖÈ¾ØÕó£¬²»´æÔÚÄæ¾ØÕó
+		//åˆ¤æ–­ä¸»å…ƒæ˜¯å¦ä¸º0ï¼Œ è‹¥æ˜¯ï¼Œ åˆ™çŸ©é˜µAä¸æ˜¯æ»¡ç§©çŸ©é˜µï¼Œä¸å­˜åœ¨é€†çŸ©é˜µ
 		if (t[i][i] == 0)
 		{
 			cout <<"There is no inverse matrix!";
 			return false;
 		}
-		//ÏûÈ¥AµÄµÚiÁÐÖÐ³ýÈ¥iÐÐÒÔÍâµÄ¸÷ÐÐÔªËØ
+		//æ¶ˆåŽ»Açš„ç¬¬iåˆ—ä¸­é™¤åŽ»iè¡Œä»¥å¤–çš„å„è¡Œå…ƒç´ 
 		temp= t[i][i];
 		for (j = 0; j < DOF3; j++)
 		{
-			t[i][j] = t[i][j] / temp; //Ö÷Ö÷¶Ô½ÇÏßÉÏµÄÔªËØ±äÎª1
-			B[i][j] = B[i][j] / temp; //°éËæ¼ÆËã
+			t[i][j] = t[i][j] / temp; //ä¸»ä¸»å¯¹è§’çº¿ä¸Šçš„å…ƒç´ å˜ä¸º1
+			B[i][j] = B[i][j] / temp; //ä¼´éšè®¡ç®—
 		}
-		for (j = 0; j < DOF3; j++) //µÚ0ÐÐ->µÚDOF3-1ÐÐ
+		for (j = 0; j < DOF3; j++) //ç¬¬0è¡Œ->ç¬¬DOF3-1è¡Œ
 		{
-			if (j != i)			//²»ÊÇµÚiÐÐ
+			if (j != i)			//ä¸æ˜¯ç¬¬iè¡Œ
 			{
 				temp= t[j][i];
-				for (k = 0; k < DOF3; k ++)	//µÚjÐÐÔªËØ-iÐÐÔªËØ*µÚjÁÐiÐÐÔªËØ
+				for (k = 0; k < DOF3; k ++)	//ç¬¬jè¡Œå…ƒç´ -iè¡Œå…ƒç´ *ç¬¬jåˆ—iè¡Œå…ƒç´ 
 				{
 					t[j][k] = t[j][k]- t[i][k]*temp;
 					B[j][k] = B[j][k]- B[i][k]*temp;

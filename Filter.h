@@ -1,4 +1,4 @@
-/*****************************************************************
+ï»¿/*****************************************************************
 **				Project:	ShipControl(WOPC)					**
 **				Author:		Dong Shengwei						**
 **				Library:	BestSea								**
@@ -6,7 +6,7 @@
 ******************************************************************/
 
 //Filter.h
-//²Î¿¼fossenµÄ¡¶DP_ForceRAO.mdl¡·ÖĞPassive DP wave filter
+//å‚è€ƒfossençš„ã€ŠDP_ForceRAO.mdlã€‹ä¸­Passive DP wave filter
 
 #pragma once
 
