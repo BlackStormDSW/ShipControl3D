@@ -10,7 +10,6 @@
 #include "ShipGraph.h"
 
 #include <QMouseEvent>
-#include <QTimer>
 #include <math.h>
 #include <QDebug>
 
@@ -22,6 +21,10 @@ ShipGraph::ShipGraph(QWidget *parent)
     yRot = 0;
     zRot = 0;
 
+	xPoint = 0.0;
+	yPoint = 0.0;
+	zPoint = 0.0;
+
 	xPos = 0.0;
 	yPos = 0.0;
 	zPos = 0.0;
@@ -30,10 +33,6 @@ ShipGraph::ShipGraph(QWidget *parent)
 	psi = 0.0;
 
 	zoomScale = 1.0;
-
-    QTimer *timer = new QTimer(this);
-    connect(timer, SIGNAL(timeout()), this, SLOT(advanceGears()));
-    timer->start(20);
 }
 
 ShipGraph::~ShipGraph()
@@ -83,6 +82,13 @@ void ShipGraph::setZoom(int scale)
 	}
 }
 
+void ShipGraph::pointMove(double xMove, double yMove)
+{
+	xPoint = xMove;
+	yPoint = yMove;
+	updateGL();
+}
+
 void ShipGraph::shipEta(Eta eta)
 {
 	xPos = eta.n/10;
@@ -92,8 +98,6 @@ void ShipGraph::shipEta(Eta eta)
 	theta = eta.theta;
 	psi = eta.psi;
 
-	qDebug() << xPos << "\t" << yPos << "\t" << zPos << "\t" << phi << "\t" << theta << "\t" << psi << endl;
-
 	updateGL();
 }
 
@@ -101,7 +105,7 @@ void ShipGraph::initializeGL()
 {
     static const GLfloat lightPos[4] = { 5.0f, 5.0f, 10.0f, 1.0f };
     static const GLfloat reflectanceShip[4] = { 0.195f, 0.195f, 0.195f, 1.0f };
-    static const GLfloat reflectanceSea[4] = { 0.0f, 0.39f, 1.0f, 0.1f };
+    static const GLfloat reflectanceSea[4] = { 0.2f, 0.9f, 1.0f, 0.1f };
     static const GLfloat reflectanceGoal[4] = { 0.8f, 0.1f, 0.0f, 1.0f };
 
     glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
@@ -131,6 +135,8 @@ void ShipGraph::paintGL()
     glRotated(zRot / 16.0, 0.0, 0.0, 1.0);
 
 	glScaled(zoomScale, zoomScale, zoomScale);
+
+	glTranslated(xPoint, yPoint, zPoint);
 
     drawShip(ship, xPos, yPos, zPos, -phi * radToAng, -theta * radToAng, -psi * radToAng);
   /*  drawShip(sea, 0.0, 0.0, 0.0, 0.0 / 16.0);
@@ -166,18 +172,14 @@ void ShipGraph::mouseMoveEvent(QMouseEvent *event)
 
     if (event->buttons() & Qt::LeftButton) {
         setXRotation(xRot + 8 * dy);
-        setYRotation(yRot + 8 * dx);
+		setYRotation(yRot + 8 * dx);
     } else if (event->buttons() & Qt::RightButton) {
         setXRotation(xRot + 8 * dy);
-        setZRotation(zRot + 8 * dx);
-    }
+		setZRotation(zRot + 8 * dx);
+	} else if (event->buttons() & Qt::MiddleButton) {
+		pointMove(xPoint + 2 * dx / 100.0, yPoint - 2 * dy / 100.0);
+	}
     lastPos = event->pos();
-}
-
-void ShipGraph::advanceGears()
-{
-    phi += 2 * 16 * 0;
-    updateGL();
 }
 
 GLuint ShipGraph::makeShip(const GLfloat *reflectance, GLdouble width, GLdouble length, GLdouble scale)

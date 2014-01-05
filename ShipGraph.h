@@ -31,6 +31,8 @@ public slots:
 	void setZRotation(int angle);
 	void setZoom(int angle);
 
+	void pointMove(double xMove, double yMove);
+
 	void shipEta(Eta eta);
 
 signals:
@@ -45,9 +47,6 @@ protected:
     void resizeGL(int width, int height);
     void mousePressEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
-
-private slots:
-    void advanceGears();
 
 private:
     GLuint makeShip(const GLfloat *reflectance, GLdouble width, GLdouble length, GLdouble scale);
@@ -65,6 +64,9 @@ private:
     int xRot;
     int yRot;
     int zRot;
+
+	double xPoint, yPoint, zPoint;
+
     double xPos, yPos, zPos, phi, theta, psi;
 	double zoomScale;
 
