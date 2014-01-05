@@ -10,6 +10,7 @@
 #include "ShipGraph.h"
 
 #include <QMouseEvent>
+#include <QWheelEvent>
 #include <math.h>
 #include <QDebug>
 
@@ -180,6 +181,18 @@ void ShipGraph::mouseMoveEvent(QMouseEvent *event)
 		pointMove(xPoint + 2 * dx / 100.0, yPoint - 2 * dy / 100.0);
 	}
     lastPos = event->pos();
+}
+
+void ShipGraph::wheelEvent(QWheelEvent *event)
+{
+	scaleWheel = zoomScale*160 + event->angleDelta().y()/120*40;
+	if ( 16 > scaleWheel)
+	{
+		scaleWheel = 16;
+	} else if (50 * 16 < scaleWheel) {
+		scaleWheel = 50 * 16;
+	}
+	setZoom(scaleWheel);
 }
 
 GLuint ShipGraph::makeShip(const GLfloat *reflectance, GLdouble width, GLdouble length, GLdouble scale)

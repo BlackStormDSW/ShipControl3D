@@ -47,6 +47,7 @@ protected:
     void resizeGL(int width, int height);
     void mousePressEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
+	void wheelEvent(QWheelEvent *event);
 
 private:
     GLuint makeShip(const GLfloat *reflectance, GLdouble width, GLdouble length, GLdouble scale);
@@ -69,6 +70,8 @@ private:
 
     double xPos, yPos, zPos, phi, theta, psi;
 	double zoomScale;
+
+	int scaleWheel;
 
     QPoint lastPos;
 };
