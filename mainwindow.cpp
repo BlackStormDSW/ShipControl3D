@@ -17,12 +17,15 @@ using namespace std;
 #include "mainwindow.h"
 
 #include <QtWidgets>
+#include <QTimer>
 #include <QTextCodec>
 
 MainWindow::MainWindow()
 {
     centralWidget = new QWidget;
     setCentralWidget(centralWidget);
+
+	timer = new QTimer(this);
 
     shipPara = new ShipParameter;
     shipCtrl = new ShipControl;
@@ -64,7 +67,9 @@ MainWindow::MainWindow()
 	connect(shipWidget, SIGNAL(zoomChanged(int)), zoomSlider, SLOT(setValue(int)));
 
 	startButton = new QPushButton("Start");
-	connect(startButton, SIGNAL(clicked()), shipCtrl, SLOT(start()));
+	connect(startButton, SIGNAL(clicked()), this, SLOT(controlStart()));
+
+	connect(timer, SIGNAL(timeout()), this, SLOT(updateShip()));
 
     createActions();
     createMenus();
@@ -98,6 +103,12 @@ void MainWindow::about()
 void MainWindow::controlStart()
 {
     shipCtrl->start();
+	timer->start(20);
+}
+
+void MainWindow::updateShip()
+{
+	shipWidget->shipEta(shipCtrl->getEta());
 }
 
 void MainWindow::createActions()

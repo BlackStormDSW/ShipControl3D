@@ -18,6 +18,7 @@ class QMenu;
 class QScrollArea;
 class QSlider;
 class QPushButton;
+class QTimer;
 QT_END_NAMESPACE
 
 class ShipGraph;
@@ -34,6 +35,7 @@ public:
 private slots:
     void about();
     void controlStart();
+	void updateShip();
 
 private:
     void createActions();
@@ -47,6 +49,8 @@ private:
     QWidget *centralWidget;
     QScrollArea *glWidgetArea;
     ShipGraph *shipWidget;
+
+	QTimer *timer;
 
     QSlider *xSlider;
     QSlider *ySlider;

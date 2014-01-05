@@ -11,9 +11,8 @@
 
 #include <QMouseEvent>
 #include <QTimer>
-#include <QDebug>
-
 #include <math.h>
+#include <QDebug>
 
 ShipGraph::ShipGraph(QWidget *parent)
     : QGLWidget(parent)
@@ -22,7 +21,13 @@ ShipGraph::ShipGraph(QWidget *parent)
     xRot = 0;
     yRot = 0;
     zRot = 0;
-    gear1Rot = 0;
+
+	xPos = 0.0;
+	yPos = 0.0;
+	zPos = 0.0;
+	phi = 0.0;
+	theta = 0.0;
+	psi = 0.0;
 
 	zoomScale = 1.0;
 
@@ -71,12 +76,25 @@ void ShipGraph::setZRotation(int angle)
 
 void ShipGraph::setZoom(int scale)
 {
-	qDebug() << scale << endl;
 	if (fabs(static_cast<double>(scale)/160.0 - zoomScale) > 0.00001) {
 		zoomScale = static_cast<double>(scale)/160.0;
 		emit zoomChanged(scale);
 		updateGL();
 	}
+}
+
+void ShipGraph::shipEta(Eta eta)
+{
+	xPos = eta.n/10;
+	yPos = eta.e/10.0;
+	zPos = eta.d/10.0;
+	phi = eta.phi;
+	theta = eta.theta;
+	psi = eta.psi;
+
+	qDebug() << xPos << "\t" << yPos << "\t" << zPos << "\t" << phi << "\t" << theta << "\t" << psi << endl;
+
+	updateGL();
 }
 
 void ShipGraph::initializeGL()
@@ -114,9 +132,11 @@ void ShipGraph::paintGL()
 
 	glScaled(zoomScale, zoomScale, zoomScale);
 
-    drawShip(ship, 0.0, 0.0, 0.0, gear1Rot / 16.0);
-    drawShip(sea, 0.0, 0.0, 0.0, gear1Rot / 16.0);
-    drawShip(goal, 0.0, 0.0, 0.0, gear1Rot / 16.0);
+    drawShip(ship, xPos, yPos, zPos, phi * radToAng / 16.0, theta * radToAng / 16.0, psi * radToAng / 16.0);
+  /*  drawShip(sea, 0.0, 0.0, 0.0, 0.0 / 16.0);
+    drawShip(goal, 0.0, 0.0, 0.0, 0.0 / 16.0);*/
+	glCallList(sea);
+	glCallList(goal);
 
     glPopMatrix();
 }
@@ -156,7 +176,7 @@ void ShipGraph::mouseMoveEvent(QMouseEvent *event)
 
 void ShipGraph::advanceGears()
 {
-    gear1Rot += 2 * 16 * 0;
+    phi += 2 * 16 * 0;
     updateGL();
 }
 
@@ -375,13 +395,15 @@ GLuint ShipGraph::makeGoal(const GLfloat *reflectance, const GLdouble xPoint,  c
     return list;
 }
 
-void ShipGraph::drawShip(GLuint gear, GLdouble dx, GLdouble dy, GLdouble dz,
-                        GLdouble angle)
+void ShipGraph::drawShip(GLuint object, GLdouble dx, GLdouble dy, GLdouble dz,
+                        GLdouble phi, GLdouble theta, GLdouble psi)
 {
     glPushMatrix();
     glTranslated(dx, dy, dz);
-    glRotated(angle, 0.0, 0.0, 1.0);
-    glCallList(gear);
+	glRotated(phi, 1.0, 0.0, 0.0);
+	glRotated(theta, 0.0, 1.0, 0.0);
+	glRotated(psi, 0.0, 0.0, 1.0);
+    glCallList(object);
     glPopMatrix();
 }
 

@@ -11,6 +11,7 @@
 #define SHIPGRAPH_H
 
 #include <QGLWidget>
+#include "DataStruct.h"
 
 class ShipGraph : public QGLWidget
 {
@@ -29,6 +30,8 @@ public slots:
     void setYRotation(int angle);
 	void setZRotation(int angle);
 	void setZoom(int angle);
+
+	void shipEta(Eta eta);
 
 signals:
     void xRotationChanged(int angle);
@@ -51,7 +54,7 @@ private:
     GLuint makeSea(const GLfloat *reflectance);
     GLuint makeGoal(const GLfloat *reflectance, const GLdouble xPoint, const GLdouble yPoint, const GLdouble radius, GLdouble scale);
 
-    void drawShip(GLuint gear, GLdouble dx, GLdouble dy, GLdouble dz, GLdouble angle);
+	void drawShip(GLuint gear, GLdouble dx, GLdouble dy, GLdouble dz, GLdouble phi, GLdouble theta, GLdouble psi);
     void normalizeAngle(int *angle);
 
 	void normalizeXYAngle(int *angle);
@@ -62,7 +65,7 @@ private:
     int xRot;
     int yRot;
     int zRot;
-    int gear1Rot;
+    double xPos, yPos, zPos, phi, theta, psi;
 	double zoomScale;
 
     QPoint lastPos;

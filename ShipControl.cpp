@@ -532,6 +532,12 @@ void ShipControl::setParameter()
 	wopc.setPos(etaTarget);
 }
 
+//输出位置姿态
+Eta ShipControl::getEta()
+{
+	return eta;
+}
+
 //船舶控制运行
 void ShipControl::run()
 {	

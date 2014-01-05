@@ -47,7 +47,10 @@ public:
 	void userInterFace();
 
 	//设置参数
-    void setParameter();
+	void setParameter();
+
+	//输出位置姿态
+	Eta getEta();
 		
 	//重载<<操作符
 	friend ostream& operator << (ostream &os, const Eta &eta);
