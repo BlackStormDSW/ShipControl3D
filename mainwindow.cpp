@@ -8,9 +8,9 @@
 //mainwindow.cpp
 
 #include "ShipGraph.h"
-//#include "ShipControl.h"
-//#include "ShipParameter.h"
 #include "DataStruct.h"
+#include "ShipControl.h"
+#include "ShipParameter.h"
 #include <iostream>
 using namespace std;
 
@@ -24,20 +24,20 @@ MainWindow::MainWindow()
     centralWidget = new QWidget;
     setCentralWidget(centralWidget);
 
-//    shipPara = new ShipParameter;
-//    shipCtrl = new ShipControl;
+    shipPara = new ShipParameter;
+    shipCtrl = new ShipControl;
 
-//    shipPara->readMat("E:/Program/matlab_program/s175.mat");
+    shipPara->readMat("E:/Program/matlab_program/s175.mat");
 
-////    Data *shipData = new Data;
-////    shipData = &shipPara->getData();
+    Data *shipData = new Data;
+    shipData = &(shipPara->getData());
 
-////    shipCtrl.setData(shipData);
+    shipCtrl->setData(shipData);
 
-    glWidget = new ShipGraph;
+    shipWidget = new ShipGraph;
 
     glWidgetArea = new QScrollArea;
-    glWidgetArea->setWidget(glWidget);
+    glWidgetArea->setWidget(shipWidget);
     glWidgetArea->setWidgetResizable(true);
     glWidgetArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     glWidgetArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -51,22 +51,28 @@ MainWindow::MainWindow()
     zSlider = createSlider(SIGNAL(zRotationChanged(int)),
                            SLOT(setZRotation(int)));
 
+    startButton = new QPushButton("Start");
+//    connect(startButton, SIGNAL(clicked()), shipCtrl, SLOT(start()));
+
     createActions();
     createMenus();
 
     QGridLayout *centralLayout = new QGridLayout;
-    centralLayout->addWidget(glWidgetArea, 0, 0, 1, 2);
-    centralLayout->addWidget(xSlider, 1, 0, 1, 2);
-    centralLayout->addWidget(ySlider, 2, 0, 1, 2);
-    centralLayout->addWidget(zSlider, 3, 0, 1, 2);
+	QGridLayout *rightLayout = new QGridLayout;
+	centralLayout->addWidget(glWidgetArea, 0, 0, 1, 3);
+	centralLayout->addLayout(rightLayout, 0, 3, 1, 1);
+//    centralLayout->addWidget(startButton, 0, 2, 1,1);
+    centralLayout->addWidget(xSlider, 1, 0, 1, 4);
+    centralLayout->addWidget(ySlider, 2, 0, 1, 4);
+    centralLayout->addWidget(zSlider, 3, 0, 1, 4);
     centralWidget->setLayout(centralLayout);
 
     xSlider->setValue(15 * 16);
     ySlider->setValue(345 * 16);
     zSlider->setValue(0 * 16);
 
-    QTextCodec *codec = QTextCodec::codecForName("GB18030");
-    setWindowTitle(codec->toUnicode("船舶模拟器"));
+//    QTextCodec *codec = QTextCodec::codecForName("GB18030");
+//    setWindowTitle(codec->toUnicode("船舶模拟器"));
     resize(500, 600);
 }
 
@@ -75,6 +81,11 @@ void MainWindow::about()
     QMessageBox::about(this, tr("About Grabber"),
             tr("The <b>Grabber</b> example demonstrates two approaches for "
                "rendering OpenGL into a Qt pixmap."));
+}
+
+void MainWindow::controlStart()
+{
+    shipCtrl->start();
 }
 
 void MainWindow::createActions()
@@ -118,8 +129,8 @@ QSlider *MainWindow::createSlider(const char *changedSignal,
     slider->setPageStep(15 * 16);
     slider->setTickInterval(15 * 16);
     slider->setTickPosition(QSlider::TicksRight);
-    connect(slider, SIGNAL(valueChanged(int)), glWidget, setterSlot);
-    connect(glWidget, changedSignal, slider, SLOT(setValue(int)));
+    connect(slider, SIGNAL(valueChanged(int)), shipWidget, setterSlot);
+    connect(shipWidget, changedSignal, slider, SLOT(setValue(int)));
     return slider;
 }
 
@@ -129,8 +140,8 @@ QSize MainWindow::getSize()
     QString text = QInputDialog::getText(this, tr("Grabber"),
                                          tr("Enter pixmap size:"),
                                          QLineEdit::Normal,
-                                         tr("%1 x %2").arg(glWidget->width())
-                                                      .arg(glWidget->height()),
+                                         tr("%1 x %2").arg(shipWidget->width())
+                                                      .arg(shipWidget->height()),
                                          &ok);
     if (!ok)
         return QSize();
@@ -143,5 +154,5 @@ QSize MainWindow::getSize()
             return QSize(width, height);
     }
 
-    return glWidget->size();
+    return shipWidget->size();
 }

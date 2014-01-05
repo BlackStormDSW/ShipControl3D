@@ -1,4 +1,4 @@
-﻿/*****************************************************************
+/*****************************************************************
 **				Project:	ShipControl(WOPC)					**
 **				Author:		Dong Shengwei						**
 **				Library:	BestSea								**
@@ -20,7 +20,7 @@ public:
 	~ShipParameter(void);
 
 	//读取mat文件
-	void readMat(string fileName);
+    void readMat(std::string fileName);
 
 	//输出数据
 	Data getData();

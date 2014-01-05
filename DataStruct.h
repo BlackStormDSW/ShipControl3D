@@ -1,4 +1,4 @@
-﻿/*****************************************************************
+/*****************************************************************
 **				Project:	ShipControl(WOPC)					**
 **				Author:		Dong Shengwei						**
 **				Library:	BestSea								**
@@ -29,7 +29,7 @@ using namespace std;
 //弧度转角度系数
 #define radToAng (180/PI)
 //重力加速度
-#define g 9.81
+#define gravity 9.81
 //vesselABC中freqs数
 #define freqNum 1146
 //Hoerner数据的个数
@@ -86,7 +86,7 @@ struct Coord
 
 struct VesselMain
 {
-	string shipName;
+    std::string shipName;
 	double Lpp;
 	double T;
 	double B;

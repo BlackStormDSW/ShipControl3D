@@ -1,4 +1,4 @@
-﻿/*****************************************************************
+/*****************************************************************
 **				Project:	ShipControl(WOPC)					**
 **				Author:		Dong Shengwei						**
 **				Library:	BestSea								**
@@ -208,11 +208,11 @@ void Wave::calWave()
 				//Wave number
 				//if (DEPTH_MAX < depth)
 				//{
-				WaveNum[kId] = pow(Omega[kO], 2.0)/g;
+                WaveNum[kId] = pow(Omega[kO], 2.0)/gravity;
 				//cout << "wave num:\t" << kId << "\t" << WaveNum[kId] << endl;
 				//} else {
 				//下式为matlab程序，计算waveNum
-				//	//Wavenum(k) = fzero(@(w) w*tanh(w*depth) - Omega(k)^2/g,[wavenum_0,1E10]);
+                //	//Wavenum(k) = fzero(@(w) w*tanh(w*depth) - Omega(k)^2/gravity,[wavenum_0,1E10]);
 				//}
 
 				//Direction
@@ -451,7 +451,7 @@ double Wave::waveSpec(double Hs, double T0, double omega)
 	double A, B, Sw;	//T1为谱心周期
 
 	//Pierson-Moskowitz 
-	//A = 0.0081*pow(g, 2);
+    //A = 0.0081*pow(gravity, 2);
 	//B = 3.11/pow(Hs, 2);
 	//m0 = A/(4*B);
 	//m1 = (1.0/3.0)*A/pow(B,0.75)*0.91906;

@@ -17,6 +17,7 @@ class QLabel;
 class QMenu;
 class QScrollArea;
 class QSlider;
+class QPushButton;
 QT_END_NAMESPACE
 
 class ShipGraph;
@@ -32,6 +33,7 @@ public:
 
 private slots:
     void about();
+    void controlStart();
 
 private:
     void createActions();
@@ -44,11 +46,14 @@ private:
 
     QWidget *centralWidget;
     QScrollArea *glWidgetArea;
-    ShipGraph *glWidget;
-    QLabel *pixmapLabel;
+    ShipGraph *shipWidget;
+
     QSlider *xSlider;
     QSlider *ySlider;
-    QSlider *zSlider;
+	QSlider *zSlider;
+	QSlider *zoomSlider;
+
+    QPushButton *startButton;
 
     QMenu *fileMenu;
     QMenu *helpMenu;

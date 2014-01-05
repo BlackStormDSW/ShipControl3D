@@ -20,7 +20,7 @@ tStep(0.05), time(0)
 	init();	
 
 	//用户进行初始化
-	userInterFace();
+    userInterFace();
 
 	//初始化环境的信息
 	wind.setPara(SpeedWind, DirWind);
@@ -190,306 +190,306 @@ void ShipControl::closeFiles()
 //用户接口
 void ShipControl::userInterFace()
 {
-    QTextStream out(stdout);
+//    QTextStream out(stdout);
 
-    out << "※※动力定位控制仿真※※\n\n\n";
+//    out << "※※动力定位控制仿真※※\n\n\n";
 
-    out << "★请设置环境参数：\n";
+//    out << "★请设置环境参数：\n";
 
-    out << "\t风速(默认为" << SpeedWind << "m/s) = ";
+//    out << "\t风速(默认为" << SpeedWind << "m/s) = ";
 
-	gets_s(SpeedWindStr, 20);
-	valueStr = strtod(SpeedWindStr, &SpeedWindStrEnd);
-	SpeedWind = (SpeedWindStrEnd == SpeedWindStr) ? SpeedWind : valueStr;
+//	gets_s(SpeedWindStr, 20);
+//	valueStr = strtod(SpeedWindStr, &SpeedWindStrEnd);
+//	SpeedWind = (SpeedWindStrEnd == SpeedWindStr) ? SpeedWind : valueStr;
 
-    out << "\t风向(默认为" << DirWind << "°) = ";
+//    out << "\t风向(默认为" << DirWind << "°) = ";
 
-	gets_s(DirWindStr, 20);
-	valueStr = strtod(DirWindStr, &DirWindStrEnd);
-	DirWind = (DirWindStrEnd == DirWindStr) ? DirWind : valueStr;
+//	gets_s(DirWindStr, 20);
+//	valueStr = strtod(DirWindStr, &DirWindStrEnd);
+//	DirWind = (DirWindStrEnd == DirWindStr) ? DirWind : valueStr;
 
-    out << "\t浪高(默认为" << HeightWave << "m) = ";
+//    out << "\t浪高(默认为" << HeightWave << "m) = ";
 
-	gets_s(HeightWaveStr, 20);
-	valueStr = strtod(HeightWaveStr, &HeightWaveStrEnd);
-	HeightWave = (HeightWaveStrEnd == HeightWaveStr) ? HeightWave : valueStr;
+//	gets_s(HeightWaveStr, 20);
+//	valueStr = strtod(HeightWaveStr, &HeightWaveStrEnd);
+//	HeightWave = (HeightWaveStrEnd == HeightWaveStr) ? HeightWave : valueStr;
 
-    out << "\t浪向(默认为" << DirWave << "°) = ";
+//    out << "\t浪向(默认为" << DirWave << "°) = ";
 
-	gets_s(DirWaveStr, 20);
-	valueStr = strtod(DirWaveStr, &DirWaveStrEnd);
-	DirWave = (DirWaveStrEnd == DirWaveStr) ? DirWave : valueStr;
+//	gets_s(DirWaveStr, 20);
+//	valueStr = strtod(DirWaveStr, &DirWaveStrEnd);
+//	DirWave = (DirWaveStrEnd == DirWaveStr) ? DirWave : valueStr;
 
-    out << "\t流速(默认为" << SpeedCurrent << "m/s) = ";
+//    out << "\t流速(默认为" << SpeedCurrent << "m/s) = ";
 
-	gets_s(SpeedCurrentStr, 20);
-	valueStr = strtod(SpeedCurrentStr, &SpeedCurrentStrEnd);
-	SpeedCurrent = (SpeedCurrentStrEnd == SpeedCurrentStr) ? SpeedCurrent : valueStr;
+//	gets_s(SpeedCurrentStr, 20);
+//	valueStr = strtod(SpeedCurrentStr, &SpeedCurrentStrEnd);
+//	SpeedCurrent = (SpeedCurrentStrEnd == SpeedCurrentStr) ? SpeedCurrent : valueStr;
 
-    out << "\t流向(默认为" << DirCurrent << "°) = ";
+//    out << "\t流向(默认为" << DirCurrent << "°) = ";
 
-	gets_s(DirCurrentStr, 20);
-	valueStr = strtod(DirCurrentStr, &DirCurrentStrEnd);
-	DirCurrent = (DirCurrentStrEnd == DirCurrentStr) ? DirCurrent : valueStr;
+//	gets_s(DirCurrentStr, 20);
+//	valueStr = strtod(DirCurrentStr, &DirCurrentStrEnd);
+//	DirCurrent = (DirCurrentStrEnd == DirCurrentStr) ? DirCurrent : valueStr;
 
-    out << "\n★请设置船舶在动力定位过程中的初始位置艏向与目标位置艏向：" << "\n";
+//    out << "\n★请设置船舶在动力定位过程中的初始位置艏向与目标位置艏向：" << "\n";
 
-    out << "\t初始北位置(默认为" << xOrigin << "m) = ";
+//    out << "\t初始北位置(默认为" << xOrigin << "m) = ";
 
-	gets_s(xOriginStr, 20);
-	valueStr = strtod(xOriginStr, &xOriginStrEnd);
-	xOrigin = (xOriginStrEnd == xOriginStr) ? xOrigin : valueStr;
+//	gets_s(xOriginStr, 20);
+//	valueStr = strtod(xOriginStr, &xOriginStrEnd);
+//	xOrigin = (xOriginStrEnd == xOriginStr) ? xOrigin : valueStr;
 
-    out << "\t初始东位置(默认为" << yOrigin << "m) = ";
+//    out << "\t初始东位置(默认为" << yOrigin << "m) = ";
 
-	gets_s(yOriginStr, 20);
-	valueStr = strtod(yOriginStr, &yOriginStrEnd);
-	yOrigin = (yOriginStrEnd == yOriginStr) ? yOrigin : valueStr;
+//	gets_s(yOriginStr, 20);
+//	valueStr = strtod(yOriginStr, &yOriginStrEnd);
+//	yOrigin = (yOriginStrEnd == yOriginStr) ? yOrigin : valueStr;
 
-    out << "\t初始艏向(默认为" << psiOrigin << "°) = ";
+//    out << "\t初始艏向(默认为" << psiOrigin << "°) = ";
 
-	gets_s(PsiOriginStr, 20);
-	valueStr = strtod(PsiOriginStr, &PsiOriginStrEnd);
-	psiOrigin = (PsiOriginStrEnd == PsiOriginStr) ? psiOrigin : valueStr;
+//	gets_s(PsiOriginStr, 20);
+//	valueStr = strtod(PsiOriginStr, &PsiOriginStrEnd);
+//	psiOrigin = (PsiOriginStrEnd == PsiOriginStr) ? psiOrigin : valueStr;
 
-    out << "\n";
+//    out << "\n";
 
-    out << "\t目标北位置(默认为" << xTarget << "m) = ";
+//    out << "\t目标北位置(默认为" << xTarget << "m) = ";
 
-	gets_s(xTargStr, 20);
-	valueStr = strtod(xTargStr, &xTargStrEnd);
-	xTarget = (xTargStrEnd == xTargStr) ? xTarget : valueStr;
+//	gets_s(xTargStr, 20);
+//	valueStr = strtod(xTargStr, &xTargStrEnd);
+//	xTarget = (xTargStrEnd == xTargStr) ? xTarget : valueStr;
 
-    out << "\t目标东位置(默认为" << yTarget << "m) = ";
+//    out << "\t目标东位置(默认为" << yTarget << "m) = ";
 
-	gets_s(yTargStr, 20);
-	valueStr = strtod(yTargStr, &yTargStrEnd);
-	yTarget = (yTargStrEnd == yTargStr) ? yTarget : valueStr;
+//	gets_s(yTargStr, 20);
+//	valueStr = strtod(yTargStr, &yTargStrEnd);
+//	yTarget = (yTargStrEnd == yTargStr) ? yTarget : valueStr;
 
-    out << "\t目标艏向(默认为" << psiTarget << "°) = ";
+//    out << "\t目标艏向(默认为" << psiTarget << "°) = ";
 
-	gets_s(PsiTargStr, 20);
-	valueStr = strtod(PsiTargStr, &PsiTargStrEnd);
-	psiTarget = (PsiTargStrEnd == PsiTargStr) ? psiTarget : valueStr;
+//	gets_s(PsiTargStr, 20);
+//	valueStr = strtod(PsiTargStr, &PsiTargStrEnd);
+//	psiTarget = (PsiTargStrEnd == PsiTargStr) ? psiTarget : valueStr;
 
-    out << "\n★请选择动力定位任务类型(1.常规动力定位；2.环境最优动力定位)：" << "\n";
+//    out << "\n★请选择动力定位任务类型(1.常规动力定位；2.环境最优动力定位)：" << "\n";
 
-	do 
-	{
-        out << "\t默认任务类型为 1.常规动力定位。\n\t请输入任务类型代码： ";
+//	do
+//	{
+//        out << "\t默认任务类型为 1.常规动力定位。\n\t请输入任务类型代码： ";
 
-		cin.get(dpFlagStr, 20);
-		cin.get();
+//		cin.get(dpFlagStr, 20);
+//		cin.get();
 
-		dpFlag = ( 0 != atoi(dpFlagStr))? atoi(dpFlagStr) : 1;
+//		dpFlag = ( 0 != atoi(dpFlagStr))? atoi(dpFlagStr) : 1;
 
-		if (1 != dpFlag && 2 != dpFlag)
-		{
-            out << "\t¤¤输入有误，请确认后再次输入！" << "\n";
-		}
-	} while (1 != dpFlag && 2 != dpFlag);
+//		if (1 != dpFlag && 2 != dpFlag)
+//		{
+//            out << "\t¤¤输入有误，请确认后再次输入！" << "\n";
+//		}
+//	} while (1 != dpFlag && 2 != dpFlag);
 
-    out << "\n★请选择动力定位控制器类型(1.PID控制器；2.非线性模型预测控制器)：" << "\n";
+//    out << "\n★请选择动力定位控制器类型(1.PID控制器；2.非线性模型预测控制器)：" << "\n";
 
-	do 
-	{
-        out << "\t默认控制器类型为 1.PID控制器。\n\t请输入控制器类型代码： ";
+//	do
+//	{
+//        out << "\t默认控制器类型为 1.PID控制器。\n\t请输入控制器类型代码： ";
 
-		cin.get(ctlFlagStr, 20);
-		cin.get();
+//		cin.get(ctlFlagStr, 20);
+//		cin.get();
 
-		ctlFlag = ( 0 != atoi(ctlFlagStr))? atoi(ctlFlagStr) : 1;
+//		ctlFlag = ( 0 != atoi(ctlFlagStr))? atoi(ctlFlagStr) : 1;
 
-		if (1 != ctlFlag && 2 != ctlFlag)
-		{
-            out << "\t¤¤输入有误，请确认后再次输入！" << "\n";
-		}
-	} while (1 != ctlFlag && 2 != ctlFlag);
+//		if (1 != ctlFlag && 2 != ctlFlag)
+//		{
+//            out << "\t¤¤输入有误，请确认后再次输入！" << "\n";
+//		}
+//	} while (1 != ctlFlag && 2 != ctlFlag);
 
-	//设置DP控制器参数
-	switch (ctlFlag)
-	{
-	case 1:
-        out << "\n★请输入PID控制器的参数" << "\n";
+//	//设置DP控制器参数
+//	switch (ctlFlag)
+//	{
+//	case 1:
+//        out << "\n★请输入PID控制器的参数" << "\n";
 
-        out << "\tKp(默认为" << kp << ") = ";
+//        out << "\tKp(默认为" << kp << ") = ";
 
-		gets_s(kpStr, 20);
-		valueStr = strtod(kpStr, &kpStrEnd);
-		kp = (kpStrEnd == kpStr) ? kp : valueStr;
+//		gets_s(kpStr, 20);
+//		valueStr = strtod(kpStr, &kpStrEnd);
+//		kp = (kpStrEnd == kpStr) ? kp : valueStr;
 
-        out << "\n\tKi(默认为" << ki << ") = ";
+//        out << "\n\tKi(默认为" << ki << ") = ";
 
-		gets_s(kiStr, 20);
-		valueStr = strtod(kiStr, &kiStrEnd);
-		ki = (kiStrEnd == kiStr) ? ki : valueStr;
+//		gets_s(kiStr, 20);
+//		valueStr = strtod(kiStr, &kiStrEnd);
+//		ki = (kiStrEnd == kiStr) ? ki : valueStr;
 
-        out << "n\tKd(默认为" << kd << ") = ";
+//        out << "n\tKd(默认为" << kd << ") = ";
 
-		gets_s(kdStr, 20);
-		valueStr = strtod(kdStr, &kdStrEnd);
-		kd = (kdStrEnd == kdStr) ? kd : valueStr;
+//		gets_s(kdStr, 20);
+//		valueStr = strtod(kdStr, &kdStrEnd);
+//		kd = (kdStrEnd == kdStr) ? kd : valueStr;
 
-		break;
-	case 2:
-        out << "\n★请输入NMPC控制器的参数" << "\n";
+//		break;
+//	case 2:
+//        out << "\n★请输入NMPC控制器的参数" << "\n";
 
-        out << "\t预测周期T(默认为" << Tpre << ") = ";
+//        out << "\t预测周期T(默认为" << Tpre << ") = ";
 
-		gets_s(tStr, 20);
-		valueStr = strtod(tStr, &tStrEnd);
-		Tpre = (tStrEnd == tStr) ? Tpre : valueStr;
+//		gets_s(tStr, 20);
+//		valueStr = strtod(tStr, &tStrEnd);
+//		Tpre = (tStrEnd == tStr) ? Tpre : valueStr;
 
-        out << "\t权值w1(默认为" << w1 << ") = ";
+//        out << "\t权值w1(默认为" << w1 << ") = ";
 
-		gets_s(w1Str, 20);
-		valueStr = strtod(w1Str, &w1StrEnd);
-		w1 = (w1StrEnd == w1Str) ? w1 : valueStr;
+//		gets_s(w1Str, 20);
+//		valueStr = strtod(w1Str, &w1StrEnd);
+//		w1 = (w1StrEnd == w1Str) ? w1 : valueStr;
 
-        out << "\t权值w2(默认为" << w2 << ") = ";
+//        out << "\t权值w2(默认为" << w2 << ") = ";
 
-		gets_s(w2Str, 20);
-		valueStr = strtod(w2Str, &w2StrEnd);
-		w2 = (w2StrEnd == w2Str) ? w2 : valueStr;
-
-        out << "\t权值w3(默认为" << w3 << ") = ";
-
-		gets_s(w3Str, 20);
-		valueStr = strtod(w3Str, &w3StrEnd);
-		w3 = (w3StrEnd == w3Str) ? w3 : valueStr;
-
-		break;
-	default:
-		break;
-	}
-
-	//设置环境最优艏向控制的参数
-	if (2 == dpFlag)
-	{
-    out << "\n★请选择环境最优动力定位控制策略\n"
-		<< "\t(1.WOPC与ZPC-W结合后的环境最优动力定位控制策略;\n"
-		<< "\t2.WOPC借用环境估计的环境最优动力定位控制策略;\n"
-        << "\t3.ZPC-W环境最优动力定位控制策略)：" << "\n";
-
-	do 
-	{
-        out << "\t默认控制策略为 1.WOPC与ZPC-W结合后的环境最优动力定位控制策略。\n"
-			<< "\t请输入控制策略代码： ";
-
-		cin.get(wopcFlagStr, 20);
-		cin.get();
-
-		wopcFlag = ( 0 != atoi(wopcFlagStr))? atoi(wopcFlagStr) : 1;
-
-		if (1 != wopcFlag && 2 != wopcFlag && 3 != wopcFlag)
-		{
-            out << "\t¤¤输入有误，请确认后再次输入！" << "\n";
-		}
-	} while (1 != wopcFlag && 2 != wopcFlag && 3 != wopcFlag);
-
-		switch (wopcFlag)
-		{
-		case 1:
-			break;
-		case 2:
-			break;
-		case 3:
-            out << "\n★请输入ZPC-W环境最优艏向控制器的参数" << "\n";
-
-            out << "\tKpZ(默认为" << kpZ << ") = ";
-
-			gets_s(kpZStr, 20);
-			valueStr = strtod(kpZStr, &kpZStrEnd);
-			kpZ = (kpZStrEnd == kpZStr) ? kpZ : valueStr;
-
-            out << "\tKiZ(默认为" << kiZ << ") = ";
-
-			gets_s(kiZStr, 20);
-			valueStr = strtod(kiZStr, &kiZStrEnd);
-			kiZ = (kiZStrEnd == kiZStr) ? kiZ : valueStr;
-
-            out << "\tKdZ(默认为" << kdZ << ") = ";
-
-			gets_s(kdZStr, 20);
-			valueStr = strtod(kdZStr, &kdZStrEnd);
-			kdZ = (kdZStrEnd == kdZStr) ? kdZ : valueStr;
-
-			break;
-		default:
-			break;
-		}
-	}
-
-
-    out << "\n正在进行计算，请稍等..." << "\n";
-
-	paraFile << "※※船舶动力定位过程中各参数信息※※\n";
-	paraFile << "船舶初始位置与艏向为： (" << xOrigin << "m, " << yOrigin << "m, " << psiOrigin << "°).\n";
-	paraFile << "船舶目标位置与艏向为： (" << xTarget << "m, " << yTarget << "m, " << psiTarget << "°).\n";
-
-	paraFile << "★环境参数★\n";
-	paraFile << "风速为： " << SpeedWind << "m/s, " << "风向为： " << DirWind << "°.\n";
-	paraFile << "浪高为： " << HeightWave << "m, " << "浪向为： " << DirWave << "°.\n";
-	paraFile << "流速为： " << SpeedCurrent << "m/s, " << "流向为： " << DirCurrent << "°.\n";
-
-	paraFile << "★动力定位任务类型★\n";
-	switch (dpFlag)
-	{
-	case 1:
-		paraFile << "常规动力定位\n";
-		break;
-	case 2:
-		paraFile << "环境最优动力定位\n";
-		break;
-	default:
-		break;
-	}
-
-    paraFile << "★动力定位控制器类型★" << "\n";
-	switch (dpFlag)
-	{
-	case 1:
-        paraFile << "\tPID控制器" << "\n" << "\n";
-		paraFile << "★PID控制器参数★\n";
-        paraFile << "\tKp = " << kp << "\n";
-        paraFile << "\tKi = " << ki << "\n";
-        paraFile << "\tKd = " << kd << "\n";
-        paraFile << "\n";
-		break;
-	case 2:
-        paraFile << "\t非线性模型预测控制器" << "\n" << "\n";
-		paraFile << "★非线性模型预测控制器参数★\n";
-        paraFile << "\tT = " << Tpre << "\n";
-        paraFile << "\tw1 = " << w1 << "\n";
-        paraFile << "\tw2 = " << w2 << "\n";
-        paraFile << "\tw3 = " << w3 << "\n";
-        paraFile << "\n";
-		break;
-	default:
-		break;
-	}
+//		gets_s(w2Str, 20);
+//		valueStr = strtod(w2Str, &w2StrEnd);
+//		w2 = (w2StrEnd == w2Str) ? w2 : valueStr;
+
+//        out << "\t权值w3(默认为" << w3 << ") = ";
+
+//		gets_s(w3Str, 20);
+//		valueStr = strtod(w3Str, &w3StrEnd);
+//		w3 = (w3StrEnd == w3Str) ? w3 : valueStr;
+
+//		break;
+//	default:
+//		break;
+//	}
+
+//	//设置环境最优艏向控制的参数
+//	if (2 == dpFlag)
+//	{
+//    out << "\n★请选择环境最优动力定位控制策略\n"
+//		<< "\t(1.WOPC与ZPC-W结合后的环境最优动力定位控制策略;\n"
+//		<< "\t2.WOPC借用环境估计的环境最优动力定位控制策略;\n"
+//        << "\t3.ZPC-W环境最优动力定位控制策略)：" << "\n";
+
+//	do
+//	{
+//        out << "\t默认控制策略为 1.WOPC与ZPC-W结合后的环境最优动力定位控制策略。\n"
+//			<< "\t请输入控制策略代码： ";
+
+//		cin.get(wopcFlagStr, 20);
+//		cin.get();
+
+//		wopcFlag = ( 0 != atoi(wopcFlagStr))? atoi(wopcFlagStr) : 1;
+
+//		if (1 != wopcFlag && 2 != wopcFlag && 3 != wopcFlag)
+//		{
+//            out << "\t¤¤输入有误，请确认后再次输入！" << "\n";
+//		}
+//	} while (1 != wopcFlag && 2 != wopcFlag && 3 != wopcFlag);
+
+//		switch (wopcFlag)
+//		{
+//		case 1:
+//			break;
+//		case 2:
+//			break;
+//		case 3:
+//            out << "\n★请输入ZPC-W环境最优艏向控制器的参数" << "\n";
+
+//            out << "\tKpZ(默认为" << kpZ << ") = ";
+
+//			gets_s(kpZStr, 20);
+//			valueStr = strtod(kpZStr, &kpZStrEnd);
+//			kpZ = (kpZStrEnd == kpZStr) ? kpZ : valueStr;
+
+//            out << "\tKiZ(默认为" << kiZ << ") = ";
+
+//			gets_s(kiZStr, 20);
+//			valueStr = strtod(kiZStr, &kiZStrEnd);
+//			kiZ = (kiZStrEnd == kiZStr) ? kiZ : valueStr;
+
+//            out << "\tKdZ(默认为" << kdZ << ") = ";
+
+//			gets_s(kdZStr, 20);
+//			valueStr = strtod(kdZStr, &kdZStrEnd);
+//			kdZ = (kdZStrEnd == kdZStr) ? kdZ : valueStr;
+
+//			break;
+//		default:
+//			break;
+//		}
+//	}
+
+
+//    out << "\n正在进行计算，请稍等..." << "\n";
+
+//	paraFile << "※※船舶动力定位过程中各参数信息※※\n";
+//	paraFile << "船舶初始位置与艏向为： (" << xOrigin << "m, " << yOrigin << "m, " << psiOrigin << "°).\n";
+//	paraFile << "船舶目标位置与艏向为： (" << xTarget << "m, " << yTarget << "m, " << psiTarget << "°).\n";
+
+//	paraFile << "★环境参数★\n";
+//	paraFile << "风速为： " << SpeedWind << "m/s, " << "风向为： " << DirWind << "°.\n";
+//	paraFile << "浪高为： " << HeightWave << "m, " << "浪向为： " << DirWave << "°.\n";
+//	paraFile << "流速为： " << SpeedCurrent << "m/s, " << "流向为： " << DirCurrent << "°.\n";
+
+//	paraFile << "★动力定位任务类型★\n";
+//	switch (dpFlag)
+//	{
+//	case 1:
+//		paraFile << "常规动力定位\n";
+//		break;
+//	case 2:
+//		paraFile << "环境最优动力定位\n";
+//		break;
+//	default:
+//		break;
+//	}
+
+//    paraFile << "★动力定位控制器类型★" << "\n";
+//	switch (dpFlag)
+//	{
+//	case 1:
+//        paraFile << "\tPID控制器" << "\n" << "\n";
+//		paraFile << "★PID控制器参数★\n";
+//        paraFile << "\tKp = " << kp << "\n";
+//        paraFile << "\tKi = " << ki << "\n";
+//        paraFile << "\tKd = " << kd << "\n";
+//        paraFile << "\n";
+//		break;
+//	case 2:
+//        paraFile << "\t非线性模型预测控制器" << "\n" << "\n";
+//		paraFile << "★非线性模型预测控制器参数★\n";
+//        paraFile << "\tT = " << Tpre << "\n";
+//        paraFile << "\tw1 = " << w1 << "\n";
+//        paraFile << "\tw2 = " << w2 << "\n";
+//        paraFile << "\tw3 = " << w3 << "\n";
+//        paraFile << "\n";
+//		break;
+//	default:
+//		break;
+//	}
 	
-	if (2 == dpFlag)
-	{
-		switch (wopcFlag)
-		{
-		case 1:
-            paraFile << "★ZPC-W环境最优艏向控制器的参数★" << "\n";
-            paraFile << "\tKpZ = " << kpZ << "\n";
-            paraFile << "\tKiZ = " << kiZ << "\n";
-            paraFile << "\tKdZ = " << kdZ << "\n";
-            paraFile << "\n";
-			break;
-		case 2:
-			break;
-		case 3:
-			break;
-		default:
-			break;
-		}
+//	if (2 == dpFlag)
+//	{
+//		switch (wopcFlag)
+//		{
+//		case 1:
+//            paraFile << "★ZPC-W环境最优艏向控制器的参数★" << "\n";
+//            paraFile << "\tKpZ = " << kpZ << "\n";
+//            paraFile << "\tKiZ = " << kiZ << "\n";
+//            paraFile << "\tKdZ = " << kdZ << "\n";
+//            paraFile << "\n";
+//			break;
+//		case 2:
+//			break;
+//		case 3:
+//			break;
+//		default:
+//			break;
+//		}
 
-	}
-    targetFile << xTarget << "\t" << yTarget << "\n";
+//	}
+//    targetFile << xTarget << "\t" << yTarget << "\n";
 
 	setParameter();
 }
