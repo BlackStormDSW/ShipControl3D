@@ -49,27 +49,36 @@ MainWindow::MainWindow()
     ySlider = createSlider(SIGNAL(yRotationChanged(int)),
                            SLOT(setYRotation(int)));
     zSlider = createSlider(SIGNAL(zRotationChanged(int)),
-                           SLOT(setZRotation(int)));
+						   SLOT(setZRotation(int)));
 
-    startButton = new QPushButton("Start");
-//    connect(startButton, SIGNAL(clicked()), shipCtrl, SLOT(start()));
+	zoomSlider = new QSlider(Qt::Vertical);
+	zoomSlider->setRange(0, 50 * 16);
+	zoomSlider->setSingleStep(16);
+	zoomSlider->setPageStep(10*16);
+	zoomSlider->setTickInterval(10*16);
+	zoomSlider->setTickPosition(QSlider::TicksRight);
+	connect(zoomSlider, SIGNAL(valueChanged(int)), shipWidget, SLOT(setZoom(int)));
+	connect(shipWidget, SIGNAL(zoomChanged(int)), zoomSlider, SLOT(setValue(int)));
+
+	startButton = new QPushButton("Start");
+	connect(startButton, SIGNAL(clicked()), shipCtrl, SLOT(start()));
 
     createActions();
     createMenus();
 
     QGridLayout *centralLayout = new QGridLayout;
-	QGridLayout *rightLayout = new QGridLayout;
-	centralLayout->addWidget(glWidgetArea, 0, 0, 1, 3);
-	centralLayout->addLayout(rightLayout, 0, 3, 1, 1);
-//    centralLayout->addWidget(startButton, 0, 2, 1,1);
-    centralLayout->addWidget(xSlider, 1, 0, 1, 4);
-    centralLayout->addWidget(ySlider, 2, 0, 1, 4);
-    centralLayout->addWidget(zSlider, 3, 0, 1, 4);
+	centralLayout->addWidget(glWidgetArea, 0, 0, 3, 3);
+	centralLayout->addWidget(startButton, 0, 3, 1, 1);
+	centralLayout->addWidget(zoomSlider, 1, 3, 2, 1);
+    centralLayout->addWidget(xSlider, 3, 0, 1, 4);
+    centralLayout->addWidget(ySlider, 4, 0, 1, 4);
+    centralLayout->addWidget(zSlider, 5, 0, 1, 4);
     centralWidget->setLayout(centralLayout);
 
     xSlider->setValue(15 * 16);
     ySlider->setValue(345 * 16);
-    zSlider->setValue(0 * 16);
+	zSlider->setValue(0 * 16);
+	zoomSlider->setValue(10 * 16);
 
 //    QTextCodec *codec = QTextCodec::codecForName("GB18030");
 //    setWindowTitle(codec->toUnicode("船舶模拟器"));

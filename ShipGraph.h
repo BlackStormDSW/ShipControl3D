@@ -27,12 +27,14 @@ public:
 public slots:
     void setXRotation(int angle);
     void setYRotation(int angle);
-    void setZRotation(int angle);
+	void setZRotation(int angle);
+	void setZoom(int angle);
 
 signals:
     void xRotationChanged(int angle);
     void yRotationChanged(int angle);
-    void zRotationChanged(int angle);
+	void zRotationChanged(int angle);
+	void zoomChanged(int scale);
 
 protected:
     void initializeGL();
@@ -59,6 +61,7 @@ private:
     int yRot;
     int zRot;
     int gear1Rot;
+	double zoomScale;
 
     QPoint lastPos;
 };

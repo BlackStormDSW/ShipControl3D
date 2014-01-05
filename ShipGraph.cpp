@@ -11,6 +11,7 @@
 
 #include <QMouseEvent>
 #include <QTimer>
+#include <QDebug>
 
 #include <math.h>
 
@@ -22,6 +23,8 @@ ShipGraph::ShipGraph(QWidget *parent)
     yRot = 0;
     zRot = 0;
     gear1Rot = 0;
+
+	zoomScale = 1.0;
 
     QTimer *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(advanceGears()));
@@ -66,6 +69,16 @@ void ShipGraph::setZRotation(int angle)
     }
 }
 
+void ShipGraph::setZoom(int scale)
+{
+	qDebug() << scale << endl;
+	if (fabs(static_cast<double>(scale)/160.0 - zoomScale) > 0.00001) {
+		zoomScale = static_cast<double>(scale)/160.0;
+		emit zoomChanged(scale);
+		updateGL();
+	}
+}
+
 void ShipGraph::initializeGL()
 {
     static const GLfloat lightPos[4] = { 5.0f, 5.0f, 10.0f, 1.0f };
@@ -98,6 +111,8 @@ void ShipGraph::paintGL()
     glRotated(xRot / 16.0, 1.0, 0.0, 0.0);
     glRotated(yRot / 16.0, 0.0, 1.0, 0.0);
     glRotated(zRot / 16.0, 0.0, 0.0, 1.0);
+
+	glScaled(zoomScale, zoomScale, zoomScale);
 
     drawShip(ship, 0.0, 0.0, 0.0, gear1Rot / 16.0);
     drawShip(sea, 0.0, 0.0, 0.0, gear1Rot / 16.0);
