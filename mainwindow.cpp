@@ -51,8 +51,11 @@ MainWindow::MainWindow()
     zSlider = createSlider(SIGNAL(zRotationChanged(int)),
 						   SLOT(setZRotation(int)));
 
+	xSlider->setRange(90*16, 270*16);
+	ySlider->setRange(90*16, 270*16);
+
 	zoomSlider = new QSlider(Qt::Vertical);
-	zoomSlider->setRange(0, 50 * 16);
+	zoomSlider->setRange(1*16, 50 * 16);
 	zoomSlider->setSingleStep(16);
 	zoomSlider->setPageStep(10*16);
 	zoomSlider->setTickInterval(10*16);
@@ -75,9 +78,9 @@ MainWindow::MainWindow()
     centralLayout->addWidget(zSlider, 5, 0, 1, 4);
     centralWidget->setLayout(centralLayout);
 
-    xSlider->setValue(15 * 16);
-    ySlider->setValue(345 * 16);
-	zSlider->setValue(0 * 16);
+    xSlider->setValue(150 * 16);
+    ySlider->setValue(200 * 16);
+	zSlider->setValue(150 * 16);
 	zoomSlider->setValue(10 * 16);
 
 //    QTextCodec *codec = QTextCodec::codecForName("GB18030");

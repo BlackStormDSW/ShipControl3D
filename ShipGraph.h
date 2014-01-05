@@ -54,6 +54,8 @@ private:
     void drawShip(GLuint gear, GLdouble dx, GLdouble dy, GLdouble dz, GLdouble angle);
     void normalizeAngle(int *angle);
 
+	void normalizeXYAngle(int *angle);
+
     GLuint ship;
     GLuint sea;
     GLuint goal;

@@ -41,7 +41,7 @@ ShipGraph::~ShipGraph()
 
 void ShipGraph::setXRotation(int angle)
 {
-    normalizeAngle(&angle);
+    normalizeXYAngle(&angle);
     if (angle != xRot) {
         xRot = angle;
         emit xRotationChanged(angle);
@@ -51,7 +51,7 @@ void ShipGraph::setXRotation(int angle)
 
 void ShipGraph::setYRotation(int angle)
 {
-    normalizeAngle(&angle);
+    normalizeXYAngle(&angle);
     if (angle != yRot) {
         yRot = angle;
         emit yRotationChanged(angle);
@@ -392,3 +392,20 @@ void ShipGraph::normalizeAngle(int *angle)
     while (*angle > 360 * 16)
         *angle -= 360 * 16;
 }
+
+void ShipGraph::normalizeXYAngle(int *angle)
+{
+	while (*angle < 0)
+		*angle += 360 * 16;
+	while (*angle > 360 * 16)
+		*angle -= 360 * 16;
+	if ( *angle > 270 * 16)
+	{
+		*angle  = 270 * 16;
+	} else if ( *angle < 90 * 16)
+	{
+		*angle  = 90 * 16;
+	}  
+	
+}
+
