@@ -46,15 +46,15 @@ void ShipControl::init()
 	maxTime = 1000.0;
 
 	//设定风速，风向
-	SpeedWind	= 10.0;
+	SpeedWind	= 20.0;
 	DirWind		= 90.0;
 
 	//设定浪高，浪向
-	HeightWave	= 2.0;
+	HeightWave	= 5.0;
 	DirWave		= 150.0;
 
 	//设定流速，流向
-	SpeedCurrent	= 1.0;
+	SpeedCurrent	= 2.0;
 	DirCurrent		= 120.0;
 
 	//初始位置与艏向
@@ -65,7 +65,7 @@ void ShipControl::init()
 	//目标位置与艏向
 	xTarget		= 100.0;
 	yTarget		= 100.0;
-	psiTarget	= 30.0;
+	psiTarget	= 130.0;
 
 	//初始化环境最优艏向
 	optPsi = 0.0;

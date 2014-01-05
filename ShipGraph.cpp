@@ -132,7 +132,7 @@ void ShipGraph::paintGL()
 
 	glScaled(zoomScale, zoomScale, zoomScale);
 
-    drawShip(ship, xPos, yPos, zPos, phi * radToAng / 16.0, theta * radToAng / 16.0, psi * radToAng / 16.0);
+    drawShip(ship, xPos, yPos, zPos, -phi * radToAng, -theta * radToAng, -psi * radToAng);
   /*  drawShip(sea, 0.0, 0.0, 0.0, 0.0 / 16.0);
     drawShip(goal, 0.0, 0.0, 0.0, 0.0 / 16.0);*/
 	glCallList(sea);
