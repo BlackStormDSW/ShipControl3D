@@ -52,7 +52,8 @@ protected:
 private:
     GLuint makeShip(const GLfloat *reflectance, GLdouble width, GLdouble length, GLdouble scale);
     GLuint makeSea(const GLfloat *reflectance);
-    GLuint makeGoal(const GLfloat *reflectance, const GLdouble xPoint, const GLdouble yPoint, const GLdouble radius, GLdouble scale);
+	GLuint makeGoal(const GLfloat *reflectance, const GLdouble xPoint, const GLdouble yPoint, const GLdouble radius, GLdouble scale);
+	GLuint makeLine(const GLfloat *reflectance);
 
 	void drawShip(GLuint gear, GLdouble dx, GLdouble dy, GLdouble dz, GLdouble phi, GLdouble theta, GLdouble psi);
     void normalizeAngle(int *angle);
@@ -62,6 +63,7 @@ private:
     GLuint ship;
     GLuint sea;
     GLuint goal;
+	GLuint line;
     int xRot;
     int yRot;
     int zRot;
@@ -72,6 +74,10 @@ private:
 	double zoomScale;
 
 	int scaleWheel;
+
+	GLdouble xMax;
+	GLdouble yMax;
+	GLdouble zMax;
 
     QPoint lastPos;
 };

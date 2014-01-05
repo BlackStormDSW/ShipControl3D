@@ -9,6 +9,7 @@
 
 #include "ShipGraph.h"
 
+#include <Windows.h>
 #include <QMouseEvent>
 #include <QWheelEvent>
 #include <math.h>
@@ -33,6 +34,10 @@ ShipGraph::ShipGraph(QWidget *parent)
 	theta = 0.0;
 	psi = 0.0;
 
+	xMax = 10000.0;
+	yMax = 10000.0;
+	zMax = 10000.0;
+
 	zoomScale = 1.0;
 }
 
@@ -42,6 +47,7 @@ ShipGraph::~ShipGraph()
     glDeleteLists(ship, 1);
     glDeleteLists(sea, 1);
     glDeleteLists(goal, 1);
+	glDeleteLists(line, 1);
 }
 
 void ShipGraph::setXRotation(int angle)
@@ -104,23 +110,26 @@ void ShipGraph::shipEta(Eta eta)
 
 void ShipGraph::initializeGL()
 {
-    static const GLfloat lightPos[4] = { 5.0f, 5.0f, 10.0f, 1.0f };
+	static const GLfloat lightPos0[4] = { 5.0f, 5.0f, 10.0f, 1.0f };
     static const GLfloat reflectanceShip[4] = { 0.195f, 0.195f, 0.195f, 1.0f };
-    static const GLfloat reflectanceSea[4] = { 0.2f, 0.9f, 1.0f, 0.1f };
-    static const GLfloat reflectanceGoal[4] = { 0.8f, 0.1f, 0.0f, 1.0f };
+	static const GLfloat reflectanceSea[4] = { 0.0f, 0.9f, 0.9f, 0.50f };
+	static const GLfloat reflectanceGoal[4] = { 0.8f, 0.1f, 0.0f, 1.0f };
+	static const GLfloat reflectanceLine[4] = { -1.0f, -1.0f, -1.0f, 1.0f };
 
-    glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
+	glLightfv(GL_LIGHT0, GL_POSITION, lightPos0);
     glEnable(GL_LIGHTING);
-    glEnable(GL_LIGHT0);
-//    glEnable(GL_BLEND);
-    glEnable(GL_DEPTH_TEST);
-//    glEnable(GL_DEPTH);
+	glEnable(GL_LIGHT0);
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     ship = makeShip(reflectanceShip, 2.0, 5.0, 1.0);
 
     sea = makeSea(reflectanceSea);
 
     goal = makeGoal(reflectanceGoal, 5.0, 5.0, 0.1, 1.0);
+
+	line = makeLine(reflectanceLine);
 
     glEnable(GL_NORMALIZE);
     glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
@@ -140,10 +149,10 @@ void ShipGraph::paintGL()
 	glScaled(zoomScale, zoomScale, zoomScale);
 
     drawShip(ship, xPos, yPos, zPos, -phi * radToAng, -theta * radToAng, -psi * radToAng);
-  /*  drawShip(sea, 0.0, 0.0, 0.0, 0.0 / 16.0);
-    drawShip(goal, 0.0, 0.0, 0.0, 0.0 / 16.0);*/
+ 
 	glCallList(sea);
 	glCallList(goal);
+	glCallList(line);
 
     glPopMatrix();
 }
@@ -323,12 +332,10 @@ GLuint ShipGraph::makeSea(const GLfloat *reflectance)
     GLuint list = glGenLists(1);
     glNewList(list, GL_COMPILE);
     glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, reflectance);
-
+	//glColor4d(1.0f, 0.5f, 1.0f, 0.2f);
+	//static const GLfloat reflectance[4] = { 0.195f, 0.195f, 0.195f, 0.1f };
     glShadeModel(GL_SMOOTH);
 
-    GLdouble xMax = 10000.0;
-    GLdouble yMax = 10000.0;
-    GLdouble zMax = 10000.0;
     GLdouble x = 0.0, y = 0.0, z = 0.0;
 
     //绘制海洋
@@ -377,7 +384,7 @@ GLuint ShipGraph::makeSea(const GLfloat *reflectance)
     return list;
 }
 
-GLuint ShipGraph::makeGoal(const GLfloat *reflectance, const GLdouble xPoint,  const GLdouble yPoint,  const GLdouble radius, GLdouble scale)
+GLuint ShipGraph::makeGoal(const GLfloat *reflectance, const GLdouble xGoal,  const GLdouble yGoal,  const GLdouble radius, GLdouble scale)
 {
     const double Pi = 3.14159265358979323846;
 
@@ -395,8 +402,8 @@ GLuint ShipGraph::makeGoal(const GLfloat *reflectance, const GLdouble xPoint,  c
     {
         for (GLdouble angle2 = -Pi/2.0; angle2 <= Pi/2.0; angle2 += deltaPhi)
         {
-            x = xPoint + radius * cos(angle2) * cos(angle1);
-            y = yPoint + radius * cos(angle2) * sin(angle1);
+            x = xGoal + radius * cos(angle2) * cos(angle1);
+            y = yGoal + radius * cos(angle2) * sin(angle1);
             z = 0.0 + radius * sin(angle2);
             glNormal3d(-x,-y,-z);
             glVertex3d(x,y,z);
@@ -408,6 +415,42 @@ GLuint ShipGraph::makeGoal(const GLfloat *reflectance, const GLdouble xPoint,  c
     glEndList();
 
     return list;
+}
+
+GLuint ShipGraph::makeLine(const GLfloat *reflectance)
+{
+	GLuint list = glGenLists(1);
+	glNewList(list, GL_COMPILE);
+	glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, reflectance);
+
+	glShadeModel(GL_SMOOTH);
+
+	glBegin(GL_LINE_STRIP);
+
+	glNormal3d(0, 0, 1);
+
+	//画纵线
+	for (GLdouble x = -xMax; x < xMax; x += 10.0)
+	{
+		glVertex3d(x, yMax, 0.0);
+		glVertex3d(x, -yMax, 0.0);
+	}
+
+	//画横线
+	for (GLdouble y = -yMax; y < yMax; y += 10.0)
+	{
+		glVertex3d(-xMax, y, 0.0);
+		glVertex3d(xMax, y, 0.0);
+	}
+
+	glEnd();
+
+	////标记刻度
+	int maxNum = 10;
+
+	glEndList();
+
+	return list;
 }
 
 void ShipGraph::drawShip(GLuint object, GLdouble dx, GLdouble dy, GLdouble dz,
