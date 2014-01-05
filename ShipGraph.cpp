@@ -131,13 +131,13 @@ void ShipGraph::paintGL()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     glPushMatrix();
+
+	glTranslated(xPoint, yPoint, zPoint);
     glRotated(xRot / 16.0, 1.0, 0.0, 0.0);
     glRotated(yRot / 16.0, 0.0, 1.0, 0.0);
     glRotated(zRot / 16.0, 0.0, 0.0, 1.0);
 
 	glScaled(zoomScale, zoomScale, zoomScale);
-
-	glTranslated(xPoint, yPoint, zPoint);
 
     drawShip(ship, xPos, yPos, zPos, -phi * radToAng, -theta * radToAng, -psi * radToAng);
   /*  drawShip(sea, 0.0, 0.0, 0.0, 0.0 / 16.0);
@@ -150,8 +150,8 @@ void ShipGraph::paintGL()
 
 void ShipGraph::resizeGL(int width, int height)
 {
-    int side = qMin(width, height);
-    glViewport((width - side) / 2, (height - side) / 2, side, side);
+	int side = qMax(width, height);
+	glViewport((width - side) / 2, (height - side) / 2, side, side);
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
