@@ -332,54 +332,52 @@ GLuint ShipGraph::makeSea(const GLfloat *reflectance)
     GLuint list = glGenLists(1);
     glNewList(list, GL_COMPILE);
     glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, reflectance);
-	//glColor4d(1.0f, 0.5f, 1.0f, 0.2f);
-	//static const GLfloat reflectance[4] = { 0.195f, 0.195f, 0.195f, 0.1f };
     glShadeModel(GL_SMOOTH);
 
     GLdouble x = 0.0, y = 0.0, z = 0.0;
 
     //绘制海洋
-    glBegin(GL_QUADS);
+    glBegin(GL_POLYGON);
 
     //上层
     glVertex3d(-xMax, -yMax, 0);
-    glVertex3d(-xMax, yMax, 0);
-    glVertex3d(xMax, yMax, 0);
     glVertex3d(xMax, -yMax, 0);
-
-    //侧面1
     glVertex3d(xMax, yMax, 0);
-    glVertex3d(xMax, -yMax, 0);
-    glVertex3d(xMax, -yMax, -zMax);
-    glVertex3d(xMax, yMax, -zMax);
+	glVertex3d(-xMax, yMax, 0);
 
-    //侧面2
-    glVertex3d(xMax, yMax, 0);
-    glVertex3d(-xMax, yMax, 0);
-        glVertex3d(-xMax, yMax, -zMax);
-    glVertex3d(xMax, yMax, -zMax);
+	//底层
+	glVertex3d(xMax, -yMax, -zMax);
+	glVertex3d(-xMax, -yMax, -zMax);
+	glVertex3d(-xMax, yMax, -zMax);
+	glVertex3d(xMax, yMax, -zMax);
 
     //侧面3
-    glVertex3d(-xMax, yMax, 0);
+    glVertex3d(-xMax, -yMax, -zMax);
     glVertex3d(-xMax, -yMax, 0);
-        glVertex3d(-xMax, -yMax, -zMax);
+    glVertex3d(-xMax, yMax, 0);
+    glVertex3d(-xMax, yMax, -zMax);
+
+    //侧面1
+	glVertex3d(xMax, -yMax, 0);
+    glVertex3d(xMax, -yMax, -zMax);
+	glVertex3d(xMax, yMax, -zMax);
+    glVertex3d(xMax, yMax, 0);
+
+    //侧面2
+    glVertex3d(-xMax, yMax, 0);
+    glVertex3d(xMax, yMax, 0);
+    glVertex3d(xMax, yMax, -zMax);
     glVertex3d(-xMax, yMax, -zMax);
 
     //侧面4
+    glVertex3d(-xMax, -yMax, -zMax);
+    glVertex3d(xMax, -yMax, -zMax);
     glVertex3d(xMax, -yMax, 0);
     glVertex3d(-xMax, -yMax, 0);
-        glVertex3d(-xMax, -yMax, -zMax);
-    glVertex3d(xMax, -yMax, -zMax);
-
-    //底层
-    glVertex3d(-xMax, -yMax, -zMax);
-    glVertex3d(-xMax, yMax, -zMax);
-    glVertex3d(xMax, yMax, -zMax);
-    glVertex3d(xMax, -yMax, -zMax);
 
     glEnd();
-
-    glEndList();
+	
+	glEndList();
 
     return list;
 }
@@ -432,6 +430,7 @@ GLuint ShipGraph::makeLine(const GLfloat *reflectance)
 	//画纵线
 	for (GLdouble x = -xMax; x < xMax; x += 10.0)
 	{
+		glVertex3d(x, -yMax, 0.0);
 		glVertex3d(x, yMax, 0.0);
 		glVertex3d(x, -yMax, 0.0);
 	}
@@ -439,6 +438,7 @@ GLuint ShipGraph::makeLine(const GLfloat *reflectance)
 	//画横线
 	for (GLdouble y = -yMax; y < yMax; y += 10.0)
 	{
+		glVertex3d(xMax, y, 0.0);
 		glVertex3d(-xMax, y, 0.0);
 		glVertex3d(xMax, y, 0.0);
 	}
