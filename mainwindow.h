@@ -24,6 +24,7 @@ QT_END_NAMESPACE
 class ShipGraph;
 class ShipControl;
 class ShipParameter;
+class SettingDialog;
 
 class MainWindow : public QMainWindow
 {
@@ -45,6 +46,7 @@ private:
 
     ShipControl *shipCtrl;
     ShipParameter *shipPara;
+	SettingDialog *setDialog;
 
     QWidget *centralWidget;
     QScrollArea *glWidgetArea;
@@ -61,12 +63,9 @@ private:
 
     QMenu *fileMenu;
     QMenu *helpMenu;
-//    QAction *grabFrameBufferAct;
-//    QAction *renderIntoPixmapAct;
-//    QAction *clearPixmapAct;
+    QAction *setDialogAct;
     QAction *exitAct;
     QAction *aboutAct;
-    QAction *aboutQtAct;
 };
 
 #endif // MAINWINDOW_H

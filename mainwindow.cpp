@@ -11,15 +11,14 @@
 #include "DataStruct.h"
 #include "ShipControl.h"
 #include "ShipParameter.h"
-#include <iostream>
-using namespace std;
-
+#include "SettingDialog.h"
 #include "mainwindow.h"
-
 #include <QtWidgets>
 #include <QTimer>
 #include <QTextCodec>
 #include <QMetaType>
+#include <iostream>
+using namespace std;
 
 MainWindow::MainWindow()
 {
@@ -29,6 +28,8 @@ MainWindow::MainWindow()
     setCentralWidget(centralWidget);
 
 	timer = new QTimer(this);
+
+	setDialog = new SettingDialog;
 
     shipPara = new ShipParameter;
     shipCtrl = new ShipControl;
@@ -92,15 +93,15 @@ MainWindow::MainWindow()
 	zoomSlider->setValue(10 * 16);
 
 //    QTextCodec *codec = QTextCodec::codecForName("GB18030");
-//    setWindowTitle(codec->toUnicode("船舶模拟器"));
+//    setWindowTitle(codec->toUnicode("船舶模拟�?));
     resize(500, 600);
 }
 
 void MainWindow::about()
 {
-    QMessageBox::about(this, tr("About Grabber"),
-            tr("The <b>Grabber</b> example demonstrates two approaches for "
-               "rendering OpenGL into a Qt pixmap."));
+    QMessageBox::about(this, tr("About ShipControl(3D)"),
+            tr("The <b>ShipControl</b> is designed by Dong Shengwei \n"
+               "Harbin Engineering University."));
 }
 
 void MainWindow::controlStart()
@@ -116,10 +117,10 @@ void MainWindow::updateShip()
 
 void MainWindow::createActions()
 {
-//    renderIntoPixmapAct = new QAction(tr("&Render into Pixmap..."), this);
-//    renderIntoPixmapAct->setShortcut(tr("Ctrl+R"));
-//    connect(renderIntoPixmapAct, SIGNAL(triggered()),
-//            this, SLOT(renderIntoPixmap()));
+    setDialogAct = new QAction(tr("Op&tion..."), this);
+    setDialogAct->setShortcut(tr("Ctrl+T"));
+    connect(setDialogAct, SIGNAL(triggered()),
+            setDialog, SLOT(show()));
 
     exitAct = new QAction(tr("E&xit"), this);
     exitAct->setShortcuts(QKeySequence::Quit);
@@ -127,23 +128,17 @@ void MainWindow::createActions()
 
     aboutAct = new QAction(tr("&About"), this);
     connect(aboutAct, SIGNAL(triggered()), this, SLOT(about()));
-
-    aboutQtAct = new QAction(tr("About &Qt"), this);
-    connect(aboutQtAct, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
 }
 
 void MainWindow::createMenus()
 {
     fileMenu = menuBar()->addMenu(tr("&File"));
-//    fileMenu->addAction(renderIntoPixmapAct);
-//    fileMenu->addAction(grabFrameBufferAct);
-//    fileMenu->addAction(clearPixmapAct);
+    fileMenu->addAction(setDialogAct);
     fileMenu->addSeparator();
     fileMenu->addAction(exitAct);
 
     helpMenu = menuBar()->addMenu(tr("&Help"));
     helpMenu->addAction(aboutAct);
-    helpMenu->addAction(aboutQtAct);
 }
 
 QSlider *MainWindow::createSlider(const char *changedSignal,
