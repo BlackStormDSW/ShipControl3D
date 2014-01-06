@@ -35,6 +35,16 @@ using namespace std;
 //Hoerner数据的个数
 #define  HoerNum 20
 
+//动力定位控制模式
+#define NORMAL_DP   1
+#define ZPCW_DP     2
+#define WOPC_DP     3
+#define OPT_DP      4
+
+//控制器类型
+#define PID_CTRL    1
+#define NMPC_CTRL   2
+
 #pragma pack(1)
 
 //力、转矩结构体
@@ -165,6 +175,62 @@ struct xStatOut
 	double x3;
 	double x4;
 	double x5;
+};
+
+struct DataSetStruct
+{
+	//风浪流环境参数
+	double  windSpeed;
+	double  windDir;
+	double  waveHeight;
+	double  waveDir;
+	double  curSpeed;
+	double  curDir;
+
+	//动力定位控制模式
+	//1.常规动力定位控制
+	//2.ZPC-W环境最优动力定位控制
+	//3.WOPC与ZPC-W结合后的环境最优动力定位控制
+	//4.WOPC借用环境估计的环境最优动力定位控制
+	int     dpMode;
+
+	//控制器类型
+	//1.PID控制器  2.NMPC控制器
+	int     ctrlType;
+
+	//PID控制器的三个参数
+	double pValue;
+	double iValue;
+	double dValue;
+
+	//NMPC控制器的参数
+	double tValue;
+	double w1Value;
+	double w2Value;
+	double w3Value;
+
+	//船舶初始位置艏向
+	double nOrigin;
+	double eOrigin;
+	double psiOrigin;
+
+	//船舶目标位置艏向
+	double nTarget;
+	double eTarget;
+	double psiTarget;
+
+	//WOPC中，虚拟圆的半径
+	double radius;
+
+	//环境最优艏向的PID参数
+	double kp;
+	double ki;
+	double kd;
+
+	//环境估计的参数
+	double k1;
+	double k2;
+	double k3;
 };
 
 #pragma pack()

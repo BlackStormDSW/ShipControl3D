@@ -19,9 +19,12 @@ using namespace std;
 #include <QtWidgets>
 #include <QTimer>
 #include <QTextCodec>
+#include <QMetaType>
 
 MainWindow::MainWindow()
 {
+	qRegisterMetaType<DataSetStruct>("DataSetStruct");
+
     centralWidget = new QWidget;
     setCentralWidget(centralWidget);
 
