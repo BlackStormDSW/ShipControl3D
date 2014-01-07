@@ -177,6 +177,7 @@ struct xStatOut
 	double x5;
 };
 
+//设置对话框中参数
 struct DataSetStruct
 {
 	//风浪流环境参数
@@ -199,15 +200,15 @@ struct DataSetStruct
 	int     ctrlType;
 
 	//PID控制器的三个参数
-	double pValue;
-	double iValue;
-	double dValue;
+	double kp;
+	double ki;
+	double kd;
 
 	//NMPC控制器的参数
-	double tValue;
-	double w1Value;
-	double w2Value;
-	double w3Value;
+	double tNMPC;
+	double w1NMPC;
+	double w2NMPC;
+	double w3NMPC;
 
 	//船舶初始位置艏向
 	double nOrigin;
@@ -223,9 +224,9 @@ struct DataSetStruct
 	double radius;
 
 	//环境最优艏向的PID参数
-	double kp;
-	double ki;
-	double kd;
+	double kpWOHC;
+	double kiWOHC;
+	double kdWOHC;
 
 	//环境估计的参数
 	double k1;

@@ -276,7 +276,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="pValue">
+           <widget class="QLineEdit" name="kp">
             <property name="inputMethodHints">
              <set>Qt::ImhDialableCharactersOnly</set>
             </property>
@@ -294,7 +294,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="iValue"/>
+           <widget class="QLineEdit" name="ki"/>
           </item>
          </layout>
         </item>
@@ -308,7 +308,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="dValue"/>
+           <widget class="QLineEdit" name="kd"/>
           </item>
          </layout>
         </item>
@@ -333,7 +333,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="tValue">
+           <widget class="QLineEdit" name="tNMPC">
             <property name="inputMethodHints">
              <set>Qt::ImhDialableCharactersOnly</set>
             </property>
@@ -351,7 +351,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="w1Value"/>
+           <widget class="QLineEdit" name="w1NMPC"/>
           </item>
          </layout>
         </item>
@@ -365,7 +365,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="w2Value"/>
+           <widget class="QLineEdit" name="w2NMPC"/>
           </item>
          </layout>
         </item>
@@ -379,7 +379,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="w3Value"/>
+           <widget class="QLineEdit" name="w3NMPC"/>
           </item>
          </layout>
         </item>
@@ -595,7 +595,7 @@
             </widget>
            </item>
            <item row="0" column="1">
-            <widget class="QLineEdit" name="kp">
+            <widget class="QLineEdit" name="kpWOHC">
              <property name="inputMethodHints">
               <set>Qt::ImhDialableCharactersOnly</set>
              </property>
@@ -613,7 +613,7 @@
             </widget>
            </item>
            <item row="0" column="1">
-            <widget class="QLineEdit" name="ki">
+            <widget class="QLineEdit" name="kiWOHC">
              <property name="inputMethodHints">
               <set>Qt::ImhDialableCharactersOnly</set>
              </property>
@@ -631,7 +631,7 @@
             </widget>
            </item>
            <item row="0" column="1">
-            <widget class="QLineEdit" name="kd">
+            <widget class="QLineEdit" name="kdWOHC">
              <property name="inputMethodHints">
               <set>Qt::ImhDialableCharactersOnly</set>
              </property>

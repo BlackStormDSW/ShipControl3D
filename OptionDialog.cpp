@@ -68,15 +68,15 @@ void OptionDialog::showData()
     }
 
     //显示PID参数
-    ui->pValue->setText(QString::number(data.pValue, 'f', 1));
-    ui->iValue->setText(QString::number(data.iValue, 'f', 1));
-    ui->dValue->setText(QString::number(data.dValue, 'f', 1));
+	ui->kp->setText(QString::number(data.kp, 'f', 1));
+	ui->ki->setText(QString::number(data.ki, 'f', 1));
+	ui->kd->setText(QString::number(data.kd, 'f', 1));
 
     //显示NMPC参数
-    ui->tValue->setText(QString::number(data.tValue, 'f', 1));
-    ui->w1Value->setText(QString::number(data.w1Value, 'f', 1));
-    ui->w2Value->setText(QString::number(data.w2Value, 'f', 1));
-    ui->w3Value->setText(QString::number(data.w3Value, 'f', 1));
+    ui->tNMPC->setText(QString::number(data.tNMPC, 'f', 1));
+    ui->w1NMPC->setText(QString::number(data.w1NMPC, 'f', 1));
+    ui->w2NMPC->setText(QString::number(data.w2NMPC, 'f', 1));
+    ui->w3NMPC->setText(QString::number(data.w3NMPC, 'f', 1));
 
     //初始位置与艏向
     ui->nOrigin->setText(QString::number(data.nOrigin, 'f', 1));
@@ -92,9 +92,9 @@ void OptionDialog::showData()
     ui->radius->setText(QString::number(data.radius, 'f', 1));
 
     //环境最优艏向控制的PID参数
-    ui->kp->setText(QString::number(data.kp, 'f', 1));
-    ui->ki->setText(QString::number(data.ki, 'f', 1));
-    ui->kd->setText(QString::number(data.kd, 'f', 1));
+    ui->kpWOHC->setText(QString::number(data.kpWOHC, 'f', 1));
+    ui->kiWOHC->setText(QString::number(data.kiWOHC, 'f', 1));
+    ui->kdWOHC->setText(QString::number(data.kdWOHC, 'f', 1));
 
     //环境估计的参数
     ui->k1->setText(QString::number(data.k1, 'f', 1));
@@ -124,15 +124,15 @@ void OptionDialog::apply()
 
     if (ui->pidController->isChecked()) {
 		data.ctrlType = PID_CTRL;
-        data.pValue = ui->pValue->text().toDouble();
-        data.iValue = ui->iValue->text().toDouble();
-        data.dValue = ui->dValue->text().toDouble();
+		data.kp = ui->kp->text().toDouble();
+		data.ki = ui->ki->text().toDouble();
+		data.kd = ui->kd->text().toDouble();
 	} else if (ui->nmpcController->isChecked()) {
 		data.ctrlType = NMPC_CTRL;
-        data.tValue = ui->tValue->text().toDouble();
-        data.w1Value = ui->w1Value->text().toDouble();
-        data.w2Value = ui->w2Value->text().toDouble();
-        data.w3Value = ui->w3Value->text().toDouble();
+        data.tNMPC = ui->tNMPC->text().toDouble();
+        data.w1NMPC = ui->w1NMPC->text().toDouble();
+        data.w2NMPC = ui->w2NMPC->text().toDouble();
+        data.w3NMPC = ui->w3NMPC->text().toDouble();
     }
 
     data.nOrigin    = ui->nOrigin->text().toDouble();
@@ -145,9 +145,9 @@ void OptionDialog::apply()
 
     data.radius     = ui->radius->text().toDouble();
 
-    data.kp = ui->kp->text().toDouble();
-    data.ki = ui->ki->text().toDouble();
-    data.kd = ui->kd->text().toDouble();
+    data.kpWOHC = ui->kpWOHC->text().toDouble();
+    data.kiWOHC = ui->kiWOHC->text().toDouble();
+    data.kdWOHC = ui->kdWOHC->text().toDouble();
 
     data.k1 = ui->k1->text().toDouble();
     data.k2 = ui->k2->text().toDouble();
@@ -210,18 +210,18 @@ void OptionDialog::otherEditEnable(bool flag)
 //PID参数可以或者不可以进行编辑
 void OptionDialog::pidEditEnable(bool flag)
 {
-    ui->pValue->setEnabled(flag);
-    ui->iValue->setEnabled(flag);
-    ui->dValue->setEnabled(flag);
+    ui->kp->setEnabled(flag);
+    ui->ki->setEnabled(flag);
+    ui->kd->setEnabled(flag);
 }
 
 //NMPC参数可以或者不可以进行编辑
 void OptionDialog::nmpcEditEnable(bool flag)
 {
-    ui->tValue->setEnabled(flag);
-    ui->w1Value->setEnabled(flag);
-    ui->w2Value->setEnabled(flag);
-    ui->w3Value->setEnabled(flag);
+    ui->tNMPC->setEnabled(flag);
+    ui->w1NMPC->setEnabled(flag);
+    ui->w2NMPC->setEnabled(flag);
+    ui->w3NMPC->setEnabled(flag);
 }
 
 //WOPC中虚拟圆半径可以或者不可以进行编辑
@@ -241,9 +241,9 @@ void OptionDialog::envObsEditEnable(bool flag)
 //环境最优艏向参数可以或者不可以进行编辑
 void OptionDialog::wohcEditEnable(bool flag)
 {
-    ui->kp->setEnabled(flag);
-    ui->ki->setEnabled(flag);
-    ui->kd->setEnabled(flag);
+    ui->kpWOHC->setEnabled(flag);
+    ui->kiWOHC->setEnabled(flag);
+    ui->kdWOHC->setEnabled(flag);
 }
 
 void OptionDialog::showEvent(QShowEvent *event)

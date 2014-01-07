@@ -33,62 +33,72 @@ ShipControl::~ShipControl(void)
 //初始化
 void ShipControl::init()
 {
-	//允许程序进行计算
-	runEnable = true;
-
 	//打开文件
 	openFiles();
 
-	//仿真总时间
-	maxTime = 1000.0;
-
-	//设定风速，风向
-	SpeedWind	= 20.0;
-	DirWind		= 90.0;
-
-	//设定浪高，浪向
-	HeightWave	= 5.0;
-	DirWave		= 150.0;
-
-	//设定流速，流向
-	SpeedCurrent	= 2.0;
-	DirCurrent		= 120.0;
-
-	//初始位置与艏向
-	xOrigin		= 0.0;
-	yOrigin		= 0.0;
-	psiOrigin	= 0.0;
-
-	//目标位置与艏向
-	xTarget		= 100.0;
-	yTarget		= 100.0;
-	psiTarget	= 130.0;
-
+	//允许程序进行计算
+	runEnable = true;
 	//初始化环境最优艏向
 	optPsi = 0.0;
 
-	//初始化PID参数
-	kp = 0.15;
-	ki = 0.0;
-	kd = 0.0;
+	//初始化dataSet
+	dataSet = new DataSetStruct;
+
+	//设定风速，风向
+	dataSet->windSpeed	= 10.0;
+	dataSet->windDir	= 90.0;
+
+	//设定浪高，浪向
+	dataSet->waveHeight	= 1.0;
+	dataSet->waveDir	= 150.0;
+
+	//设定流速，流向
+	dataSet->curSpeed	= 2.0;
+	dataSet->curDir		= 120.0;
+
+	//初始化动力定位控制类型：
+	//1.常规动力定位；
+	//2.ZPC-W环境最优动力定位控制策略
+	//3.WOPC与ZPC-W结合后的环境最优动力定位控制策略
+	//4.WOPC借用环境估计的环境最优动力定位控制策略
+	dataSet->dpMode = NORMAL_DP;
+	//初始化动力定位控制方法：1.PID控制；2.非线性模型预测控制
+	dataSet->ctrlType = PID_CTRL;
+
+	//初始化PID参数	
+	dataSet->kp = 0.15;
+	dataSet->ki = 0.0;
+	dataSet->kd = 0.0;
 
 	//初始化NMPC的预测周期
-	Tpre = 9.0;
+	dataSet->tNMPC = 9.0;
 	//初始化NMPC的三个权值
-	w1 = 0.9;
-	w2 = 0.0005;
-	w3 = 0.0;
+	dataSet->w1NMPC = 0.9;
+	dataSet->w2NMPC = 0.0005;
+	dataSet->w3NMPC = 0.0;
 
-	//ZPC-W的三个参数
-	kpZ = 1e-8;
-	kiZ = 0.0;
-	kdZ = 0.0;
+	//初始位置与艏向
+	dataSet->nOrigin	= 0.0;
+	dataSet->eOrigin	= 0.0;
+	dataSet->psiOrigin	= 0.0;
+
+	//目标位置与艏向
+	dataSet->nTarget	= 100.0;
+	dataSet->eTarget	= 100.0;
+	dataSet->psiTarget	= 30.0;
+
+	//环境最优动力定位半径
+	dataSet->radius = 60.0;
+
+	//环境最优艏向的三个参数
+	dataSet->kpWOHC = 1e-8;
+	dataSet->kiWOHC = 0.0;
+	dataSet->kdWOHC = 0.0;
 
 	//环境估计的三个参数
-	k1Env = 0.8;
-	k2Env = 2.0;
-	k3Env = 2.0;
-
+	dataSet->k1 = 0.8;
+	dataSet->k2 = 2.0;
+	dataSet->k3 = 2.0;
 
 	for (int i = 0; i < DOF6; i ++)
 	{
@@ -100,22 +110,19 @@ void ShipControl::init()
 		taoArray[i] = 0.0;
 	}
 
+	//初始化data
 	data = new Data;
 
-	srand(int(time));
-
+	//设置控制器进行控制的步长
 	ctrlCount = 0;
 	ctrlCyc = 6;
-
-	//环境最优动力定位半径
-	radius = 60.0;
 
 	//初始化船舶速度
 	Tool::initNu(nu);
 
 	//初始化船舶的位置与姿态
-	eta = Tool::setEta(xOrigin, yOrigin, psiOrigin);
-	etaFlt = Tool::setEta(xOrigin, yOrigin, psiOrigin);
+	eta		= Tool::setEta(dataSet->nOrigin, dataSet->eOrigin, dataSet->psiOrigin);
+	etaFlt	= Tool::setEta(dataSet->nOrigin, dataSet->eOrigin, dataSet->psiOrigin);
 
 	//初始化作用力
 	Tool::initForce6(thrust);
@@ -129,16 +136,6 @@ void ShipControl::init()
 
 	//初始化流作用力
 	Tool::initForce6(curForce);
-
-	//初始化动力定位任务类型：1.常规动力定位；2.环境最优动力定位
-	dpFlag = 1;
-	//初始化动力定位控制方法：1.PID控制；2.非线性模型预测控制
-	ctlFlag = 1;
-	//初始化环境最优动力定位控制策略类型：
-	//1.WOPC与ZPC-W结合后的环境最优动力定位控制策略
-	//2.WOPC借用环境估计的环境最优动力定位控制策略
-	//3.ZPC-W环境最优动力定位控制策略
-	wopcFlag = 1;
 
 }
 
@@ -187,14 +184,13 @@ void ShipControl::closeFiles()
 //设置参数
 void ShipControl::setParameter()
 {
-
 	//初始化环境最优艏向控制器的参数
 	optPsiCtrl.setStep(tStep*ctrlCyc);
-	optPsiCtrl.setPID(kpZ, kiZ, kdZ);
+	optPsiCtrl.setPID(dataSet->kpWOHC, dataSet->kiWOHC, dataSet->kdWOHC);
 
 	//初始化环境观测器
 	envObs.setStep(tStep);
-	envObs.setK(k1Env, k2Env, k3Env);
+	envObs.setK(dataSet->k1, dataSet->k2, dataSet->k3);
 
 	//设置船舶模型的参数
 	model.setStep(tStep);
@@ -204,31 +200,31 @@ void ShipControl::setParameter()
 	model.calM();
 
 	//初始化环境的信息
-	wind.setPara(SpeedWind, DirWind);
+	wind.setPara(dataSet->windSpeed, dataSet->windDir);
 	
 	wave.setData(data);
-	wave.setPara(HeightWave, DirWave);
+	wave.setPara(dataSet->waveHeight, dataSet->waveDir);
 	wave.calWave();
 
-	cur.setPara(SpeedCurrent, DirCurrent);
+	cur.setPara(dataSet->curSpeed, dataSet->curDir);
 
 	//初始化PID
-	pid.initPID(kp, ki, kd);
+	pid.initPID(dataSet->kp, dataSet->ki, dataSet->kd);
 
 	//设置NMPC中的周期与权值
-	nmpc.setT(Tpre);
-	nmpc.setWeight(w1, w2, w3);
+	nmpc.setT(dataSet->tNMPC);
+	nmpc.setWeight(dataSet->w1NMPC, dataSet->w2NMPC, dataSet->w3NMPC);
 	nmpc.calM();
 
 
 	filter.setStep(tStep);
 
 	//初始化船舶的目标位置与姿态
-	Tool::initEtaTarget(etaTarget, xTarget, yTarget, psiTarget*angToRad);
+	Tool::initEtaTarget(etaTarget, dataSet->nTarget, dataSet->eTarget, dataSet->psiTarget*angToRad);
 
 	wopc.setStep(tStep*ctrlCyc);
 	//设置环境最优动力定位的半径
-	wopc.setRadius(radius);
+	wopc.setRadius(dataSet->radius);
 
 	//设置环境最优动力定位的目标位置
 	wopc.setPos(etaTarget);
@@ -297,17 +293,17 @@ void ShipControl::cal()
 		if (0 == ctrlCount)
 		{
 			//动力定位控制
-			switch (ctlFlag)
+			switch (dataSet->ctrlType)
 			{
 				//PID控制
-			case 1:
+			case PID_CTRL:
 				pid.setTarget(etaTarget);
 				pid.setEta(eta);
 				pid.calculat();
 				thrust = pid.getTao();
 				break;
 				//NMPC控制
-			case 2:
+			case NMPC_CTRL:
 				nmpc.setTarget(etaTarget);
 				nmpc.setEnv(envEst);
 				nmpc.setEta(etaFlt);
@@ -320,11 +316,9 @@ void ShipControl::cal()
 			}
 
 			//环境最优艏向控制
-			if (2 == dpFlag)
-			{
-				switch (wopcFlag)
+				switch (dataSet->dpMode)
 				{
-				case 1:
+				case WOPC_DP:
 					//wopc
 					wopc.setThrust(thrust);
 					wopc.calculat();
@@ -333,19 +327,18 @@ void ShipControl::cal()
 					etaTarget.psi = wopc.getPsiRTDes();
 					optPsi = wopc.getPsiRTDes();
 					break;
-				case 2:
-					break;
-				case 3:
+				case ZPCW_DP:
 					//zpc-w
 					optPsiCtrl.setPsi(optPsi);
 					optPsiCtrl.setTao(thrust);
 					optPsiCtrl.cal();
 					optPsi = optPsiCtrl.OptPsi();
 					break;
+				case OPT_DP:
+					break;
 				default:
 					break;
 				}
-			}
 
 		}
 		ctrlCount ++;
@@ -355,10 +348,12 @@ void ShipControl::cal()
 		}
 
 		//环境最优动力定位保存数据
-		if (2 == dpFlag)
+		if (WOPC_DP == dataSet->dpMode || 
+			ZPCW_DP == dataSet->dpMode || 
+			OPT_DP == dataSet->dpMode)
 		{
 			optHeadFile << time << "\t" << optPsi << "\n";
-			if (1 == wopcFlag || 2 == wopcFlag)
+			if (WOPC_DP == dataSet->dpMode)
 			{
 				centerFile << time << "\t" << etaTarget.n
 					<< "\t" << etaTarget.e << "\n";
