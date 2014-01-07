@@ -69,15 +69,15 @@ void OptionDialog::showData()
     }
 
     //显示PID参数
-	ui->kp->setText(QString::number(dataOption.kp, 'f', 1));
-	ui->ki->setText(QString::number(dataOption.ki, 'f', 1));
-	ui->kd->setText(QString::number(dataOption.kd, 'f', 1));
+	ui->kp->setText(QString::number(dataOption.kp, 'f', 2));
+	ui->ki->setText(QString::number(dataOption.ki, 'f', 2));
+	ui->kd->setText(QString::number(dataOption.kd, 'f', 2));
 
     //显示NMPC参数
     ui->tNMPC->setText(QString::number(dataOption.tNMPC, 'f', 1));
-    ui->w1NMPC->setText(QString::number(dataOption.w1NMPC, 'f', 1));
-    ui->w2NMPC->setText(QString::number(dataOption.w2NMPC, 'f', 1));
-    ui->w3NMPC->setText(QString::number(dataOption.w3NMPC, 'f', 1));
+    ui->w1NMPC->setText(QString::number(dataOption.w1NMPC, 'f', 4));
+    ui->w2NMPC->setText(QString::number(dataOption.w2NMPC, 'f', 4));
+    ui->w3NMPC->setText(QString::number(dataOption.w3NMPC, 'f', 4));
 
     //初始位置与艏向
     ui->nOrigin->setText(QString::number(dataOption.nOrigin, 'f', 1));

@@ -25,8 +25,10 @@ public:
     int yRotation() const { return yRot; }
     int zRotation() const { return zRot; }
 
-	//输入船舶位置
+	//输入船舶位置姿态
 	void shipEta(Eta eta);
+	//输入目标位置艏向
+	void targetEta(Eta eta);
 
 public slots:
     void setXRotation(int angle);
@@ -71,7 +73,8 @@ private:
 
 	double xPoint, yPoint, zPoint;
 
-    double xPos, yPos, zPos, phi, theta, psi;
+	double xPos, yPos, zPos, phi, theta, psi;
+	double xTarget, yTarget, psiTarget;
 	double zoomScale;
 
 	int scaleWheel;

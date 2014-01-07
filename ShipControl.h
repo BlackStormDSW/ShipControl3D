@@ -46,8 +46,11 @@ public:
 	//设置参数
 	void setParameter();
 
-	//输出位置姿态
+	//输出船舶位置姿态
 	Eta getEta();
+
+	//输出目标位置姿态
+	Eta getTarget();
 	
 	//开始进行船舶控制
 	void startRun();

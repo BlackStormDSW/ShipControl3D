@@ -8,7 +8,6 @@
 //mainwindow.cpp
 
 #include "ShipGraph.h"
-#include "DataStruct.h"
 #include "ShipControl.h"
 #include "ShipParameter.h"
 #include "OptionDialog.h"
@@ -17,6 +16,7 @@
 #include <QTimer>
 #include <QTextCodec>
 #include <QMetaType>
+#include <QDebug>
 #include <iostream>
 using namespace std;
 
@@ -38,10 +38,7 @@ MainWindow::MainWindow()
 
     Data *shipData = new Data;
     shipData = &(shipPara->getData());
-
-    shipCtrl->setData(shipData);
-	shipCtrl->setParameter();
-
+	
     shipWidget = new ShipGraph;
 
     glWidgetArea = new QScrollArea;
@@ -79,12 +76,17 @@ MainWindow::MainWindow()
 
 	connect(timer, SIGNAL(timeout()), this, SLOT(updateShip()));
 
-	connect(optionDlg, SIGNAL(dataChanged(DataSetStruct)), shipCtrl, SLOT(receivDataSet(DataSetStruct)));
-	connect(shipCtrl, SIGNAL(sendDataSet(DataSetStruct)) , optionDlg, SLOT(dataInit(DataSetStruct)));
-	connect(shipCtrl, SIGNAL(runState(bool)), optionDlg, SLOT(shipControlRun(bool)));
+	connect(optionDlg, SIGNAL(dataChanged(DataSetStruct)), this,	  SLOT(updateTarget(DataSetStruct)));
+	connect(shipCtrl,  SIGNAL(sendDataSet(DataSetStruct)), this,	  SLOT(updateTarget(DataSetStruct)));
+	connect(optionDlg, SIGNAL(dataChanged(DataSetStruct)), shipCtrl,  SLOT(receivDataSet(DataSetStruct)));
+	connect(shipCtrl,  SIGNAL(sendDataSet(DataSetStruct)), optionDlg, SLOT(dataInit(DataSetStruct)));
+	connect(shipCtrl,  SIGNAL(runState(bool)),			   optionDlg, SLOT(shipControlRun(bool)));
 
     createActions();
     createMenus();
+
+	shipCtrl->setData(shipData);
+	shipCtrl->setParameter();
 
     QGridLayout *centralLayout = new QGridLayout;
 	centralLayout->addWidget(glWidgetArea, 0, 0, 3, 3);
@@ -149,6 +151,12 @@ void MainWindow::controlStop()
 void MainWindow::updateShip()
 {
 	shipWidget->shipEta(shipCtrl->getEta());
+}
+
+//更新船舶目标位置艏向
+void MainWindow::updateTarget(DataSetStruct)
+{
+	shipWidget->targetEta(shipCtrl->getTarget());
 }
 
 void MainWindow::createActions()

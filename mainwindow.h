@@ -11,6 +11,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "DataStruct.h"
 
 QT_BEGIN_NAMESPACE
 class QLabel;
@@ -38,6 +39,7 @@ private slots:
     void controlStart();
 	void controlStop();
 	void updateShip();
+	void updateTarget(DataSetStruct);
 
 private:
     void createActions();

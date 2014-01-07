@@ -98,12 +98,22 @@ void ShipGraph::pointMove(double xMove, double yMove)
 
 void ShipGraph::shipEta(Eta eta)
 {
-	xPos = eta.n/10;
-	yPos = eta.e/10.0;
-	zPos = eta.d/10.0;
+	xPos = eta.n;
+	yPos = eta.e;
+	zPos = eta.d;
 	phi = eta.phi;
 	theta = eta.theta;
 	psi = eta.psi;
+
+	updateGL();
+}
+
+//输入目标位置艏向
+void ShipGraph::targetEta(Eta eta)
+{
+	xTarget = eta.n;
+	yTarget = eta.e;
+	psiTarget = eta.psi;
 
 	updateGL();
 }
@@ -127,7 +137,7 @@ void ShipGraph::initializeGL()
 
     sea = makeSea(reflectanceSea);
 
-    goal = makeGoal(reflectanceGoal, 5.0, 5.0, 0.1, 1.0);
+    goal = makeGoal(reflectanceGoal, xTarget, yTarget, 0.5, 1.0);
 
 	line = makeLine(reflectanceLine);
 

@@ -136,9 +136,6 @@ void ShipControl::init()
 
 	//初始化流作用力
 	Tool::initForce6(curForce);
-
-	//将初始化的数据发送到设置对话框
-	emit sendDataSet(*dataSet);
 }
 
 //设置船舶参数
@@ -230,12 +227,21 @@ void ShipControl::setParameter()
 
 	//设置环境最优动力定位的目标位置
 	wopc.setPos(etaTarget);
+
+	//将初始化的数据发送到设置对话框
+	emit sendDataSet(*dataSet);
 }
 
 //输出位置姿态
 Eta ShipControl::getEta()
 {
 	return eta;
+}
+
+//输出目标位置姿态
+Eta ShipControl::getTarget()
+{
+	return etaTarget;
 }
 
 //开始进行船舶控制
@@ -422,6 +428,7 @@ void ShipControl::cal()
 //从设置对话框接收数据
 void ShipControl::receivDataSet(DataSetStruct dataReceive)
 {
+	qDebug() << "receivDataSet";
 	dataSet = &dataReceive;
 }
 
