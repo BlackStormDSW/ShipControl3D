@@ -123,6 +123,8 @@ void OptionDialog::apply()
         dataOption.dpMode = OPT_DP;
     }
 
+	qDebug() << "Check:" << ui->normalDP->isChecked() << ui->zpcwDP->isChecked();
+
     if (ui->pidController->isChecked()) {
 		dataOption.ctrlType = PID_CTRL;
 		dataOption.kp = ui->kp->text().toDouble();

@@ -353,17 +353,17 @@ void ShipModel::cal()
 	//计算Spring stiffness
 	Tool::multiMx(data->dataVesABC.G, etaArray, sprStifArray);
 
-	dragFile << dragArray[0] << "\t" << dragArray[1] << "\t" << dragArray[2] << "\t"
-		<< dragArray[3] << "\t" << dragArray[4] << "\t" << dragArray[5] << endl;
+	//dragFile << dragArray[0] << "\t" << dragArray[1] << "\t" << dragArray[2] << "\t"
+	//	<< dragArray[3] << "\t" << dragArray[4] << "\t" << dragArray[5] << endl;
 
-	muFile << muArray[0] << "\t" << muArray[1] << "\t" << muArray[2] << "\t"
-		<< muArray[3] << "\t" << muArray[4] << "\t" << muArray[5] << endl;
+	//muFile << muArray[0] << "\t" << muArray[1] << "\t" << muArray[2] << "\t"
+	//	<< muArray[3] << "\t" << muArray[4] << "\t" << muArray[5] << endl;
 
-	dampFile << dampArray[0] << "\t" << dampArray[1] << "\t" << dampArray[2] << "\t"
-		<< dampArray[3] << "\t" << dampArray[4] << "\t" << dampArray[5] << endl;
+	//dampFile << dampArray[0] << "\t" << dampArray[1] << "\t" << dampArray[2] << "\t"
+	//	<< dampArray[3] << "\t" << dampArray[4] << "\t" << dampArray[5] << endl;
 
-	sprStifFile << sprStifArray[0] << "\t" << sprStifArray[1] << "\t" << sprStifArray[2] << "\t"
-		<< sprStifArray[3] << "\t" << sprStifArray[4] << "\t" << sprStifArray[5] << endl;
+	//sprStifFile << sprStifArray[0] << "\t" << sprStifArray[1] << "\t" << sprStifArray[2] << "\t"
+	//	<< sprStifArray[3] << "\t" << sprStifArray[4] << "\t" << sprStifArray[5] << endl;
 
 }
 

@@ -9,6 +9,7 @@
 
 #include "PIDController.h"
 #include "Tool.h"
+#include <QDebug>
 #include <iostream>
 using namespace std;
 
@@ -94,6 +95,8 @@ void PIDController::calculat()
 	//eta转化为3维向量
 	Tool::EtaToArr3(etaTarget, etaTgt, DOF3);
 
+
+	qDebug() << etaTarget.n << "\t" << etaTarget.e << "\t" << etaTarget.psi*radToAng << endl;
 	//计算eta偏差
 	for (int i = 0; i < DOF3; i ++)
 	{

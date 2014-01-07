@@ -83,7 +83,7 @@ protected:
 private:
 	Data *data;
 
-	DataSetStruct *dataSet;
+	DataSetStruct dataSet;
 
 	ShipModel model;
 	

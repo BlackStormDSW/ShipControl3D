@@ -102,8 +102,8 @@ void ShipGraph::pointMove(double xMove, double yMove)
 
 void ShipGraph::shipEta(Eta eta)
 {
-	xPos = eta.n/5.0;
-	yPos = eta.e/5.0;
+	yPos = eta.n/5.0;
+	xPos = eta.e/5.0;
 	zPos = eta.d/5.0;
 	phi = eta.phi;
 	theta = eta.theta;
@@ -115,8 +115,8 @@ void ShipGraph::shipEta(Eta eta)
 //输入目标位置艏向
 void ShipGraph::targetEta(Eta eta)
 {
-	xTarget = eta.n/5.0;
-	yTarget = eta.e/5.0;
+	yTarget = eta.n/5.0;
+	xTarget = eta.e/5.0;
 	psiTarget = eta.psi;
 
 	updateGL();
