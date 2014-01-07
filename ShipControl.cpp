@@ -39,6 +39,9 @@ ShipControl::~ShipControl(void)
 //初始化
 void ShipControl::init()
 {
+	//允许程序进行计算
+	runEnable = true;
+
 	//打开文件
 	openFiles();
 
@@ -538,6 +541,12 @@ Eta ShipControl::getEta()
 	return eta;
 }
 
+//停止计算
+void ShipControl::stopRun()
+{
+	runEnable = false;
+}
+
 //船舶控制运行
 void ShipControl::run()
 {	
@@ -550,9 +559,10 @@ void ShipControl::run()
 	wave.setPara(HeightWave, DirWave);
 	wave.calWave();
 
+	time = 0.0;
 	//循环进行模型计算
-	for (time = 0.0; time <= maxTime; time += tStep)
-	{		
+	while (runEnable)
+	{
 		//得到环境估计力
 		envObs.setNu(nu);
 		envObs.setTao(thrust);
@@ -708,6 +718,8 @@ void ShipControl::run()
             << "\t" << nu.p << "\t" << nu.q << "\t" << nu.r << "\n";
 
         outFltFile << time << "\t" << etaFlt << "\n";
+
+		time += tStep;	
 	}
 
 }

@@ -51,6 +51,9 @@ public:
 
 	//输出位置姿态
 	Eta getEta();
+	
+	//停止计算
+	void stopRun();
 		
 	//重载<<操作符
 	friend ostream& operator << (ostream &os, const Eta &eta);
@@ -199,6 +202,9 @@ private:
 	char *tStrEnd, *w1StrEnd, *w2StrEnd, *w3StrEnd;
 
 	double valueStr;
+
+	//运行标志
+	bool runEnable;
 };
 
 

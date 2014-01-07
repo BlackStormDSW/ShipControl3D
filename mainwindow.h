@@ -36,6 +36,7 @@ public:
 private slots:
     void about();
     void controlStart();
+	void controlStop();
 	void updateShip();
 
 private:
@@ -60,6 +61,7 @@ private:
 	QSlider *zoomSlider;
 
     QPushButton *startButton;
+	QPushButton *stopButton;
 
     QMenu *fileMenu;
     QMenu *helpMenu;

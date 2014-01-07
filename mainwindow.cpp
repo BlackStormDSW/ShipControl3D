@@ -73,6 +73,9 @@ MainWindow::MainWindow()
 	startButton = new QPushButton("Start");
 	connect(startButton, SIGNAL(clicked()), this, SLOT(controlStart()));
 
+	stopButton = new QPushButton("Stop");
+	connect(stopButton, SIGNAL(clicked()), this, SLOT(controlStop()));
+
 	connect(timer, SIGNAL(timeout()), this, SLOT(updateShip()));
 
     createActions();
@@ -81,7 +84,8 @@ MainWindow::MainWindow()
     QGridLayout *centralLayout = new QGridLayout;
 	centralLayout->addWidget(glWidgetArea, 0, 0, 3, 3);
 	centralLayout->addWidget(startButton, 0, 3, 1, 1);
-	centralLayout->addWidget(zoomSlider, 1, 3, 2, 1);
+	centralLayout->addWidget(stopButton, 1, 3, 1, 1);
+	centralLayout->addWidget(zoomSlider, 2, 3, 1, 1);
     centralLayout->addWidget(xSlider, 3, 0, 1, 4);
     centralLayout->addWidget(ySlider, 4, 0, 1, 4);
     centralLayout->addWidget(zSlider, 5, 0, 1, 4);
@@ -93,8 +97,10 @@ MainWindow::MainWindow()
 	zoomSlider->setValue(10 * 16);
 
 //    QTextCodec *codec = QTextCodec::codecForName("GB18030");
-//    setWindowTitle(codec->toUnicode("船舶模拟�?));
+//    setWindowTitle(codec->toUnicode("船舶模拟�?));
     resize(500, 600);
+
+	stopButton->setDisabled(true);
 }
 
 void MainWindow::about()
@@ -108,6 +114,16 @@ void MainWindow::controlStart()
 {
     shipCtrl->start();
 	timer->start(20);
+	startButton->setDisabled(true);
+	stopButton->setEnabled(true);
+}
+
+//停止进行船舶控制
+void MainWindow::controlStop()
+{
+	shipCtrl->stopRun();
+	stopButton->setDisabled(true);
+	startButton->setEnabled(true);
 }
 
 void MainWindow::updateShip()
