@@ -67,6 +67,7 @@ private:
     GLuint sea;
     GLuint goal;
 	GLuint line;
+
     int xRot;
     int yRot;
     int zRot;

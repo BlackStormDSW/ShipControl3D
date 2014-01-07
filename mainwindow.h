@@ -5,7 +5,7 @@
 **				Date:		2014-01-04							**
 ******************************************************************/
 
-//mainwindow.h
+//Mainwindow.h
 
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
@@ -37,6 +37,7 @@ public:
 private slots:
     void about();
     void controlStart();
+	void controlPause();
 	void controlStop();
 	void updateShip();
 	void updateTarget(DataSetStruct);
@@ -62,6 +63,7 @@ private:
 	QSlider *zoomSlider;
 
     QPushButton *startButton;
+	QPushButton *pauseButton;
 	QPushButton *stopButton;
 
     QMenu *fileMenu;

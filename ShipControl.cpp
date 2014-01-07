@@ -36,8 +36,9 @@ void ShipControl::init()
 	//打开文件
 	openFiles();
 
-	//允许程序进行计算
-	runEnable = true;
+	//初始化程序计算的暂停、停止状态
+	pauseState = false;
+	stopState = false;
 	//初始化环境最优艏向
 	optPsi = 0.0;
 
@@ -83,8 +84,8 @@ void ShipControl::init()
 	dataSet->psiOrigin	= 0.0;
 
 	//目标位置与艏向
-	dataSet->nTarget	= 100.0;
-	dataSet->eTarget	= 100.0;
+	dataSet->nTarget	= 50.0;
+	dataSet->eTarget	= 50.0;
 	dataSet->psiTarget	= 30.0;
 
 	//环境最优动力定位半径
@@ -150,7 +151,7 @@ void ShipControl::openFiles()
 	paraFile.open("E:/projectProgram/data/parameters.txt");
 	etaFile.open("E:/projectProgram/data/eta.txt");
 	nuFile.open("E:/projectProgram/data/nu.txt");
-	outFltFile.open("E:/projectProgram/data/etaFilter.txt");
+	etaFltFile.open("E:/projectProgram/data/etaFilter.txt");
 	centerFile.open("E:/projectProgram/data/center.txt");
 	optHeadFile.open("E:/projectProgram/data/optHead.txt");
 	targetFile.open("E:/projectProgram/data/target.txt");
@@ -168,7 +169,7 @@ void ShipControl::closeFiles()
 	paraFile.close();
 	etaFile.close();
 	nuFile.close();
-	outFltFile.close();
+	etaFltFile.close();
 	centerFile.close();
 	optHeadFile.close();
 	targetFile.close();
@@ -247,25 +248,28 @@ Eta ShipControl::getTarget()
 //开始进行船舶控制
 void ShipControl::startRun()
 {
-	runEnable = true;
+	pauseState = false;
+}
+
+//暂停计算
+void ShipControl::pauseRun()
+{
+	pauseState = true;
 }
 
 //停止计算
 void ShipControl::stopRun()
 {
-	runEnable = false;
+	stopState = true;
+	pauseState = false;
 }
 
 //控制计算
 void ShipControl::cal()
 {
 	//循环进行模型计算
-	while (1)
+	while (!stopState)
 	{
-		while (!runEnable) 
-		{
-			msleep(100);
-		}
 		//得到环境估计力
 		envObs.setNu(nu);
 		envObs.setTao(thrust);
@@ -414,12 +418,16 @@ void ShipControl::cal()
 		filter.setEta(eta);
 		etaFlt = filter.cal();
 
+		while (pauseState) 
+		{
+			msleep(100);
+		}
 		etaFile << time << "\t" << eta << "\n";
 
 		nuFile << time << "\t" << nu.u << "\t" << nu.v << "\t" << nu.w 
 			<< "\t" << nu.p << "\t" << nu.q << "\t" << nu.r << "\n";
 
-		outFltFile << time << "\t" << etaFlt << "\n";
+		etaFltFile << time << "\t" << etaFlt << "\n";
 
 		time += tStep;	
 	}

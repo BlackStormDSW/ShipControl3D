@@ -18,7 +18,11 @@
 ShipGraph::ShipGraph(QWidget *parent)
     : QGLWidget(parent)
 {
-    ship = 0;
+	ship = 0;
+	sea = 0;
+	goal = 0;
+	line = 0;
+
     xRot = 0;
     yRot = 0;
     zRot = 0;
@@ -34,9 +38,9 @@ ShipGraph::ShipGraph(QWidget *parent)
 	theta = 0.0;
 	psi = 0.0;
 
-	xMax = 10000.0;
-	yMax = 10000.0;
-	zMax = 10000.0;
+	xMax = 1000.0;
+	yMax = 1000.0;
+	zMax = 1000.0;
 
 	zoomScale = 1.0;
 }
@@ -98,9 +102,9 @@ void ShipGraph::pointMove(double xMove, double yMove)
 
 void ShipGraph::shipEta(Eta eta)
 {
-	xPos = eta.n;
-	yPos = eta.e;
-	zPos = eta.d;
+	xPos = eta.n/5.0;
+	yPos = eta.e/5.0;
+	zPos = eta.d/5.0;
 	phi = eta.phi;
 	theta = eta.theta;
 	psi = eta.psi;
@@ -111,8 +115,8 @@ void ShipGraph::shipEta(Eta eta)
 //输入目标位置艏向
 void ShipGraph::targetEta(Eta eta)
 {
-	xTarget = eta.n;
-	yTarget = eta.e;
+	xTarget = eta.n/5.0;
+	yTarget = eta.e/5.0;
 	psiTarget = eta.psi;
 
 	updateGL();

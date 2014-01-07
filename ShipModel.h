@@ -26,6 +26,12 @@ public:
 	//初始化
 	void init();
 
+	//打开文件
+	void openFiles();
+
+	//关闭文件
+	void closeFiles();
+
 	//初始化船舶参数
 	void setData(Data *data_);
 
@@ -83,6 +89,9 @@ private:
 
 	double M[DOF6][DOF6], datMinv[DOF6][DOF6];
 	double MinvTao[DOF6];
+
+	//创建存储drag、mu、damp、sprStif的文件
+	ofstream dragFile, muFile, dampFile, sprStifFile;
 
 	//旋转矩阵
 	double RotMx[DOF3][DOF3], TransMx[DOF3][DOF3];

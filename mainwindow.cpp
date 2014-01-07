@@ -5,13 +5,13 @@
 **				Date:		2014-01-04							**
 ******************************************************************/
 
-//mainwindow.cpp
+//Mainwindow.cpp
 
 #include "ShipGraph.h"
 #include "ShipControl.h"
 #include "ShipParameter.h"
 #include "OptionDialog.h"
-#include "mainwindow.h"
+#include "Mainwindow.h"
 #include <QtWidgets>
 #include <QTimer>
 #include <QTextCodec>
@@ -71,7 +71,10 @@ MainWindow::MainWindow()
 	startButton = new QPushButton("Start");
 	connect(startButton, SIGNAL(clicked()), this, SLOT(controlStart()));
 
-	stopButton = new QPushButton("Pause");
+	pauseButton = new QPushButton("Pause");
+	connect(pauseButton, SIGNAL(clicked()), this, SLOT(controlPause()));
+
+	stopButton = new QPushButton("Stop");
 	connect(stopButton, SIGNAL(clicked()), this, SLOT(controlStop()));
 
 	connect(timer, SIGNAL(timeout()), this, SLOT(updateShip()));
@@ -89,13 +92,14 @@ MainWindow::MainWindow()
 	shipCtrl->setParameter();
 
     QGridLayout *centralLayout = new QGridLayout;
-	centralLayout->addWidget(glWidgetArea, 0, 0, 3, 3);
-	centralLayout->addWidget(startButton, 0, 3, 1, 1);
-	centralLayout->addWidget(stopButton, 1, 3, 1, 1);
-	centralLayout->addWidget(zoomSlider, 2, 3, 1, 1);
-    centralLayout->addWidget(xSlider, 3, 0, 1, 4);
-    centralLayout->addWidget(ySlider, 4, 0, 1, 4);
-    centralLayout->addWidget(zSlider, 5, 0, 1, 4);
+	centralLayout->addWidget(glWidgetArea, 0, 0, 4, 4);
+	centralLayout->addWidget(startButton, 0, 4, 1, 1);
+	centralLayout->addWidget(pauseButton, 1, 4, 1, 1);
+	centralLayout->addWidget(stopButton, 2, 4, 1, 1);
+	centralLayout->addWidget(zoomSlider, 3, 4, 1, 1);
+    centralLayout->addWidget(xSlider, 4, 0, 1, 5);
+    centralLayout->addWidget(ySlider, 5, 0, 1, 5);
+    centralLayout->addWidget(zSlider, 6, 0, 1, 5);
     centralWidget->setLayout(centralLayout);
 
     xSlider->setValue(150 * 16);
@@ -107,7 +111,8 @@ MainWindow::MainWindow()
 //    setWindowTitle(codec->toUnicode("èˆ¹èˆ¶æ¨¡æ‹Ÿï¿?));
     resize(500, 600);
 
-	stopButton->setDisabled(true);
+	pauseButton->setEnabled(false);
+	stopButton->setEnabled(false);
 
 	//³õÊ¼»¯Îª´¬²°¿ØÖÆ³õ´ÎÔËÐÐ
 	firstRun = true;
@@ -131,18 +136,31 @@ void MainWindow::controlStart()
 		shipCtrl->startRun();
 	}
 	
-	startButton->setDisabled(true);
+	startButton->setEnabled(false);
+	pauseButton->setEnabled(true);
 	stopButton->setEnabled(true);
 
 	emit shipCtrl->runState(true);
+}
+
+//ÔÝÍ£´¬²°¿ØÖÆ
+void MainWindow::controlPause()
+{
+	shipCtrl->pauseRun();
+	startButton->setEnabled(true);
+	pauseButton->setEnabled(false);
+	stopButton->setEnabled(true);
+
+	emit shipCtrl->runState(false);
 }
 
 //Í£Ö¹´¬²°¿ØÖÆ
 void MainWindow::controlStop()
 {
 	shipCtrl->stopRun();
-	stopButton->setDisabled(true);
-	startButton->setEnabled(true);
+	startButton->setEnabled(false);
+	pauseButton->setEnabled(false);
+	stopButton->setEnabled(false);
 
 	emit shipCtrl->runState(false);
 }

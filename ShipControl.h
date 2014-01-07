@@ -55,6 +55,9 @@ public:
 	//开始进行船舶控制
 	void startRun();
 
+	//暂停进行船舶控制
+	void pauseRun();
+
 	//停止进行船舶控制
 	void stopRun();
 
@@ -85,7 +88,7 @@ private:
 	ShipModel model;
 	
 	double tStep, time;	//整个仿真计算过程步长
-	ofstream etaFile, outFltFile, nuFile;
+	ofstream etaFile, etaFltFile, nuFile;
 	ofstream centerFile, optHeadFile, targetFile;
 	ofstream wave1File, wave2File, windFile, curFile;
 	ofstream taoFile, thrustFile;
@@ -157,8 +160,8 @@ private:
 	//仿真总时间
 	double maxTime;
 
-	//运行标志
-	bool runEnable;
+	//暂停、停止标志
+	bool pauseState, stopState;
 };
 
 
