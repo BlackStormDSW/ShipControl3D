@@ -14,7 +14,6 @@
 #include "Mainwindow.h"
 #include <QtWidgets>
 #include <QTimer>
-#include <QTextCodec>
 #include <QMetaType>
 #include <QDebug>
 #include <iostream>
@@ -29,10 +28,12 @@ MainWindow::MainWindow()
 
 	timer = new QTimer(this);
 
-	optionDlg = new OptionDialog;
+	optionDlg = new OptionDialog(this);
 
     shipPara = new ShipParameter;
     shipCtrl = new ShipControl;
+
+	plot = new PlotData;
 
     shipPara->readMat("E:/Program/matlab_program/s175.mat");
 
@@ -107,8 +108,7 @@ MainWindow::MainWindow()
 	zSlider->setValue(150 * 16);
 	zoomSlider->setValue(10 * 16);
 
-//    QTextCodec *codec = QTextCodec::codecForName("GB18030");
-//    setWindowTitle(codec->toUnicode("船舶模拟�?));
+    setWindowTitle(tr("ShipControl 3D"));
     resize(500, 600);
 
 	pauseButton->setEnabled(false);
@@ -185,6 +185,11 @@ void MainWindow::createActions()
     connect(setDialogAct, SIGNAL(triggered()),
             optionDlg, SLOT(show()));
 
+	plotDataAct = new QAction(tr("&Plot"), this);
+	plotDataAct->setShortcut(tr("Ctrl+P"));
+	connect(plotDataAct, SIGNAL(triggered()),
+		plot, SLOT(draw()));
+
     exitAct = new QAction(tr("E&xit"), this);
     exitAct->setShortcuts(QKeySequence::Quit);
     connect(exitAct, SIGNAL(triggered()), this, SLOT(close()));
@@ -196,7 +201,8 @@ void MainWindow::createActions()
 void MainWindow::createMenus()
 {
     fileMenu = menuBar()->addMenu(tr("&File"));
-    fileMenu->addAction(setDialogAct);
+	fileMenu->addAction(setDialogAct);
+	fileMenu->addAction(plotDataAct);
     fileMenu->addSeparator();
     fileMenu->addAction(exitAct);
 

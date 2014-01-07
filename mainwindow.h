@@ -12,6 +12,7 @@
 
 #include <QMainWindow>
 #include "DataStruct.h"
+#include "PlotData.h"
 
 QT_BEGIN_NAMESPACE
 class QLabel;
@@ -51,6 +52,8 @@ private:
     ShipParameter *shipPara;
 	OptionDialog *optionDlg;
 
+	PlotData *plot;
+
     QWidget *centralWidget;
     QScrollArea *glWidgetArea;
     ShipGraph *shipWidget;
@@ -68,7 +71,8 @@ private:
 
     QMenu *fileMenu;
     QMenu *helpMenu;
-    QAction *setDialogAct;
+	QAction *setDialogAct;
+	QAction *plotDataAct;
     QAction *exitAct;
 	QAction *aboutAct;
 

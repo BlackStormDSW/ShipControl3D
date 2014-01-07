@@ -63,8 +63,6 @@ public:
 	double integrt(Nu &nu, double max, double min, double delta, bool flag=true);
 	//Hoerner方程
 	double Hoerner(double BValue,double TValue);
-	//两个数交换
-	void swap(double &a, double &b);
 	
 	//对状态方程求解
 	double solStateSpaceFunc(const double (*Ar)[visDampNum], const double Br[], const double Cr[], const double Dr, const double var, double xTemp[]);
@@ -121,6 +119,8 @@ private:
 	//船舶速度角速度
 	Nu nu;
 	double nuArray[DOF6];
+
+	double CY_2D;
 };
 
 #endif//SHIPMODEL_H_

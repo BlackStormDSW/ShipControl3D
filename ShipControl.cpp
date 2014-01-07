@@ -298,7 +298,8 @@ void ShipControl::cal()
 		cur.cal();
 		curForce = cur.force();
 		Tool::Force6ToArray(curForce, curArray);
-		
+
+		qDebug() << "Type:" << dataSet.ctrlType << "\t" << dataSet.dpMode << endl;
 		if (0 == ctrlCount)
 		{
 			//动力定位控制

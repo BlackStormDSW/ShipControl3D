@@ -11,6 +11,7 @@
 #include "Tool.h"
 #include <mat.h>
 #include <iostream>
+#include <QDebug>
 #include <stdlib.h>
 using namespace std;
 
@@ -30,6 +31,8 @@ ShipModel::~ShipModel(void)
 void ShipModel::init()
 {	
 	tStep = 0.0;
+
+	CY_2D = 0.0;
 
 	for (int i = 0; i < DOF6; i ++)
 	{
@@ -132,6 +135,8 @@ void ShipModel::calM()
 	Tool::plusMx(data->dataVesABC.Ainf, data->dataVes.MRB, M);
 	//计算惯性矩阵M的逆
 	Tool::inv(M, datMinv);
+
+	CY_2D = Hoerner(data->dataVes.main.B, data->dataVes.main.T);
 }
 
 //Cross-flow drag and surge resistance
@@ -145,7 +150,6 @@ Force6 ShipModel::crosFlowDrag(Nu nu)
 	Lpp = data->dataVes.main.Lpp;
 	B = data->dataVes.main.B;
 	T = data->dataVes.main.T;
-	static double CY_2D = Hoerner(B, T);
 	Ax = 0.9*T*B;
 	Ay = 0.9*T*Lpp;
 	CX = 1;
@@ -189,25 +193,16 @@ double ShipModel::integrt(Nu &nu, double max, double min, double delta, bool fla
 //Hoerner方程
 double ShipModel::Hoerner(double BValue,double TValue)
 {
-	double x[HoerNum], y[HoerNum];
+	double x[] = {0.0108623, 0.176606, 0.353025, 0.451863, 0.472838, 0.492877,
+		0.493252, 0.558473, 0.646401,	0.833589, 0.988002, 1.30807, 1.63918, 
+		1.85998, 2.31288, 2.59998, 3.00877, 3.45075, 3.7379, 4.00309};
+	double y[] = {1.96608, 1.96573, 1.89756, 1.78718, 1.58374, 1.21082, 1.27862, 
+		1.08356, 0.998631, 0.87959, 0.828415, 0.759941, 0.691442, 0.657076, 
+		0.630693, 0.596186, 0.586846, 0.585909, 0.559877, 0.559315};
+	
 	double hData = BValue/(2*TValue);
-	double result = 0;
-	for(int i = 0; i < HoerNum; ++ i)
-	{
-		x[i] = data->CDdata[0][i];
-		y[i] = data->CDdata[1][i];
-	}
-	for (int i = 0; i < HoerNum-1; ++ i)
-	{
-		for (int j = i+1; j < HoerNum; ++ j)
-		{
-			if (x[i]>x[j])
-			{
-				swap(x[i],x[j]);
-				swap(y[i],y[j]);
-			}
-		}
-	}
+
+	double result = 0.0;
 	if (hData>x[0]&&hData<x[HoerNum-1])
 	{
 		int index = 0;
@@ -222,15 +217,6 @@ double ShipModel::Hoerner(double BValue,double TValue)
 		result = (y[HoerNum-1]-y[HoerNum-2])/(x[HoerNum-1]-x[HoerNum-2])*(hData-x[HoerNum-2])+y[HoerNum-2];
 	}
 	return result;
-}
-
-//两个数交换
-void ShipModel::swap(double &a, double &b)
-{
-	double temp;
-	temp = a;
-	a = b;
-	b = temp;
 }
 
 //对状态方程求解
@@ -353,17 +339,17 @@ void ShipModel::cal()
 	//计算Spring stiffness
 	Tool::multiMx(data->dataVesABC.G, etaArray, sprStifArray);
 
-	//dragFile << dragArray[0] << "\t" << dragArray[1] << "\t" << dragArray[2] << "\t"
-	//	<< dragArray[3] << "\t" << dragArray[4] << "\t" << dragArray[5] << endl;
+	dragFile << dragArray[0] << "\t" << dragArray[1] << "\t" << dragArray[2] << "\t"
+		<< dragArray[3] << "\t" << dragArray[4] << "\t" << dragArray[5] << endl;
 
-	//muFile << muArray[0] << "\t" << muArray[1] << "\t" << muArray[2] << "\t"
-	//	<< muArray[3] << "\t" << muArray[4] << "\t" << muArray[5] << endl;
+	muFile << muArray[0] << "\t" << muArray[1] << "\t" << muArray[2] << "\t"
+		<< muArray[3] << "\t" << muArray[4] << "\t" << muArray[5] << endl;
 
-	//dampFile << dampArray[0] << "\t" << dampArray[1] << "\t" << dampArray[2] << "\t"
-	//	<< dampArray[3] << "\t" << dampArray[4] << "\t" << dampArray[5] << endl;
+	dampFile << dampArray[0] << "\t" << dampArray[1] << "\t" << dampArray[2] << "\t"
+		<< dampArray[3] << "\t" << dampArray[4] << "\t" << dampArray[5] << endl;
 
-	//sprStifFile << sprStifArray[0] << "\t" << sprStifArray[1] << "\t" << sprStifArray[2] << "\t"
-	//	<< sprStifArray[3] << "\t" << sprStifArray[4] << "\t" << sprStifArray[5] << endl;
+	sprStifFile << sprStifArray[0] << "\t" << sprStifArray[1] << "\t" << sprStifArray[2] << "\t"
+		<< sprStifArray[3] << "\t" << sprStifArray[4] << "\t" << sprStifArray[5] << endl;
 
 }
 
