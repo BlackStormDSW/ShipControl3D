@@ -234,6 +234,8 @@ struct DataSetStruct
 	double k3;
 };
 
+//Q_DECLARE_METATYPE(DataSetStruct)
+
 #pragma pack()
 
 #endif//DATASTRUCT_H_

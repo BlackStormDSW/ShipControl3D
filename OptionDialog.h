@@ -55,34 +55,35 @@ private:
     void wohcEditEnable(bool flag);
 
 public slots:
-    void applyBtn_clicked();
-    void okBtn_clicked();
-    void cancelBtn_clicked();
+    void on_applyBtn_clicked();
+    void on_okBtn_clicked();
+    void on_cancelBtn_clicked();
 
     //常规动力定位模式选择按钮按下触发相应动作
-    void normalDP_clicked();
+    void on_normalDP_clicked();
     //zpcw动力定位模式选择按钮按下触发相应动作
-    void zpcwDP_clicked();
+    void on_zpcwDP_clicked();
     //WOPC动力定位模式选择按钮按下触发相应动作
-    void wopcDP_clicked();
+    void on_wopcDP_clicked();
     //环境最优(基于环境估计)动力定位模式选择按钮按下触发相应动作
 
     //PID控制器选择按钮按下触发相应动作
-    void pidController_clicked();
+    void on_pidController_clicked();
     //NMPC控制器选择按钮按下触发相应动作
-    void nmpcController_clicked();
+    void on_nmpcController_clicked();
 
-    //初始化数据
-    void dataInit(DataSetStruct dataSet);
+    //接收数据
+    void dataInit(DataSetStruct dataOp);
     //接收船舶控制是否正在执行的状态
     void shipControlRun(bool flag);
 
 signals:
+	//发送数据
     void dataChanged(DataSetStruct);
 
 private:
     Ui::OptionDialog *ui;
-    DataSetStruct data;
+    DataSetStruct dataOption;
     //船舶运行标志
     bool runFlag;
 };

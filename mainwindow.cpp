@@ -22,14 +22,14 @@ using namespace std;
 
 MainWindow::MainWindow()
 {
-	qRegisterMetaType<DataSetStruct>("DataSetStruct");
+	//qRegisterMetaType<DataSetStruct>("DataSetStruct");
 
     centralWidget = new QWidget;
     setCentralWidget(centralWidget);
 
 	timer = new QTimer(this);
 
-	setDialog = new OptionDialog;
+	optionDlg = new OptionDialog;
 
     shipPara = new ShipParameter;
     shipCtrl = new ShipControl;
@@ -79,6 +79,10 @@ MainWindow::MainWindow()
 
 	connect(timer, SIGNAL(timeout()), this, SLOT(updateShip()));
 
+	connect(optionDlg, SIGNAL(dataChanged(DataSetStruct)), shipCtrl, SLOT(receivDataSet(DataSetStruct)));
+	connect(shipCtrl, SIGNAL(sendDataSet(DataSetStruct)) , optionDlg, SLOT(dataInit(DataSetStruct)));
+	connect(shipCtrl, SIGNAL(runState(bool)), optionDlg, SLOT(shipControlRun(bool)));
+
     createActions();
     createMenus();
 
@@ -110,7 +114,7 @@ MainWindow::MainWindow()
 void MainWindow::about()
 {
     QMessageBox::about(this, tr("About ShipControl(3D)"),
-            tr("The <b>ShipControl</b> is designed by Dong Shengwei."));
+            tr("The <b>ShipControl 3D</b> is designed by Dong Shengwei."));
 }
 
 //Í£Ö¹´¬²°¿ØÖÆ
@@ -127,6 +131,8 @@ void MainWindow::controlStart()
 	
 	startButton->setDisabled(true);
 	stopButton->setEnabled(true);
+
+	emit shipCtrl->runState(true);
 }
 
 //Í£Ö¹´¬²°¿ØÖÆ
@@ -135,8 +141,11 @@ void MainWindow::controlStop()
 	shipCtrl->stopRun();
 	stopButton->setDisabled(true);
 	startButton->setEnabled(true);
+
+	emit shipCtrl->runState(false);
 }
 
+//¸üÐÂ´¬²°Î»ÖÃ×ËÌ¬
 void MainWindow::updateShip()
 {
 	shipWidget->shipEta(shipCtrl->getEta());
@@ -147,7 +156,7 @@ void MainWindow::createActions()
     setDialogAct = new QAction(tr("Op&tion..."), this);
     setDialogAct->setShortcut(tr("Ctrl+T"));
     connect(setDialogAct, SIGNAL(triggered()),
-            setDialog, SLOT(show()));
+            optionDlg, SLOT(show()));
 
     exitAct = new QAction(tr("E&xit"), this);
     exitAct->setShortcuts(QKeySequence::Quit);

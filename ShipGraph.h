@@ -25,6 +25,9 @@ public:
     int yRotation() const { return yRot; }
     int zRotation() const { return zRot; }
 
+	//输入船舶位置
+	void shipEta(Eta eta);
+
 public slots:
     void setXRotation(int angle);
     void setYRotation(int angle);
@@ -32,8 +35,6 @@ public slots:
 	void setZoom(int angle);
 
 	void pointMove(double xMove, double yMove);
-
-	void shipEta(Eta eta);
 
 signals:
     void xRotationChanged(int angle);

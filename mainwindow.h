@@ -46,7 +46,7 @@ private:
 
     ShipControl *shipCtrl;
     ShipParameter *shipPara;
-	OptionDialog *setDialog;
+	OptionDialog *optionDlg;
 
     QWidget *centralWidget;
     QScrollArea *glWidgetArea;

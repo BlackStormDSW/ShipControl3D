@@ -58,6 +58,15 @@ public:
 	//控制计算
 	void cal();
 
+public slots:
+	//从设置对话框接收数据
+	void receivDataSet(DataSetStruct);
+signals:
+	//将数据发送到设置对话框
+	void sendDataSet(DataSetStruct);
+	//将船舶控制的运行状态发送到设置对话框
+	void runState(bool runFlag);
+
 protected:
     //船舶控制运行
     void run();

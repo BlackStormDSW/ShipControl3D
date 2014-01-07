@@ -9,6 +9,7 @@
 
 #include "OptionDialog.h"
 #include "ui_OptionDialog.h"
+#include <QDebug>
 
 OptionDialog::OptionDialog(QWidget *parent) :
     QDialog(parent),
@@ -30,15 +31,15 @@ void OptionDialog::init()
 
 void OptionDialog::showData()
 {
-    ui->windSpeed->setText(QString::number(data.windSpeed, 'f', 1));
-    ui->windDir->setText(QString::number(data.windDir, 'f', 1));
-    ui->waveHeight->setText(QString::number(data.waveHeight, 'f', 1));
-    ui->waveDir->setText(QString::number(data.waveDir, 'f', 1));
-    ui->curSpeed->setText(QString::number(data.curSpeed, 'f', 1));
-    ui->curDir->setText(QString::number(data.curDir, 'f', 1));
+    ui->windSpeed->setText(QString::number(dataOption.windSpeed, 'f', 1));
+    ui->windDir->setText(QString::number(dataOption.windDir, 'f', 1));
+    ui->waveHeight->setText(QString::number(dataOption.waveHeight, 'f', 1));
+    ui->waveDir->setText(QString::number(dataOption.waveDir, 'f', 1));
+    ui->curSpeed->setText(QString::number(dataOption.curSpeed, 'f', 1));
+    ui->curDir->setText(QString::number(dataOption.curDir, 'f', 1));
 
     //显示动力定位控制模式
-    switch (data.dpMode) {
+    switch (dataOption.dpMode) {
     case NORMAL_DP:
         ui->normalDP->setChecked(true);
         break;
@@ -56,7 +57,7 @@ void OptionDialog::showData()
     }
 
     //显示动力定位控制器类型
-    switch (data.ctrlType) {
+    switch (dataOption.ctrlType) {
     case PID_CTRL:
         ui->pidController->setChecked(true);
         break;
@@ -68,93 +69,93 @@ void OptionDialog::showData()
     }
 
     //显示PID参数
-	ui->kp->setText(QString::number(data.kp, 'f', 1));
-	ui->ki->setText(QString::number(data.ki, 'f', 1));
-	ui->kd->setText(QString::number(data.kd, 'f', 1));
+	ui->kp->setText(QString::number(dataOption.kp, 'f', 1));
+	ui->ki->setText(QString::number(dataOption.ki, 'f', 1));
+	ui->kd->setText(QString::number(dataOption.kd, 'f', 1));
 
     //显示NMPC参数
-    ui->tNMPC->setText(QString::number(data.tNMPC, 'f', 1));
-    ui->w1NMPC->setText(QString::number(data.w1NMPC, 'f', 1));
-    ui->w2NMPC->setText(QString::number(data.w2NMPC, 'f', 1));
-    ui->w3NMPC->setText(QString::number(data.w3NMPC, 'f', 1));
+    ui->tNMPC->setText(QString::number(dataOption.tNMPC, 'f', 1));
+    ui->w1NMPC->setText(QString::number(dataOption.w1NMPC, 'f', 1));
+    ui->w2NMPC->setText(QString::number(dataOption.w2NMPC, 'f', 1));
+    ui->w3NMPC->setText(QString::number(dataOption.w3NMPC, 'f', 1));
 
     //初始位置与艏向
-    ui->nOrigin->setText(QString::number(data.nOrigin, 'f', 1));
-    ui->eOrigin->setText(QString::number(data.eOrigin, 'f', 1));
-    ui->psiOrigin->setText(QString::number(data.psiOrigin, 'f', 1));
+    ui->nOrigin->setText(QString::number(dataOption.nOrigin, 'f', 1));
+    ui->eOrigin->setText(QString::number(dataOption.eOrigin, 'f', 1));
+    ui->psiOrigin->setText(QString::number(dataOption.psiOrigin, 'f', 1));
 
     //目标位置与艏向
-    ui->nTarget->setText(QString::number(data.nTarget, 'f', 1));
-    ui->eTarget->setText(QString::number(data.eTarget, 'f', 1));
-    ui->psiTarget->setText(QString::number(data.psiTarget, 'f', 1));
+    ui->nTarget->setText(QString::number(dataOption.nTarget, 'f', 1));
+    ui->eTarget->setText(QString::number(dataOption.eTarget, 'f', 1));
+    ui->psiTarget->setText(QString::number(dataOption.psiTarget, 'f', 1));
 
     //WOPC中虚拟圆的半径
-    ui->radius->setText(QString::number(data.radius, 'f', 1));
+    ui->radius->setText(QString::number(dataOption.radius, 'f', 1));
 
     //环境最优艏向控制的PID参数
-    ui->kpWOHC->setText(QString::number(data.kpWOHC, 'f', 1));
-    ui->kiWOHC->setText(QString::number(data.kiWOHC, 'f', 1));
-    ui->kdWOHC->setText(QString::number(data.kdWOHC, 'f', 1));
+    ui->kpWOHC->setText(QString::number(dataOption.kpWOHC, 'f', 1));
+    ui->kiWOHC->setText(QString::number(dataOption.kiWOHC, 'f', 1));
+    ui->kdWOHC->setText(QString::number(dataOption.kdWOHC, 'f', 1));
 
     //环境估计的参数
-    ui->k1->setText(QString::number(data.k1, 'f', 1));
-    ui->k2->setText(QString::number(data.k2, 'f', 1));
-    ui->k3->setText(QString::number(data.k3, 'f', 1));
+    ui->k1->setText(QString::number(dataOption.k1, 'f', 1));
+    ui->k2->setText(QString::number(dataOption.k2, 'f', 1));
+    ui->k3->setText(QString::number(dataOption.k3, 'f', 1));
 
 }
 
 void OptionDialog::apply()
 {
-    data.windSpeed  = ui->windSpeed->text().toDouble();
-    data.windDir    = ui->windDir->text().toDouble();
-    data.waveHeight = ui->waveHeight->text().toDouble();
-    data.waveDir    = ui->waveDir->text().toDouble();
-    data.curSpeed   = ui->curSpeed->text().toDouble();
-    data.curDir     = ui->curDir->text().toDouble();
+    dataOption.windSpeed  = ui->windSpeed->text().toDouble();
+    dataOption.windDir    = ui->windDir->text().toDouble();
+    dataOption.waveHeight = ui->waveHeight->text().toDouble();
+    dataOption.waveDir    = ui->waveDir->text().toDouble();
+    dataOption.curSpeed   = ui->curSpeed->text().toDouble();
+    dataOption.curDir     = ui->curDir->text().toDouble();
 
     if (ui->normalDP->isChecked()) {
-        data.dpMode = NORMAL_DP;
+        dataOption.dpMode = NORMAL_DP;
     } else if (ui->zpcwDP->isChecked()) {
-        data.dpMode = ZPCW_DP;
+        dataOption.dpMode = ZPCW_DP;
     } else if (ui->wopcDP->isChecked()) {
-        data.dpMode = WOPC_DP;
+        dataOption.dpMode = WOPC_DP;
     } else if (ui->optDP->isChecked()) {
-        data.dpMode = OPT_DP;
+        dataOption.dpMode = OPT_DP;
     }
 
     if (ui->pidController->isChecked()) {
-		data.ctrlType = PID_CTRL;
-		data.kp = ui->kp->text().toDouble();
-		data.ki = ui->ki->text().toDouble();
-		data.kd = ui->kd->text().toDouble();
+		dataOption.ctrlType = PID_CTRL;
+		dataOption.kp = ui->kp->text().toDouble();
+		dataOption.ki = ui->ki->text().toDouble();
+		dataOption.kd = ui->kd->text().toDouble();
 	} else if (ui->nmpcController->isChecked()) {
-		data.ctrlType = NMPC_CTRL;
-        data.tNMPC = ui->tNMPC->text().toDouble();
-        data.w1NMPC = ui->w1NMPC->text().toDouble();
-        data.w2NMPC = ui->w2NMPC->text().toDouble();
-        data.w3NMPC = ui->w3NMPC->text().toDouble();
+		dataOption.ctrlType = NMPC_CTRL;
+        dataOption.tNMPC = ui->tNMPC->text().toDouble();
+        dataOption.w1NMPC = ui->w1NMPC->text().toDouble();
+        dataOption.w2NMPC = ui->w2NMPC->text().toDouble();
+        dataOption.w3NMPC = ui->w3NMPC->text().toDouble();
     }
 
-    data.nOrigin    = ui->nOrigin->text().toDouble();
-    data.eOrigin    = ui->eOrigin->text().toDouble();
-    data.psiOrigin  = ui->psiOrigin->text().toDouble();
+    dataOption.nOrigin    = ui->nOrigin->text().toDouble();
+    dataOption.eOrigin    = ui->eOrigin->text().toDouble();
+    dataOption.psiOrigin  = ui->psiOrigin->text().toDouble();
 
-    data.nTarget    = ui->nTarget->text().toDouble();
-    data.eTarget    = ui->eTarget->text().toDouble();
-    data.psiTarget  = ui->psiTarget->text().toDouble();
+    dataOption.nTarget    = ui->nTarget->text().toDouble();
+    dataOption.eTarget    = ui->eTarget->text().toDouble();
+    dataOption.psiTarget  = ui->psiTarget->text().toDouble();
 
-    data.radius     = ui->radius->text().toDouble();
+    dataOption.radius     = ui->radius->text().toDouble();
 
-    data.kpWOHC = ui->kpWOHC->text().toDouble();
-    data.kiWOHC = ui->kiWOHC->text().toDouble();
-    data.kdWOHC = ui->kdWOHC->text().toDouble();
+    dataOption.kpWOHC = ui->kpWOHC->text().toDouble();
+    dataOption.kiWOHC = ui->kiWOHC->text().toDouble();
+    dataOption.kdWOHC = ui->kdWOHC->text().toDouble();
 
-    data.k1 = ui->k1->text().toDouble();
-    data.k2 = ui->k2->text().toDouble();
-    data.k3 = ui->k3->text().toDouble();
+    dataOption.k1 = ui->k1->text().toDouble();
+    dataOption.k2 = ui->k2->text().toDouble();
+    dataOption.k3 = ui->k3->text().toDouble();
 
     //发送数据
-    emit dataChanged(data);
+    emit dataChanged(dataOption);
 
 }
 
@@ -257,56 +258,58 @@ void OptionDialog::showEvent(QShowEvent *event)
     otherEditEnable(!runFlag);
 }
 
-void OptionDialog::applyBtn_clicked()
+void OptionDialog::on_applyBtn_clicked()
 {
     apply();
 }
 
-void OptionDialog::okBtn_clicked()
+void OptionDialog::on_okBtn_clicked()
 {
+	qDebug() << "Ok";
     apply();
-    accepted();
+    accept();
 }
 
-void OptionDialog::cancelBtn_clicked()
+void OptionDialog::on_cancelBtn_clicked()
 {
-    rejected();
+	qDebug() << "Cancel";
+    reject();
 }
 
-void OptionDialog::normalDP_clicked()
+void OptionDialog::on_normalDP_clicked()
 {
     radiusEditEnable(false);
     wohcEditEnable(false);
 }
 
-void OptionDialog::zpcwDP_clicked()
+void OptionDialog::on_zpcwDP_clicked()
 {
     wohcEditEnable(true);
 }
 
-void OptionDialog::wopcDP_clicked()
+void OptionDialog::on_wopcDP_clicked()
 {
     radiusEditEnable(true);
     wohcEditEnable(true);
 }
 
-void OptionDialog::pidController_clicked()
+void OptionDialog::on_pidController_clicked()
 {
     pidEditEnable(true);
     nmpcEditEnable(false);
     envObsEditEnable(false);
 }
 
-void OptionDialog::nmpcController_clicked()
+void OptionDialog::on_nmpcController_clicked()
 {
-    pidEditEnable(true);
-    nmpcEditEnable(false);
+    pidEditEnable(false);
+    nmpcEditEnable(true);
     envObsEditEnable(true);
 }
 
 void OptionDialog::dataInit(DataSetStruct dataSet)
 {
-    data = dataSet;
+    dataOption = dataSet;
 }
 
 void OptionDialog::shipControlRun(bool flag)

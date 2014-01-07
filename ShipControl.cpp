@@ -137,6 +137,8 @@ void ShipControl::init()
 	//初始化流作用力
 	Tool::initForce6(curForce);
 
+	//将初始化的数据发送到设置对话框
+	emit sendDataSet(*dataSet);
 }
 
 //设置船舶参数
@@ -417,6 +419,12 @@ void ShipControl::cal()
 	}
 }
 
+//从设置对话框接收数据
+void ShipControl::receivDataSet(DataSetStruct dataReceive)
+{
+	dataSet = &dataReceive;
+}
+
 //船舶控制运行
 void ShipControl::run()
 {	
@@ -432,4 +440,3 @@ ostream& operator << (ostream &os, const Eta &eta)
 		<< eta.phi << "\t" << eta.theta << "\t" << eta.psi;
 	return os;
 }
-
