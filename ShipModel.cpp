@@ -118,16 +118,16 @@ void ShipModel::calM()
 Force6 ShipModel::crosFlowDrag(Nu nu)
 {
 	Force6 force;
-	double rho_w, Lpp, B, T, Ax, Ay, CX, CY_2D;
+	double rho_w, Lpp, B, T, Ax, Ay, CX;
 	double xDrag = 0.0, yDrag = 0.0, nDrag = 0.0;
 	rho_w = data->dataVes.main.rho;
 	Lpp = data->dataVes.main.Lpp;
 	B = data->dataVes.main.B;
 	T = data->dataVes.main.T;
+	static double CY_2D = Hoerner(B, T);
 	Ax = 0.9*T*B;
 	Ay = 0.9*T*Lpp;
 	CX = 1;
-	CY_2D = Hoerner(B, T);
 	xDrag = -0.5*rho_w*CX*Ax*nu.u*fabs(nu.u);
 	yDrag = -0.5*rho_w*Ay/Lpp*CY_2D*integrt(nu, 0.5*Lpp, -0.5*Lpp, 0.01, true);
 	nDrag = -0.5*rho_w*Ay/Lpp*CY_2D*integrt(nu, 0.5*Lpp, -0.5*Lpp, 0.01, false);
@@ -239,7 +239,7 @@ double ShipModel::solStateSpaceFunc(const double (*Ar)[visDampNum], const double
 Force6 ShipModel::viscousDamp(const Nu &nu)
 {
 	Force6 muResult;
-	double result[DOF6] = {0}, xTemp[DOF6] = {0};
+	double result[DOF6] = {0};
 	static double xArray[DOF6][DOF6][visDampNum] = {0.0};
 	double varIn[DOF6] = {nu.u, nu.v, nu.w, nu.p, nu.q, nu.r};
 

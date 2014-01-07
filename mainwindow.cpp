@@ -40,6 +40,7 @@ MainWindow::MainWindow()
     shipData = &(shipPara->getData());
 
     shipCtrl->setData(shipData);
+	shipCtrl->setParameter();
 
     shipWidget = new ShipGraph;
 
@@ -101,6 +102,9 @@ MainWindow::MainWindow()
     resize(500, 600);
 
 	stopButton->setDisabled(true);
+
+	//³õÊ¼»¯Îª´¬²°¿ØÖÆ³õ´ÎÔËÐÐ
+	firstRun = true;
 }
 
 void MainWindow::about()
@@ -110,15 +114,23 @@ void MainWindow::about()
                "Harbin Engineering University."));
 }
 
+//Í£Ö¹´¬²°¿ØÖÆ
 void MainWindow::controlStart()
 {
-    shipCtrl->start();
-	timer->start(20);
+	if (firstRun)
+	{
+		shipCtrl->start();
+		timer->start(20);
+		firstRun = false;
+	} else {
+		shipCtrl->run();
+	}
+	
 	startButton->setDisabled(true);
 	stopButton->setEnabled(true);
 }
 
-//åœæ­¢è¿›è¡Œèˆ¹èˆ¶æŽ§åˆ¶
+//Í£Ö¹´¬²°¿ØÖÆ
 void MainWindow::controlStop()
 {
 	shipCtrl->stopRun();

@@ -43,24 +43,24 @@ public:
 	//关闭文件
 	void closeFiles();
 
-	//用户接口
-	void userInterFace();
-
 	//设置参数
 	void setParameter();
 
 	//输出位置姿态
 	Eta getEta();
 	
-	//停止计算
+	//开始进行船舶控制
+	void startRun();
+
+	//停止进行船舶控制
 	void stopRun();
-		
-	//重载<<操作符
-	friend ostream& operator << (ostream &os, const Eta &eta);
 
 protected:
     //船舶控制运行
     void run();
+		
+	//重载<<操作符
+	friend ostream& operator << (ostream &os, const Eta &eta);
 
 private:
 	Data *data;

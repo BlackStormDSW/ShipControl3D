@@ -67,7 +67,10 @@ private:
     QMenu *helpMenu;
     QAction *setDialogAct;
     QAction *exitAct;
-    QAction *aboutAct;
+	QAction *aboutAct;
+
+	//船舶控制是否初次运行
+	bool firstRun;
 };
 
 #endif // MAINWINDOW_H
