@@ -1,25 +1,34 @@
-#include "SettingDialog.h"
-#include "ui_SettingDialog.h"
+/*****************************************************************
+**				Project:	ShipControl(WOPC)					**
+**				Author:		Dong Shengwei						**
+**				Library:	BestSea								**
+**				Date:		2014-01-07							**
+******************************************************************/
 
-SettingDialog::SettingDialog(QWidget *parent) :
+//OptionDialog.h
+
+#include "OptionDialog.h"
+#include "ui_OptionDialog.h"
+
+OptionDialog::OptionDialog(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::SettingDialog)
+    ui(new Ui::OptionDialog)
 {
     init();
     ui->setupUi(this);
 }
 
-SettingDialog::~SettingDialog()
+OptionDialog::~OptionDialog()
 {
     delete ui;
 }
 
-void SettingDialog::init()
+void OptionDialog::init()
 {
     runFlag = false;
 }
 
-void SettingDialog::showData()
+void OptionDialog::showData()
 {
     ui->windSpeed->setText(QString::number(data.windSpeed, 'f', 1));
     ui->windDir->setText(QString::number(data.windDir, 'f', 1));
@@ -94,7 +103,7 @@ void SettingDialog::showData()
 
 }
 
-void SettingDialog::apply()
+void OptionDialog::apply()
 {
     data.windSpeed  = ui->windSpeed->text().toDouble();
     data.windDir    = ui->windDir->text().toDouble();
@@ -150,7 +159,7 @@ void SettingDialog::apply()
 }
 
 //环境设置界面内可以或者不可以进行编辑
-void SettingDialog::envEditEnable(bool flag)
+void OptionDialog::envEditEnable(bool flag)
 {
     ui->windSpeed->setEnabled(flag);
     ui->windDir->setEnabled(flag);
@@ -161,7 +170,7 @@ void SettingDialog::envEditEnable(bool flag)
 }
 
 //动力定位模式设置界面内可以或者不可以进行编辑
-void SettingDialog::dpModeEditEnable(bool flag)
+void OptionDialog::dpModeEditEnable(bool flag)
 {
     ui->normalDP->setEnabled(flag);
     ui->zpcwDP->setEnabled(flag);
@@ -170,7 +179,7 @@ void SettingDialog::dpModeEditEnable(bool flag)
 }
 
 //控制器设置界面内可以或者不可以进行编辑
-void SettingDialog::ctrlEditEnable(bool flag)
+void OptionDialog::ctrlEditEnable(bool flag)
 {
     ui->pidController->setEnabled(flag);
     ui->nmpcController->setEnabled(flag);
@@ -179,7 +188,7 @@ void SettingDialog::ctrlEditEnable(bool flag)
 }
 
 //动力定位任务设置界面内可以或者不可以进行编辑
-void SettingDialog::missionEditEnable(bool flag)
+void OptionDialog::missionEditEnable(bool flag)
 {
     ui->nOrigin->setEnabled(flag);
     ui->eOrigin->setEnabled(flag);
@@ -191,7 +200,7 @@ void SettingDialog::missionEditEnable(bool flag)
 }
 
 //其他设置界面内可以或者不可以进行编辑
-void SettingDialog::otherEditEnable(bool flag)
+void OptionDialog::otherEditEnable(bool flag)
 {
     radiusEditEnable(flag);
     wohcEditEnable(flag);
@@ -199,7 +208,7 @@ void SettingDialog::otherEditEnable(bool flag)
 }
 
 //PID参数可以或者不可以进行编辑
-void SettingDialog::pidEditEnable(bool flag)
+void OptionDialog::pidEditEnable(bool flag)
 {
     ui->pValue->setEnabled(flag);
     ui->iValue->setEnabled(flag);
@@ -207,7 +216,7 @@ void SettingDialog::pidEditEnable(bool flag)
 }
 
 //NMPC参数可以或者不可以进行编辑
-void SettingDialog::nmpcEditEnable(bool flag)
+void OptionDialog::nmpcEditEnable(bool flag)
 {
     ui->tValue->setEnabled(flag);
     ui->w1Value->setEnabled(flag);
@@ -216,13 +225,13 @@ void SettingDialog::nmpcEditEnable(bool flag)
 }
 
 //WOPC中虚拟圆半径可以或者不可以进行编辑
-void SettingDialog::radiusEditEnable(bool flag)
+void OptionDialog::radiusEditEnable(bool flag)
 {
     ui->radius->setEnabled(flag);
 }
 
 //环境估计参数可以或者不可以进行编辑
-void SettingDialog::envObsEditEnable(bool flag)
+void OptionDialog::envObsEditEnable(bool flag)
 {
     ui->k1->setEnabled(flag);
     ui->k2->setEnabled(flag);
@@ -230,14 +239,14 @@ void SettingDialog::envObsEditEnable(bool flag)
 }
 
 //环境最优艏向参数可以或者不可以进行编辑
-void SettingDialog::wohcEditEnable(bool flag)
+void OptionDialog::wohcEditEnable(bool flag)
 {
     ui->kp->setEnabled(flag);
     ui->ki->setEnabled(flag);
     ui->kd->setEnabled(flag);
 }
 
-void SettingDialog::showEvent(QShowEvent *event)
+void OptionDialog::showEvent(QShowEvent *event)
 {
     showData();
 
@@ -248,59 +257,59 @@ void SettingDialog::showEvent(QShowEvent *event)
     otherEditEnable(!runFlag);
 }
 
-void SettingDialog::applyBtn_clicked()
+void OptionDialog::applyBtn_clicked()
 {
     apply();
 }
 
-void SettingDialog::okBtn_clicked()
+void OptionDialog::okBtn_clicked()
 {
     apply();
     accepted();
 }
 
-void SettingDialog::cancelBtn_clicked()
+void OptionDialog::cancelBtn_clicked()
 {
     rejected();
 }
 
-void SettingDialog::normalDP_clicked()
+void OptionDialog::normalDP_clicked()
 {
     radiusEditEnable(false);
     wohcEditEnable(false);
 }
 
-void SettingDialog::zpcwDP_clicked()
+void OptionDialog::zpcwDP_clicked()
 {
     wohcEditEnable(true);
 }
 
-void SettingDialog::wopcDP_clicked()
+void OptionDialog::wopcDP_clicked()
 {
     radiusEditEnable(true);
     wohcEditEnable(true);
 }
 
-void SettingDialog::pidController_clicked()
+void OptionDialog::pidController_clicked()
 {
     pidEditEnable(true);
     nmpcEditEnable(false);
     envObsEditEnable(false);
 }
 
-void SettingDialog::nmpcController_clicked()
+void OptionDialog::nmpcController_clicked()
 {
     pidEditEnable(true);
     nmpcEditEnable(false);
     envObsEditEnable(true);
 }
 
-void SettingDialog::dataInit(DataSetStruct dataSet)
+void OptionDialog::dataInit(DataSetStruct dataSet)
 {
     data = dataSet;
 }
 
-void SettingDialog::shipControlRun(bool flag)
+void OptionDialog::shipControlRun(bool flag)
 {
     runFlag = flag;
 }

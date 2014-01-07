@@ -12,6 +12,7 @@
 #include <mat.h>
 #include <stdlib.h>
 #include <QTextStream>
+#include <QDebug>
 
 ShipControl::ShipControl(void) :
 tStep(0.05), time(0)
@@ -242,7 +243,7 @@ Eta ShipControl::getEta()
 //开始进行船舶控制
 void ShipControl::startRun()
 {
-
+	runEnable = true;
 }
 
 //停止计算
@@ -254,18 +255,13 @@ void ShipControl::stopRun()
 //控制计算
 void ShipControl::cal()
 {
-
-}
-
-//船舶控制运行
-void ShipControl::run()
-{	
-	runEnable = true;
-
-	time = 0.0;
 	//循环进行模型计算
-	while (runEnable)
+	while (1)
 	{
+		while (!runEnable) 
+		{
+			msleep(100);
+		}
 		//得到环境估计力
 		envObs.setNu(nu);
 		envObs.setTao(thrust);
@@ -361,11 +357,11 @@ void ShipControl::run()
 		//环境最优动力定位保存数据
 		if (2 == dpFlag)
 		{
-            optHeadFile << time << "\t" << optPsi << "\n";
+			optHeadFile << time << "\t" << optPsi << "\n";
 			if (1 == wopcFlag || 2 == wopcFlag)
 			{
 				centerFile << time << "\t" << etaTarget.n
-                    << "\t" << etaTarget.e << "\n";
+					<< "\t" << etaTarget.e << "\n";
 			}
 		}
 
@@ -391,12 +387,12 @@ void ShipControl::run()
 			wave2File << wave2Array[i] << "\t";
 			curFile << curArray[i] << "\t";
 		}
-        taoFile << "\n";
-        thrustFile << "\n";
-        windFile << "\n";
-        wave1File << "\n";
-        wave2File << "\n";
-        curFile << "\n";
+		taoFile << "\n";
+		thrustFile << "\n";
+		windFile << "\n";
+		wave1File << "\n";
+		wave2File << "\n";
+		curFile << "\n";
 
 		Tool::ArrayToForce6(taoArray, tao);
 
@@ -415,16 +411,23 @@ void ShipControl::run()
 		filter.setEta(eta);
 		etaFlt = filter.cal();
 
-        etaFile << time << "\t" << eta << "\n";
+		etaFile << time << "\t" << eta << "\n";
 
 		nuFile << time << "\t" << nu.u << "\t" << nu.v << "\t" << nu.w 
-            << "\t" << nu.p << "\t" << nu.q << "\t" << nu.r << "\n";
+			<< "\t" << nu.p << "\t" << nu.q << "\t" << nu.r << "\n";
 
-        outFltFile << time << "\t" << etaFlt << "\n";
+		outFltFile << time << "\t" << etaFlt << "\n";
 
 		time += tStep;	
 	}
+}
 
+//船舶控制运行
+void ShipControl::run()
+{	
+	time = 0.0;
+	//船舶开始进行控制计算
+	cal();
 }
 
 //重载<<操作符

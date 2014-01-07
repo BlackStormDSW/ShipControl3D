@@ -24,7 +24,7 @@ QT_END_NAMESPACE
 class ShipGraph;
 class ShipControl;
 class ShipParameter;
-class SettingDialog;
+class OptionDialog;
 
 class MainWindow : public QMainWindow
 {
@@ -43,11 +43,10 @@ private:
     void createActions();
     void createMenus();
     QSlider *createSlider(const char *changedSignal, const char *setterSlot);
-    QSize getSize();
 
     ShipControl *shipCtrl;
     ShipParameter *shipPara;
-	SettingDialog *setDialog;
+	OptionDialog *setDialog;
 
     QWidget *centralWidget;
     QScrollArea *glWidgetArea;

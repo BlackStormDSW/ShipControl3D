@@ -11,7 +11,7 @@
 #include "DataStruct.h"
 #include "ShipControl.h"
 #include "ShipParameter.h"
-#include "SettingDialog.h"
+#include "OptionDialog.h"
 #include "mainwindow.h"
 #include <QtWidgets>
 #include <QTimer>
@@ -29,7 +29,7 @@ MainWindow::MainWindow()
 
 	timer = new QTimer(this);
 
-	setDialog = new SettingDialog;
+	setDialog = new OptionDialog;
 
     shipPara = new ShipParameter;
     shipCtrl = new ShipControl;
@@ -74,7 +74,7 @@ MainWindow::MainWindow()
 	startButton = new QPushButton("Start");
 	connect(startButton, SIGNAL(clicked()), this, SLOT(controlStart()));
 
-	stopButton = new QPushButton("Stop");
+	stopButton = new QPushButton("Pause");
 	connect(stopButton, SIGNAL(clicked()), this, SLOT(controlStop()));
 
 	connect(timer, SIGNAL(timeout()), this, SLOT(updateShip()));
@@ -110,8 +110,7 @@ MainWindow::MainWindow()
 void MainWindow::about()
 {
     QMessageBox::about(this, tr("About ShipControl(3D)"),
-            tr("The <b>ShipControl</b> is designed by Dong Shengwei \n"
-               "Harbin Engineering University."));
+            tr("The <b>ShipControl</b> is designed by Dong Shengwei."));
 }
 
 //Í£Ö¹´¬²°¿ØÖÆ
@@ -123,7 +122,7 @@ void MainWindow::controlStart()
 		timer->start(20);
 		firstRun = false;
 	} else {
-		shipCtrl->run();
+		shipCtrl->startRun();
 	}
 	
 	startButton->setDisabled(true);
@@ -181,27 +180,4 @@ QSlider *MainWindow::createSlider(const char *changedSignal,
     connect(slider, SIGNAL(valueChanged(int)), shipWidget, setterSlot);
     connect(shipWidget, changedSignal, slider, SLOT(setValue(int)));
     return slider;
-}
-
-QSize MainWindow::getSize()
-{
-    bool ok;
-    QString text = QInputDialog::getText(this, tr("Grabber"),
-                                         tr("Enter pixmap size:"),
-                                         QLineEdit::Normal,
-                                         tr("%1 x %2").arg(shipWidget->width())
-                                                      .arg(shipWidget->height()),
-                                         &ok);
-    if (!ok)
-        return QSize();
-
-    QRegExp regExp(tr("([0-9]+) *x *([0-9]+)"));
-    if (regExp.exactMatch(text)) {
-        int width = regExp.cap(1).toInt();
-        int height = regExp.cap(2).toInt();
-        if (width > 0 && width < 2048 && height > 0 && height < 2048)
-            return QSize(width, height);
-    }
-
-    return shipWidget->size();
 }

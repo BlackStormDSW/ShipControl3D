@@ -1,3 +1,12 @@
+/*****************************************************************
+**				Project:	ShipControl(WOPC)					**
+**				Author:		Dong Shengwei						**
+**				Library:	BestSea								**
+**				Date:		2014-01-07							**
+******************************************************************/
+
+//OptionDialog.h
+
 #ifndef SETTINGDIALOG_H
 #define SETTINGDIALOG_H
 
@@ -5,16 +14,16 @@
 #include "DataStruct.h"
 
 namespace Ui {
-class SettingDialog;
+class OptionDialog;
 }
 
-class SettingDialog : public QDialog
+class OptionDialog : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit SettingDialog(QWidget *parent = 0);
-    ~SettingDialog();
+    explicit OptionDialog(QWidget *parent = 0);
+    ~OptionDialog();
 
 
 private:
@@ -72,7 +81,7 @@ signals:
     void dataChanged(DataSetStruct);
 
 private:
-    Ui::SettingDialog *ui;
+    Ui::OptionDialog *ui;
     DataSetStruct data;
     //船舶运行标志
     bool runFlag;

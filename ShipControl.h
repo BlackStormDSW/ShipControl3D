@@ -55,6 +55,9 @@ public:
 	//停止进行船舶控制
 	void stopRun();
 
+	//控制计算
+	void cal();
+
 protected:
     //船舶控制运行
     void run();
