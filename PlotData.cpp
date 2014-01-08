@@ -34,8 +34,5 @@ void PlotData::init()
 
 void PlotData::draw()
 {
-	engEvalString(ep, "cd E:\\projectProgram\\data\\");
-	engEvalString(ep, "drawUnifiedShipWithEnv");
-	
-	
+	engEvalString(ep, "drawUnifiedShipWithEnv");	
 }

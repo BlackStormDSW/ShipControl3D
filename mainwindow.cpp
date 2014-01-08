@@ -174,7 +174,6 @@ void MainWindow::updateShip()
 //更新船舶目标位置艏向
 void MainWindow::updateTarget(DataSetStruct)
 {
-	qDebug() << "target:" << shipCtrl->getTarget().n << shipCtrl->getTarget().e ;
 	shipWidget->targetEta(shipCtrl->getTarget());
 }
 
