@@ -31,7 +31,9 @@ SOURCES += main.cpp\
     Wave.cpp \
     Wind.cpp \
     WOPC.cpp \
-    ShipGraph.cpp
+    ShipGraph.cpp \
+	PlotData.cpp \
+	OptionDialog.cpp
 
 HEADERS  += mainwindow.h \
     Current.h \
@@ -48,6 +50,8 @@ HEADERS  += mainwindow.h \
     Wave.h \
     Wind.h \
     WOPC.h \
-    ShipGraph.h
+    ShipGraph.h \
+	PlotData.h \
+	OptionDialog.h
 
-FORMS    +=
+FORMS    += OptionDialog.ui
