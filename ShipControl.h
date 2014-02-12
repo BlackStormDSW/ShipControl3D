@@ -93,6 +93,7 @@ private:
 	ofstream wave1File, wave2File, windFile, curFile;
 	ofstream taoFile, thrustFile;
 	ofstream paraFile;
+	ofstream envObsFile;
 
 	//船舶位置姿态，目标位置姿态， 滤波后的位置姿态
 	Eta eta, etaTarget, etaFlt;

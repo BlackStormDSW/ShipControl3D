@@ -33,7 +33,8 @@ SOURCES += main.cpp\
     WOPC.cpp \
     ShipGraph.cpp \
 	PlotData.cpp \
-	OptionDialog.cpp
+	OptionDialog.cpp \
+	WohcWithEnvObs.cpp
 
 HEADERS  += mainwindow.h \
     Current.h \
@@ -52,6 +53,7 @@ HEADERS  += mainwindow.h \
     WOPC.h \
     ShipGraph.h \
 	PlotData.h \
-	OptionDialog.h
+	OptionDialog.h \
+	WohcWithEnvObs.h
 
 FORMS    += OptionDialog.ui

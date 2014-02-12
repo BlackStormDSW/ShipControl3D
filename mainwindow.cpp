@@ -75,8 +75,8 @@ MainWindow::MainWindow()
 	pauseButton = new QPushButton("Pause");
 	connect(pauseButton, SIGNAL(clicked()), this, SLOT(controlPause()));
 
-	stopButton = new QPushButton("Stop");
-	connect(stopButton, SIGNAL(clicked()), this, SLOT(controlStop()));
+	resetButton = new QPushButton("Reset");
+	connect(resetButton, SIGNAL(clicked()), this, SLOT(controlStop()));
 
 	connect(timer, SIGNAL(timeout()), this, SLOT(updateShip()));
 
@@ -96,7 +96,7 @@ MainWindow::MainWindow()
 	centralLayout->addWidget(glWidgetArea, 0, 0, 4, 4);
 	centralLayout->addWidget(startButton, 0, 4, 1, 1);
 	centralLayout->addWidget(pauseButton, 1, 4, 1, 1);
-	centralLayout->addWidget(stopButton, 2, 4, 1, 1);
+	centralLayout->addWidget(resetButton, 2, 4, 1, 1);
 	centralLayout->addWidget(zoomSlider, 3, 4, 1, 1);
     centralLayout->addWidget(xSlider, 4, 0, 1, 5);
     centralLayout->addWidget(ySlider, 5, 0, 1, 5);
@@ -112,7 +112,7 @@ MainWindow::MainWindow()
     resize(500, 600);
 
 	pauseButton->setEnabled(false);
-	stopButton->setEnabled(false);
+	resetButton->setEnabled(false);
 
 	//初始化为船舶控制初次运行
 	firstRun = true;
@@ -138,7 +138,7 @@ void MainWindow::controlStart()
 	
 	startButton->setEnabled(false);
 	pauseButton->setEnabled(true);
-	stopButton->setEnabled(true);
+	resetButton->setEnabled(true);
 
 	emit shipCtrl->runState(true);
 }
@@ -149,7 +149,7 @@ void MainWindow::controlPause()
 	shipCtrl->pauseRun();
 	startButton->setEnabled(true);
 	pauseButton->setEnabled(false);
-	stopButton->setEnabled(true);
+	resetButton->setEnabled(true);
 
 	emit shipCtrl->runState(false);
 }
@@ -160,7 +160,7 @@ void MainWindow::controlStop()
 	shipCtrl->stopRun();
 	startButton->setEnabled(false);
 	pauseButton->setEnabled(false);
-	stopButton->setEnabled(false);
+	resetButton->setEnabled(false);
 
 	emit shipCtrl->runState(false);
 }

@@ -44,7 +44,7 @@ void ShipControl::init()
 	
 	//设定风速，风向
 	dataSet.windSpeed	= 10.0;
-	dataSet.windDir	= 90.0;
+	dataSet.windDir	= 0.0;
 
 	//设定浪高，浪向
 	dataSet.waveHeight	= 1.0;
@@ -52,7 +52,7 @@ void ShipControl::init()
 
 	//设定流速，流向
 	dataSet.curSpeed	= 1.0;
-	dataSet.curDir		= 180.0;
+	dataSet.curDir		= 0.0;
 
 	//初始化动力定位控制类型：
 	//1.常规动力定位；
@@ -158,6 +158,7 @@ void ShipControl::openFiles()
 	curFile.open("E:/projectProgram/data/current.txt");
 	taoFile.open("E:/projectProgram/data/tao.txt");
 	thrustFile.open("E:/projectProgram/data/thrust.txt");
+	envObsFile.open("E:/projectProgram/data/envObs.txt");
 }
 
 //关闭文件
@@ -176,6 +177,7 @@ void ShipControl::closeFiles()
 	curFile.close();
 	taoFile.close();
 	thrustFile.close();
+	envObsFile.close();
 }
 
 //设置参数
@@ -311,9 +313,6 @@ void ShipControl::cal()
 				pid.setEta(eta);
 				pid.calculat();
 				thrust = pid.getTao();
-				qDebug() << etaTarget.n << "\t" << etaTarget.e << "\t" << etaTarget.psi << endl;
-				qDebug() << eta.n << "\t" << eta.e << "\t" << eta.psi << endl;
-				qDebug() << thrust.xForce << "\t" << thrust.yForce << "\t" << thrust.nMoment << endl;
 				break;
 				//NMPC控制
 			case NMPC_CTRL:
@@ -346,8 +345,13 @@ void ShipControl::cal()
 					optPsiCtrl.setTao(thrust);
 					optPsiCtrl.cal();
 					optPsi = optPsiCtrl.OptPsi();
+					etaTarget.psi = optPsi;
 					break;
 				case OPT_DP:
+					//optPsi =  0.1*(-atan2(envEst.yForce, envEst.xForce) - 0.5*PI) + eta.psi;
+					optPsi =  0.1*atan2(-envEst.yForce, -envEst.xForce) + eta.psi;
+					qDebug() << optPsi << "\t" << envEst.xForce << "\t" << envEst.yForce << endl;
+					etaTarget.psi = optPsi;
 					break;
 				default:
 					break;
@@ -359,6 +363,8 @@ void ShipControl::cal()
 		{
 			ctrlCount = 0;
 		}
+
+		envObsFile << time << "\t" << envEst.xForce << "\t" << envEst.yForce << "\t" << envEst.nMoment << endl;
 
 		//环境最优动力定位保存数据
 		if (WOPC_DP == dataSet.dpMode || 

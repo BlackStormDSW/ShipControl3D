@@ -67,7 +67,7 @@ private:
 
     QPushButton *startButton;
 	QPushButton *pauseButton;
-	QPushButton *stopButton;
+	QPushButton *resetButton;
 
     QMenu *fileMenu;
     QMenu *helpMenu;
