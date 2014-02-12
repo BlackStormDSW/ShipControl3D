@@ -14,7 +14,7 @@
 using namespace std;
 
 #define Xmax 1600000
-#define Ymax 1600000
+#define Ymax 16000000
 #define Nmax 60000000
 
 PIDController::PIDController(void)
@@ -48,8 +48,12 @@ void PIDController::init()
 		etaErrPre[i] = 0.0;
 		etaErrErr[i] = 0.0;
 	}
+	//M[0][0] = 5312200.0;
+	//M[1][1] = 8283100.0;
+	//M[2][2] = 3745400000.0;
+
 	M[0][0] = 5312200.0;
-	M[1][1] = 8283100.0;
+	M[1][1] = 828310.0*2.0;
 	M[2][2] = 3745400000.0;
 
 	errFile.open("E:/projectProgram/data/err.txt");
@@ -77,6 +81,13 @@ void PIDController::initPID(double KpVal, double KiVal, double KdVal)
 	pidFile << "P:\t" << Kp << endl;
 	pidFile << "I:\t" << Ki << endl;
 	pidFile << "D:\t" << Kd << endl;
+
+	for (int i = 0; i < DOF3; i ++)
+	{
+		pidFile << Mp[i][i] << "\t";
+		pidFile << Mi[i][i] << "\t";
+		pidFile << Md[i][i] << endl;
+	}
 }
 
 void PIDController::setTarget(Eta eta)
@@ -95,8 +106,8 @@ void PIDController::calculat()
 	//eta转化为3维向量
 	Tool::EtaToArr3(etaTarget, etaTgt, DOF3);
 
-
 	qDebug() << etaTarget.n << "\t" << etaTarget.e << "\t" << etaTarget.psi*radToAng << endl;
+
 	//计算eta偏差
 	for (int i = 0; i < DOF3; i ++)
 	{
