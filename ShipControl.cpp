@@ -36,9 +36,8 @@ void ShipControl::init()
 	//打开文件
 	openFiles();
 
-	//初始化程序计算的暂停、停止状态
+	//初始化程序计算的暂停状态
 	pauseState = false;
-	stopState = false;
 	//初始化环境最优艏向
 	optPsi = 0.0;
 	
@@ -257,17 +256,21 @@ void ShipControl::pauseRun()
 }
 
 //停止计算
-void ShipControl::stopRun()
+void ShipControl::ResetRun()
 {
-	stopState = true;
-	pauseState = false;
+	//pauseState = false;
+
+	//初始化船舶的位置与姿态
+	eta		= Tool::setEta(dataSet.nOrigin, dataSet.eOrigin, dataSet.psiOrigin);
+	etaFlt	= Tool::setEta(dataSet.nOrigin, dataSet.eOrigin, dataSet.psiOrigin);
+	model.setInitEta(eta);
 }
 
 //控制计算
 void ShipControl::cal()
 {
 	//循环进行模型计算
-	while (!stopState)
+	while (1)
 	{
 		//得到环境估计力
 		envObs.setNu(nu);
@@ -410,6 +413,12 @@ void ShipControl::cal()
 
 		Tool::ArrayToForce6(taoArray, tao);
 
+		//程序暂停运行
+		while (pauseState) 
+		{
+			msleep(100);
+		}
+
 		//合外力作用到船舶模型上
 		model.setForce(tao);
 
@@ -425,10 +434,6 @@ void ShipControl::cal()
 		filter.setEta(eta);
 		etaFlt = filter.cal();
 
-		while (pauseState) 
-		{
-			msleep(100);
-		}
 		etaFile << time << "\t" << eta << "\n";
 
 		nuFile << time << "\t" << nu.u << "\t" << nu.v << "\t" << nu.w 

@@ -76,7 +76,7 @@ MainWindow::MainWindow()
 	connect(pauseButton, SIGNAL(clicked()), this, SLOT(controlPause()));
 
 	resetButton = new QPushButton("Reset");
-	connect(resetButton, SIGNAL(clicked()), this, SLOT(controlStop()));
+	connect(resetButton, SIGNAL(clicked()), this, SLOT(controlReset()));
 
 	connect(timer, SIGNAL(timeout()), this, SLOT(updateShip()));
 
@@ -138,7 +138,7 @@ void MainWindow::controlStart()
 	
 	startButton->setEnabled(false);
 	pauseButton->setEnabled(true);
-	resetButton->setEnabled(true);
+	resetButton->setEnabled(false);
 
 	emit shipCtrl->runState(true);
 }
@@ -155,10 +155,10 @@ void MainWindow::controlPause()
 }
 
 //Í£Ö¹´¬²°¿ØÖÆ
-void MainWindow::controlStop()
+void MainWindow::controlReset()
 {
-	shipCtrl->stopRun();
-	startButton->setEnabled(false);
+	shipCtrl->ResetRun();
+	startButton->setEnabled(true);
 	pauseButton->setEnabled(false);
 	resetButton->setEnabled(false);
 

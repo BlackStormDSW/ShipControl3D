@@ -39,7 +39,7 @@ private slots:
     void about();
     void controlStart();
 	void controlPause();
-	void controlStop();
+	void controlReset();
 	void updateShip();
 	void updateTarget(DataSetStruct);
 

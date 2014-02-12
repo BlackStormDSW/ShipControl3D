@@ -59,7 +59,7 @@ public:
 	void pauseRun();
 
 	//停止进行船舶控制
-	void stopRun();
+	void ResetRun();
 
 	//控制计算
 	void cal();
@@ -161,8 +161,8 @@ private:
 	//仿真总时间
 	double maxTime;
 
-	//暂停、停止标志
-	bool pauseState, stopState;
+	//暂停标志
+	bool pauseState;
 };
 
 
