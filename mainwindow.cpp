@@ -187,7 +187,7 @@ void MainWindow::createActions()
 	plotDataAct = new QAction(tr("&Plot"), this);
 	plotDataAct->setShortcut(tr("Ctrl+P"));
 	connect(plotDataAct, SIGNAL(triggered()),
-		plot, SLOT(draw()));
+		plot, SLOT(drawCurve()));
 
     exitAct = new QAction(tr("E&xit"), this);
     exitAct->setShortcuts(QKeySequence::Quit);

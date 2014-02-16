@@ -32,7 +32,9 @@ void PlotData::init()
 	}
 }
 
-void PlotData::draw()
+void PlotData::drawCurve()
 {
-	engEvalString(ep, "drawUnifiedShipWithEnv");	
+	engEvalString(ep, "cd E:/projectProgram/data/ ");	
+	engEvalString(ep, "close all");	
+	engEvalString(ep, "plotData");	
 }

@@ -24,7 +24,7 @@ public:
 	void init();
 
 public slots:
-	void draw();
+	void drawCurve();
 
 private:
 	Engine *ep;
