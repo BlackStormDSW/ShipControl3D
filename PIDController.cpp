@@ -13,9 +13,9 @@
 #include <iostream>
 using namespace std;
 
-#define Xmax 1600000
-#define Ymax 16000000
-#define Nmax 60000000
+#define Xmax 2500000
+#define Ymax 600000
+#define Nmax 14000000
 
 PIDController::PIDController(void)
 	: tStep(0.05), Kp(0.001), Ki(0.0), Kd(0.0) //初值P:0.01, I:0.0003, D:0.2
@@ -52,9 +52,9 @@ void PIDController::init()
 	//M[1][1] = 8283100.0;
 	//M[2][2] = 3745400000.0;
 
-	M[0][0] = 5312200.0;
+	M[0][0] = 5312200.0*0.5;
 	M[1][1] = 828310.0*2.0;
-	M[2][2] = 3745400000.0;
+	M[2][2] = 37454000000.0;
 
 	errFile.open("E:/projectProgram/data/err.txt");
 	pidFile.open("E:/projectProgram/data/pid.txt");

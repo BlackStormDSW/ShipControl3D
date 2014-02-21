@@ -61,7 +61,7 @@ MainWindow::MainWindow()
 	ySlider->setRange(90*16, 270*16);
 
 	zoomSlider = new QSlider(Qt::Vertical);
-	zoomSlider->setRange(1*16, 50 * 16);
+	zoomSlider->setRange(1*16, 20 * 16);
 	zoomSlider->setSingleStep(16);
 	zoomSlider->setPageStep(10*16);
 	zoomSlider->setTickInterval(10*16);
@@ -106,10 +106,11 @@ MainWindow::MainWindow()
     xSlider->setValue(150 * 16);
     ySlider->setValue(200 * 16);
 	zSlider->setValue(150 * 16);
-	zoomSlider->setValue(10 * 16);
+	zoomSlider->setValue(5 * 16);
 
     setWindowTitle(tr("ShipControl 3D"));
-    resize(500, 600);
+    //resize(500, 600);
+	showMaximized();
 
 	pauseButton->setEnabled(false);
 	resetButton->setEnabled(false);

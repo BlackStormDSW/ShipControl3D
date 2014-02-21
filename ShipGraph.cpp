@@ -42,7 +42,7 @@ ShipGraph::ShipGraph(QWidget *parent)
 	yMax = 1000.0;
 	zMax = 1000.0;
 
-	zoomScale = 1.0;
+	zoomScale = 0.1;
 }
 
 ShipGraph::~ShipGraph()
@@ -208,12 +208,12 @@ void ShipGraph::mouseMoveEvent(QMouseEvent *event)
 
 void ShipGraph::wheelEvent(QWheelEvent *event)
 {
-	scaleWheel = zoomScale*160 + event->angleDelta().y()/120*40;
+	scaleWheel = zoomScale*160 + event->angleDelta().y()/120*16;
 	if ( 16 > scaleWheel)
 	{
 		scaleWheel = 16;
-	} else if (50 * 16 < scaleWheel) {
-		scaleWheel = 50 * 16;
+	} else if (20 * 16 < scaleWheel) {
+		scaleWheel = 20 * 16;
 	}
 	setZoom(scaleWheel);
 }

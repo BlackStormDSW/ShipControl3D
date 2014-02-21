@@ -65,7 +65,7 @@ void ShipControl::init()
 	//初始化PID参数	
 	dataSet.kp = 0.15;
 	dataSet.ki = 0.0;
-	dataSet.kd = 0.0;
+	dataSet.kd = 10.0;
 
 	//初始化NMPC的预测周期
 	dataSet.tNMPC = 9.0;
@@ -263,6 +263,7 @@ void ShipControl::ResetRun()
 	//初始化船舶的位置与姿态
 	eta		= Tool::setEta(dataSet.nOrigin, dataSet.eOrigin, dataSet.psiOrigin);
 	etaFlt	= Tool::setEta(dataSet.nOrigin, dataSet.eOrigin, dataSet.psiOrigin);
+	Tool::initForce6(thrust);
 	model.setInitEta(eta);
 }
 

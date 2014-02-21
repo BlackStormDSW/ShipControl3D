@@ -94,7 +94,7 @@ void Current::cal()
 	if (beta < -0.000001 || beta > 0.000001)
 	{
 		forceCur.yForce = 0.5*cycValue*rho_w*pow(Vc,2.0)*Lpp*Tm*beta/fabs(beta);
-		forceCur.nMoment = 0.5*cycValue*rho_w*pow(Vc,2.0)*pow(Lpp,2.0)*Tm*beta/fabs(beta);
+		forceCur.nMoment = 0.5*cncValue*rho_w*pow(Vc,2.0)*pow(Lpp,2.0)*Tm*beta/fabs(beta);
 	} else {
 		forceCur.yForce = 0.0;
 		forceCur.nMoment = 0.0;
