@@ -9,7 +9,6 @@
 
 #include "OptionDialog.h"
 #include "ui_OptionDialog.h"
-#include <QDebug>
 
 OptionDialog::OptionDialog(QWidget *parent) :
     QDialog(parent),
@@ -122,8 +121,6 @@ void OptionDialog::apply()
     } else if (ui->optDP->isChecked()) {
         dataOption.dpMode = OPT_DP;
     }
-
-	qDebug() << "Check:" << ui->normalDP->isChecked() << ui->zpcwDP->isChecked();
 
     if (ui->pidController->isChecked()) {
 		dataOption.ctrlType = PID_CTRL;
@@ -258,6 +255,38 @@ void OptionDialog::showEvent(QShowEvent *event)
     ctrlEditEnable(!runFlag);
     missionEditEnable(!runFlag);
     otherEditEnable(!runFlag);
+	
+	//根据动力定位控制模式判断界面上是否可修改
+	switch (dataOption.dpMode) {
+	case NORMAL_DP:
+		otherEditEnable(false);
+		break;
+	case ZPCW_DP:
+		radiusEditEnable(false);
+		wohcEditEnable(false);
+		break;
+	case WOPC_DP:
+		envObsEditEnable(false);
+		break;
+	case OPT_DP:
+		radiusEditEnable(false);
+		wohcEditEnable(false);
+		break;
+	default:
+		break;
+	}
+
+	//根据动力定位控制器类型判断界面上是否可修改
+	switch (dataOption.ctrlType) {
+	case PID_CTRL:
+		nmpcEditEnable(false);
+		break;
+	case NMPC_CTRL:
+		pidEditEnable(false);
+		break;
+	default:
+		break;
+	}
 }
 
 void OptionDialog::on_applyBtn_clicked()
@@ -267,14 +296,12 @@ void OptionDialog::on_applyBtn_clicked()
 
 void OptionDialog::on_okBtn_clicked()
 {
-	qDebug() << "Ok";
     apply();
     accept();
 }
 
 void OptionDialog::on_cancelBtn_clicked()
 {
-	qDebug() << "Cancel";
     reject();
 }
 
