@@ -12,7 +12,6 @@
 #include <mat.h>
 #include <stdlib.h>
 #include <QTextStream>
-#include <QDebug>
 
 ShipControl::ShipControl(void) :
 tStep(0.05), time(0)
@@ -305,7 +304,6 @@ void ShipControl::cal()
 		curForce = cur.force();
 		Tool::Force6ToArray(curForce, curArray);
 
-		qDebug() << "Type:" << dataSet.ctrlType << "\t" << dataSet.dpMode << endl;
 		if (0 == ctrlCount)
 		{
 			//动力定位控制
@@ -354,7 +352,6 @@ void ShipControl::cal()
 				case OPT_DP:
 					//optPsi =  0.1*(-atan2(envEst.yForce, envEst.xForce) - 0.5*PI) + eta.psi;
 					optPsi =  0.1*atan2(-envEst.yForce, -envEst.xForce) + eta.psi;
-					qDebug() << optPsi << "\t" << envEst.xForce << "\t" << envEst.yForce << endl;
 					etaTarget.psi = optPsi;
 					break;
 				default:
@@ -449,10 +446,8 @@ void ShipControl::cal()
 //从设置对话框接收数据
 void ShipControl::receivDataSet(DataSetStruct dataReceive)
 {
-	qDebug() << "receivDataSet";
 	dataSet = dataReceive;
 	setParameter();
-	qDebug() << dataSet.ctrlType << dataSet.dpMode << "::::::::";
 }
 
 //船舶控制运行

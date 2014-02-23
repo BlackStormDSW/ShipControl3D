@@ -11,7 +11,6 @@
 #include "Tool.h"
 #include <mat.h>
 #include <iostream>
-#include <QDebug>
 #include <stdlib.h>
 using namespace std;
 

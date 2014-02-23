@@ -13,10 +13,10 @@
 #include "DataStruct.h"
 #include <fstream>
 
-#define MAXDIM 12
-#define MAXSURGE	1600000
-#define MAXSWAY		1600000
-#define MAXYAW		60000000
+#define MAXDIM		12
+#define MAXSURGE	2500000
+#define MAXSWAY		600000
+#define MAXYAW		14000000
 
 class NMPCcontroller
 {

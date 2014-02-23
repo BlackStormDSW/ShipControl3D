@@ -15,7 +15,6 @@
 #include <QtWidgets>
 #include <QTimer>
 #include <QMetaType>
-#include <QDebug>
 #include <iostream>
 using namespace std;
 

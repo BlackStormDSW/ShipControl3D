@@ -13,7 +13,6 @@
 #include <QMouseEvent>
 #include <QWheelEvent>
 #include <math.h>
-#include <QDebug>
 
 ShipGraph::ShipGraph(QWidget *parent)
     : QGLWidget(parent)
@@ -141,7 +140,7 @@ void ShipGraph::initializeGL()
 
     sea = makeSea(reflectanceSea);
 
-    goal = makeGoal(reflectanceGoal, xTarget, yTarget, 0.5, 1.0);
+    goal = makeGoal(reflectanceGoal, 0, 0, 0.5, 1.0);
 
 	line = makeLine(reflectanceLine);
 
@@ -165,8 +164,10 @@ void ShipGraph::paintGL()
     drawShip(ship, xPos, yPos, zPos, -phi * radToAng, -theta * radToAng, -psi * radToAng);
  
 	glCallList(sea);
-	glCallList(goal);
 	glCallList(line);
+
+	glTranslated(xTarget, yTarget, 0);
+	glCallList(goal);
 
     glPopMatrix();
 }
