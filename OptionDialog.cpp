@@ -92,9 +92,9 @@ void OptionDialog::showData()
     ui->radius->setText(QString::number(dataOption.radius, 'f', 1));
 
     //环境最优艏向控制的PID参数
-    ui->kpWOHC->setText(QString::number(dataOption.kpWOHC, 'f', 1));
-    ui->kiWOHC->setText(QString::number(dataOption.kiWOHC, 'f', 1));
-    ui->kdWOHC->setText(QString::number(dataOption.kdWOHC, 'f', 1));
+    ui->kpWOHC->setText(QString::number(dataOption.kpWOHC, 'f', 8));
+    ui->kiWOHC->setText(QString::number(dataOption.kiWOHC, 'f', 8));
+    ui->kdWOHC->setText(QString::number(dataOption.kdWOHC, 'f', 8));
 
     //环境估计的参数
     ui->k1->setText(QString::number(dataOption.k1, 'f', 1));
@@ -263,14 +263,14 @@ void OptionDialog::showEvent(QShowEvent *event)
 		break;
 	case ZPCW_DP:
 		radiusEditEnable(false);
-		wohcEditEnable(false);
+		wohcEditEnable(true);
 		break;
 	case WOPC_DP:
 		envObsEditEnable(false);
 		break;
 	case OPT_DP:
 		radiusEditEnable(false);
-		wohcEditEnable(false);
+		wohcEditEnable(true);
 		break;
 	default:
 		break;

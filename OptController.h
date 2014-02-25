@@ -15,7 +15,7 @@
 using namespace std;
 
 #define COUNT	20
-#define LMTX	10000
+#define LMTX	100000
 #define LMTY	10000
 
 class OptController
@@ -66,7 +66,7 @@ private:
 	double errY, diffErrY, intErrY, preErrY;
 
 	//最优艏向
-	double optPsi, preOptPsi;
+	double optPsi, psi;
 
 	//调整最优艏向所使用的PID系数
 	double P, I, D;
@@ -75,7 +75,7 @@ private:
 	double sum;
 
 	//纵向力正负标志
-	double signX;
+	double signY;
 };
 
 #endif//OPTCONTROLLER_H_

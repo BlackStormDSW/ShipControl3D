@@ -79,15 +79,15 @@ void ShipControl::init()
 	dataSet.psiOrigin	= 0.0;
 
 	//目标位置与艏向
-	dataSet.nTarget	= 50.0;
-	dataSet.eTarget	= 50.0;
+	dataSet.nTarget	= 100.0;
+	dataSet.eTarget	= 100.0;
 	dataSet.psiTarget	= 30.0;
 
 	//环境最优动力定位半径
 	dataSet.radius = 60.0;
 
 	//环境最优艏向的三个参数
-	dataSet.kpWOHC = 1e-8;
+	dataSet.kpWOHC = 5e-6;
 	dataSet.kiWOHC = 0.0;
 	dataSet.kdWOHC = 0.0;
 
@@ -343,7 +343,7 @@ void ShipControl::cal()
 					break;
 				case ZPCW_DP:
 					//zpc-w
-					optPsiCtrl.setPsi(optPsi);
+					optPsiCtrl.setPsi(eta.psi);
 					optPsiCtrl.setTao(thrust);
 					optPsiCtrl.cal();
 					optPsi = optPsiCtrl.OptPsi();

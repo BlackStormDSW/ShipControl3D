@@ -47,8 +47,8 @@ void OptController::init()
 	preErrY = 0.0;
 
 	optPsi = 0.0;
-	preOptPsi = 0.0;
-	signX = 1.0;
+	psi = 0.0;
+	signY = 1.0;
 }
 
 //设置时间间隔
@@ -58,9 +58,9 @@ void OptController::setStep(const double Intval)
 }
 
 //设置当前环境最优艏向
-void OptController::setPsi(const double preTagHead)
+void OptController::setPsi(const double psiValue)
 {
-	preOptPsi = preTagHead;
+	psi = psiValue;
 }
 
 //设置当前推进器推力与转矩
@@ -104,23 +104,23 @@ void OptController::cal()
 	//分别计算在一定时间内纵向与横向的平均力
 	taoX = meanData(storXForce, xForce);
 	taoY = meanData(storYForce, yForce);
-	
-	if (LMTX < taoX)
-	{
-		signX = 1.0;
-	} else if (-LMTX > taoX)
-	{
-		signX = -1.0;
-	}
-	
+
 	if (fabs(taoY) > LMTY)
 	{
+
+		//if (LMTY < taoY)
+		//{
+		//	signY = -1.0;
+		//} else if (-LMTY > taoY)
+		//{
+		//	signY = 1.0;
+		//}
 		errY = taoY - tagTaoY;
 		intErrY += errY*step;
 		diffErrY = (errY - preErrY)/step;
 		preErrY = errY;
 
-		optPsi = preOptPsi + signX*(P*errY + I*intErrY + D*diffErrY);
+		optPsi = psi + signY*(P*errY + I*intErrY + D*diffErrY);
 		optPsi = meanData(storOptPsi, optPsi);
 		//optPsi = Tool::infToPi(optPsi);
 	}
