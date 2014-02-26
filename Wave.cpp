@@ -203,8 +203,6 @@ void Wave::calWave()
 				//Frequency
 				Omega[kO] = om + rdOmega;
 
-				kO += 1;
-
 				//Wave number
 				//if (DEPTH_MAX < depth)
 				//{
@@ -235,6 +233,8 @@ void Wave::calWave()
 				//	S_plot(m,n) = s_omega*s_psi;
 
 				kId ++;
+
+				kO ++;
 			} else {
 				//Spectrum value for plotting set to zero
 				// S_plot(m,n) = 0;
