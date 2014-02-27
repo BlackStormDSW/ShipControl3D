@@ -319,11 +319,10 @@ void Wave::headValue(double head, double &value1, double &value2)
 	}
 
 	index = int(head/(PI*2.0/wSize));
+
 	value1 = index*(PI*2.0/wSize);
-	if (wSize-1 != index)
-		value2 = value1 + (PI*2.0/wSize);
-	else
-		value2 = 0.0;
+	
+	value2 = value1 + (PI*2.0/wSize);
 
 	wt = fabs((value2-head) / (value2-value1));
 }
