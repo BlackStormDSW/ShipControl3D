@@ -292,21 +292,36 @@ void NMPCcontroller::cal()
 		}
 	}
 
-	//限制推进器的推力与力矩
-	for (int i = 0; i < DOF3; i ++)
-	{
-		if (lmtForce[i] < U[i])
-		{
-			U[i] = lmtForce[i];
-		} else if (-lmtForce[i] > U[i])
-		{
-			U[i] = -lmtForce[i];
-		}
-	}
-
 	force.xForce = -U[0] - env.xForce;
 	force.yForce = -U[1] - env.yForce;
 	force.nMoment = -U[2] - env.nMoment;
+
+	//限制纵向力
+	if (MAXSURGE < force.xForce)
+	{
+		force.xForce = MAXSURGE;
+	} else if (-MAXSURGE >force.xForce)
+	{
+		force.xForce = -MAXSURGE;
+	}
+
+	//限制横向力
+	if (MAXSWAY < force.yForce)
+	{
+		force.yForce = MAXSWAY;
+	} else if (-MAXSWAY >force.yForce)
+	{
+		force.yForce = -MAXSWAY;
+	}
+
+	//限制转艏力矩
+	if (MAXYAW < force.nMoment)
+	{
+		force.nMoment = MAXYAW;
+	} else if (-MAXYAW >force.nMoment)
+	{
+		force.nMoment = -MAXYAW;
+	}
 
 }
 

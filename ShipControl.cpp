@@ -70,7 +70,7 @@ void ShipControl::init()
 	dataSet.tNMPC = 9.0;
 	//初始化NMPC的三个权值
 	dataSet.w1NMPC = 0.9;
-	dataSet.w2NMPC = 0.0005;
+	dataSet.w2NMPC = 0.05;
 	dataSet.w3NMPC = 0.0;
 
 	//初始位置与艏向
@@ -295,6 +295,8 @@ void ShipControl::cal()
 		wave.cal(eta, time);
 		wave.getLoad(wave1Force, wave2Force);
 
+		//Tool::initForce6(wave1Force);
+
 		Tool::Force6ToArray(wave1Force, wave1Array);
 		Tool::Force6ToArray(wave2Force, wave2Array);
 
@@ -312,7 +314,7 @@ void ShipControl::cal()
 				//PID控制
 			case PID_CTRL:
 				pid.setTarget(etaTarget);
-				pid.setEta(eta);
+				pid.setEta(etaFlt);
 				pid.calculat();
 				thrust = pid.getTao();
 				break;
@@ -352,7 +354,18 @@ void ShipControl::cal()
 				case OPT_DP:
 					//optPsi =  0.1*(-atan2(envEst.yForce, envEst.xForce) - 0.5*PI) + eta.psi;
 					optPsi =  0.1*atan2(-envEst.yForce, -envEst.xForce) + eta.psi;
+					
+					while (PI < optPsi)
+					{
+						optPsi -= 2*PI;
+					} 
+					while (-PI > optPsi)
+					{
+						optPsi += 2*PI;
+					}
+
 					etaTarget.psi = optPsi;
+
 					break;
 				default:
 					break;

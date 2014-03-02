@@ -14,6 +14,7 @@
 #include <math.h>
 #include <time.h>
 #include <iostream>
+#include <QDebug>
 using namespace std;
 
 #define DEPTH_MAX 10000
@@ -64,6 +65,8 @@ void Wave::init()
 	fCut = 3.0;
 	dirCut = 0.0;
 	kId = 0;
+	wSize = 0;
+	wt = 1.0;
 
 	//修正初始参数
 
@@ -115,6 +118,25 @@ void Wave::init()
 	Psi = new double [int(nFreq*nDir)];
 
 	data = new Data;
+
+	for (int i = 0; i < int(nFreq*nDir); i ++)
+	{
+		Zeta[i] = 0.0;
+		Omega[i] = 0.0;
+		Phase[i] = 0.0;
+		WaveNum[i] = 0.0;
+		Psi[i] = 0.0;
+	}
+
+	for (int i = 0; i < DOF6; i ++)
+	{
+		WaveD[i] = 0.0;
+		WaveD1[i] = 0.0;
+		WaveD2[i] = 0.0;
+		WaveF[i] = 0.0;
+		WaveF1[i] = 0.0;
+		WaveF2[i] = 0.0;
+	}
 
 	//获取时间，产生不同的随机序列种子
 	srand((unsigned)time( NULL ));
@@ -376,6 +398,7 @@ void Wave::cal(const Eta &eta, double time_)
 	calLoadForHead(WaveF1, WaveD1, eta, head1, time_);
 	calLoadForHead(WaveF2, WaveD2, eta, head2, time_);
 	calLoad(WaveF, WaveD);
+	qDebug() << wt << "\t" << WaveF1[0] << "\t" << WaveF2[0] << "\t" << endl;
 }
 
 //获取Psi值的索引(从0开始，共36个索引)
@@ -399,6 +422,7 @@ int Wave::getIndexPsi(double ps)
 void Wave::getLoad(Force6 &waveForce, Force6 &waveDrift)
 {
 	waveForce.xForce = WaveF[0];
+	qDebug() << WaveF[0] << endl;
 	waveForce.yForce = WaveF[1];
 	waveForce.zForce = WaveF[2];
 	waveForce.kMoment = WaveF[3];

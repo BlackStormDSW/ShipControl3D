@@ -13,8 +13,8 @@
 using namespace std;
 
 #define Xmax 2500000
-#define Ymax 600000
-#define Nmax 14000000
+#define Ymax 2000000
+#define Nmax 100000000
 
 PIDController::PIDController(void)
 	: tStep(0.05), Kp(0.001), Ki(0.0), Kd(0.0) //初值P:0.01, I:0.0003, D:0.2
@@ -135,13 +135,6 @@ void PIDController::calculat()
 	{
 		taoArr[i] = pRst[i] + iRst[i] + dRst[i];
 	}
-	taoArr[0] = (taoArr[0] > Xmax) ? Xmax : taoArr[0];
-	taoArr[1] = (taoArr[1] > Ymax) ? Ymax : taoArr[1];
-	taoArr[2] = (taoArr[2] > Nmax) ? Nmax : taoArr[2];
-
-	taoArr[0] = (taoArr[0] < -Xmax) ? -Xmax : taoArr[0];
-	taoArr[1] = (taoArr[1] < -Ymax) ? -Ymax : taoArr[1];
-	taoArr[2] = (taoArr[2] < -Nmax) ? -Nmax : taoArr[2];
 
 	//保存上一次的eta、etaErr
 	for (int i = 0; i < DOF3; i ++)
@@ -164,6 +157,14 @@ Force6 PIDController::getTao()
 	
 
 	outTao = Tool::NedToboat(outTao, etaCurrent);
+
+	outTao.xForce = (outTao.xForce > Xmax) ? Xmax : outTao.xForce;
+	outTao.yForce = (outTao.yForce > Ymax) ? Ymax : outTao.yForce;
+	outTao.nMoment = (outTao.nMoment > Nmax) ? Nmax : outTao.nMoment;
+
+	outTao.xForce = (outTao.xForce < -Xmax) ? -Xmax : outTao.xForce;
+	outTao.yForce = (outTao.yForce < -Ymax) ? -Ymax : outTao.yForce;
+	outTao.nMoment = (outTao.nMoment < -Nmax) ? -Nmax : outTao.nMoment;
 
 	return outTao;
 }

@@ -14,9 +14,12 @@
 #include <fstream>
 
 #define MAXDIM		12
+//#define MAXSURGE	2500000
+//#define MAXSWAY		600000
+//#define MAXYAW		14000000
 #define MAXSURGE	2500000
-#define MAXSWAY		600000
-#define MAXYAW		14000000
+#define MAXSWAY		2000000
+#define MAXYAW		100000000
 
 class NMPCcontroller
 {
