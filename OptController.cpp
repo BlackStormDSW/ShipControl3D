@@ -105,15 +105,15 @@ void OptController::cal()
 	taoX = meanData(storXForce, xForce);
 	taoY = meanData(storYForce, yForce);
 
-	if (fabs(taoY) > LMTY)
-	{
+	//if (fabs(taoY) > LMTY)
+	//{
 
 		//if (LMTY < taoY)
 		//{
-		//	signY = -1.0;
+		//	signY = 1.0;
 		//} else if (-LMTY > taoY)
 		//{
-		//	signY = 1.0;
+		//	signY = -1.0;
 		//}
 		errY = taoY - tagTaoY;
 		intErrY += errY*step;
@@ -123,7 +123,7 @@ void OptController::cal()
 		optPsi = psi + signY*(P*errY + I*intErrY + D*diffErrY);
 		optPsi = meanData(storOptPsi, optPsi);
 		//optPsi = Tool::infToPi(optPsi);
-	}
+	//}
 }
 
 //获取环境最优艏向
