@@ -32,11 +32,6 @@ void NMPCcontroller::init()
 	lambda[1] = 20.0;			//>0
 	lambda[2] = 0.00000001;			//>=0
 
-	//初始化推进器推力与力矩的限值
-	lmtForce[0] = MAXSURGE;
-	lmtForce[1] = MAXSWAY;
-	lmtForce[2] = MAXYAW;
-
 	//初始化推进器的推力与力矩
 	force.xForce = 0.0;
 	force.yForce = 0.0;

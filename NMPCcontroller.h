@@ -84,9 +84,6 @@ private:
 	//性能指标函数中的权值
 	double lambda[DOF3];
 
-	//推进器约束
-	double lmtForce[DOF3];
-
 	//力与力矩
 	Force6 force;
 
