@@ -74,7 +74,8 @@ void WOPC::optHeadCal()
 	psiC = piToInf(psiC);
 	if (!usedFlag)
 	{
-		psiD = atan2(yCenter-yDes, xCenter-xDes);
+		//psiD = atan2(yCenter-yDes, xCenter-xDes);
+		psiD = atan2(yDes-y, xDes-x);
 		psiD = piToInf(psiD);
 		usedFlag = true;
 	}
@@ -104,7 +105,7 @@ void WOPC::optHeadCal()
 	//计算新的psiD
 	psiD += kGain * psiCD * pGain * tStep/* * yForce*/;
 	
-	psiD = Tool::infToPi(psiD);
+	//psiD = Tool::infToPi(psiD);
 }
 
 //环境最优艏向
