@@ -161,6 +161,8 @@ private:
 	//仿真总时间
 	double maxTime;
 
+	double xCenter, yCenter;
+
 	//暂停标志
 	bool pauseState;
 };

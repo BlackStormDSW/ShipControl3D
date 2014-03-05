@@ -114,6 +114,10 @@ void ShipControl::init()
 	ctrlCount = 0;
 	ctrlCyc = 6;
 
+	//虚拟圆心
+	xCenter = 0.0;
+	yCenter = 0.0;
+
 	//初始化船舶速度
 	Tool::initNu(nu);
 
@@ -123,6 +127,7 @@ void ShipControl::init()
 
 	//初始化作用力
 	Tool::initForce6(thrust);
+	Tool::initForce6(thrustZPCW);
 
 	//初始化风作用力
 	Tool::initForce6(windForce);
@@ -350,6 +355,8 @@ void ShipControl::cal()
 					//wopc
 					wopc.setThrust(thrustZPCW);
 					wopc.calculat();
+					xCenter = wopc.getCenterPos().first;
+					yCenter = wopc.getCenterPos().second;
 					etaTarget.n = wopc.getRTPosDes().first;
 					etaTarget.e = wopc.getRTPosDes().second;
 					etaTarget.psi = wopc.getPsiRTDes();
@@ -402,8 +409,8 @@ void ShipControl::cal()
 			optHeadFile << time << "\t" << optPsi << "\n";
 			if (WOPC_DP == dataSet.dpMode)
 			{
-				centerFile << time << "\t" << etaTarget.n
-					<< "\t" << etaTarget.e << "\n";
+				centerFile << time << "\t" << xCenter
+					<< "\t" << yCenter << "\n";
 			}
 		}
 
