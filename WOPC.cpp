@@ -84,7 +84,9 @@ void WOPC::optHeadCal()
 
 	psiCD = Tool::infToPi(psiCD);
 
-	dpsiC = (psiC-prePsiC)/ tStep;
+	//dpsiC = (psiC-prePsiC)/ tStep;
+
+	dpsiC = 0.00001*yForce;
 
 	ep += (fabs(dpsiC) -  ep) * mGain * tStep;
 	
