@@ -45,12 +45,12 @@ void ShipControl::init()
 	dataSet.windDir	= 90.0;
 
 	//设定浪高，浪向
-	dataSet.waveHeight	= 1.0;
-	dataSet.waveDir	= 90.0;
+	dataSet.waveHeight	= 3.0;
+	dataSet.waveDir	= 160.0;
 
 	//设定流速，流向
-	dataSet.curSpeed	= 1.0;
-	dataSet.curDir		= 90.0;
+	dataSet.curSpeed	= 0.5;
+	dataSet.curDir		= 120.0;
 
 	//初始化动力定位控制类型：
 	//1.常规动力定位；
@@ -59,7 +59,7 @@ void ShipControl::init()
 	//4.WOPC借用环境估计的环境最优动力定位控制策略
 	dataSet.dpMode = NORMAL_DP;
 	//初始化动力定位控制方法：1.PID控制；2.非线性模型预测控制
-	dataSet.ctrlType = PID_CTRL;
+	dataSet.ctrlType = NMPC_CTRL;
 
 	//初始化PID参数	
 	dataSet.kp = 0.15;
@@ -70,7 +70,7 @@ void ShipControl::init()
 	dataSet.tNMPC = 9.0;
 	//初始化NMPC的三个权值
 	dataSet.w1NMPC = 0.9;
-	dataSet.w2NMPC = 0.05;
+	dataSet.w2NMPC = 0.0005;
 	dataSet.w3NMPC = 0.0;
 
 	//初始位置与艏向

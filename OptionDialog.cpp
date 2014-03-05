@@ -283,6 +283,7 @@ void OptionDialog::showEvent(QShowEvent *event)
 		break;
 	case NMPC_CTRL:
 		pidEditEnable(false);
+		envObsEditEnable(true);
 		break;
 	default:
 		break;
