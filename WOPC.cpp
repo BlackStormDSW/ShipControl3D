@@ -36,7 +36,8 @@ void WOPC::init()
 	mAdd = 0.004;
 	mGain = 0.05;
 	hGain = 1.0;
-	pGain = 0.00001;
+	//pGain = 0.00001;
+	pGain = 1.0;
 	kGain = 1.0;
 
 	ep = 0.0;
@@ -44,7 +45,7 @@ void WOPC::init()
 	upLmt = 0.03;
 	lowLmt = 0.0;
 
-	rad = 0.0;
+	rad = 60.0;
 	radRT = 0.0;
 
 	usedFlag = false;
@@ -101,7 +102,7 @@ void WOPC::optHeadCal()
 	prePsiC = psiC;
 
 	//计算新的psiD
-	psiD += kGain * psiCD * pGain * tStep * yForce;
+	psiD += kGain * psiCD * pGain * tStep/* * yForce*/;
 	
 	psiD = Tool::infToPi(psiD);
 }
@@ -117,14 +118,14 @@ void WOPC::wohc()
 //控制计算
 void WOPC::calculat()
 {
-	//计算环境最优艏向
-	optHeadCal();
-
 	//计算虚拟圆心
 	centerControl();
 
 	//环境最优艏向
 	wohc();
+
+	//计算环境最优艏向
+	optHeadCal();
 }
 
 //设置时间间隔

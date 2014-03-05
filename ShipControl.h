@@ -111,7 +111,7 @@ private:
 	Current cur;
 
 	//推进器推力
-	Force6 thrust;
+	Force6 thrust, thrustZPCW;
 
 	//风的作用力
 	Force6 windForce;

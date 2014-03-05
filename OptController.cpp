@@ -9,6 +9,7 @@
 
 #include "OptController.h"
 #include "Tool.h"
+#include <QDebug>
 
 OptController::OptController(void) :
 P(0.02), I(0.0), D(0.0)
@@ -123,6 +124,8 @@ void OptController::cal()
 		optPsi = psi + signY*(P*errY + I*intErrY + D*diffErrY);
 		optPsi = meanData(storOptPsi, optPsi);
 		//optPsi = Tool::infToPi(optPsi);
+
+		qDebug() << "err Y:\t" << P*errY << "\t" << errY << "\t" << taoY << endl;
 	//}
 }
 

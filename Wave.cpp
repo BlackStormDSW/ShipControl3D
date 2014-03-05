@@ -398,7 +398,6 @@ void Wave::cal(const Eta &eta, double time_)
 	calLoadForHead(WaveF1, WaveD1, eta, head1, time_);
 	calLoadForHead(WaveF2, WaveD2, eta, head2, time_);
 	calLoad(WaveF, WaveD);
-	qDebug() << wt << "\t" << WaveF1[0] << "\t" << WaveF2[0] << "\t" << endl;
 }
 
 //获取Psi值的索引(从0开始，共36个索引)
@@ -422,7 +421,6 @@ int Wave::getIndexPsi(double ps)
 void Wave::getLoad(Force6 &waveForce, Force6 &waveDrift)
 {
 	waveForce.xForce = WaveF[0];
-	qDebug() << WaveF[0] << endl;
 	waveForce.yForce = WaveF[1];
 	waveForce.zForce = WaveF[2];
 	waveForce.kMoment = WaveF[3];

@@ -12,6 +12,7 @@
 #include <mat.h>
 #include <stdlib.h>
 #include <QTextStream>
+#include <QDebug>
 
 ShipControl::ShipControl(void) :
 tStep(0.05), time(0)
@@ -45,12 +46,12 @@ void ShipControl::init()
 	dataSet.windDir	= 90.0;
 
 	//设定浪高，浪向
-	dataSet.waveHeight	= 3.0;
-	dataSet.waveDir	= 160.0;
+	dataSet.waveHeight	= 2.0;
+	dataSet.waveDir	= 90.0;
 
 	//设定流速，流向
 	dataSet.curSpeed	= 0.5;
-	dataSet.curDir		= 120.0;
+	dataSet.curDir		= 90.0;
 
 	//初始化动力定位控制类型：
 	//1.常规动力定位；
@@ -277,6 +278,7 @@ void ShipControl::cal()
 		envObs.setTao(thrust);
 		envObs.cal();		
 		envEst = envObs.force();
+		envObsFile << time << "\t" << envEst.xForce << "\t" << envEst.yForce << "\t" << envEst.nMoment << endl;
 
 		//设置环境最优动力定位的当前位置艏向与速度角速度
 		wopc.setEta(eta);
@@ -305,6 +307,16 @@ void ShipControl::cal()
 		cur.cal();
 		curForce = cur.force();
 		Tool::Force6ToArray(curForce, curArray);
+
+		thrustZPCW.xForce = -(wave2Array[0] + windArray[0] + curArray[0]);
+		thrustZPCW.yForce = -(wave2Array[1] + windArray[1] + curArray[1]);
+		thrustZPCW.nMoment = -(wave2Array[5] + windArray[5] + curArray[5]);
+
+		envEst.xForce = -thrustZPCW.xForce;
+		envEst.yForce = -thrustZPCW.yForce;
+		envEst.nMoment = -thrustZPCW.nMoment;
+
+		qDebug() << "Thrust : \t" << thrustZPCW.xForce << "\t" << thrustZPCW.yForce << "\t" << thrustZPCW.nMoment << endl;
 
 		if (0 == ctrlCount)
 		{
@@ -336,7 +348,7 @@ void ShipControl::cal()
 				{
 				case WOPC_DP:
 					//wopc
-					wopc.setThrust(thrust);
+					wopc.setThrust(thrustZPCW);
 					wopc.calculat();
 					etaTarget.n = wopc.getRTPosDes().first;
 					etaTarget.e = wopc.getRTPosDes().second;
@@ -346,23 +358,24 @@ void ShipControl::cal()
 				case ZPCW_DP:
 					//zpc-w
 					optPsiCtrl.setPsi(eta.psi);
-					optPsiCtrl.setTao(thrust);
+					optPsiCtrl.setTao(thrustZPCW);
 					optPsiCtrl.cal();
 					optPsi = optPsiCtrl.OptPsi();
+					qDebug() << "zpcw optHead:\t" << optPsi*180/3.14 << "\t" << etaTarget.psi*180/3.14 << endl;
 					etaTarget.psi = optPsi;
 					break;
 				case OPT_DP:
 					//optPsi =  0.1*(-atan2(envEst.yForce, envEst.xForce) - 0.5*PI) + eta.psi;
-					optPsi =  0.1*atan2(-envEst.yForce, -envEst.xForce) + eta.psi;
+					optPsi =  0.1*atan2(thrustZPCW.yForce, thrustZPCW.xForce) + eta.psi;
 					
-					while (PI < optPsi)
-					{
-						optPsi -= 2*PI;
-					} 
-					while (-PI > optPsi)
-					{
-						optPsi += 2*PI;
-					}
+					//while (PI < optPsi)
+					//{
+					//	optPsi -= 2*PI;
+					//} 
+					//while (-PI > optPsi)
+					//{
+					//	optPsi += 2*PI;
+					//}
 
 					etaTarget.psi = optPsi;
 
@@ -378,7 +391,8 @@ void ShipControl::cal()
 			ctrlCount = 0;
 		}
 
-		envObsFile << time << "\t" << envEst.xForce << "\t" << envEst.yForce << "\t" << envEst.nMoment << endl;
+		targetFile << time << "\t" << etaTarget.n << "\t"
+			<< etaTarget.e << "\t" << etaTarget.psi << endl;
 
 		//环境最优动力定位保存数据
 		if (WOPC_DP == dataSet.dpMode || 

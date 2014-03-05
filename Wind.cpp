@@ -15,7 +15,6 @@ Wind::Wind(void)
 	init();
 }
 
-
 Wind::~Wind(void)
 {
 }
