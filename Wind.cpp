@@ -62,7 +62,7 @@ void Wind::init()
 	//---------------------------y方向风压力系数矩阵-----------------------------
 		double b[] = {
 			0, 0, 0, 0, 0, 0, 0, 
-				0.096, -0.22, 0, 0, 0, 0, 0, 
+				0.096, 0.22, 0, 0, 0, 0, 0, 
 				0.176, 0.71, 0, 0, 0, 0, 0, 
 				0.225, 1.38, 0, 0.023, 0, -0.29, 0, 
 				0.329, 1.82, 0, 0.043, 0, -0.59, 0, 
@@ -163,9 +163,9 @@ void Wind::cal()
 	V_R = sqrt(pow(nu.u-V_T*cos(ang_T-psi),2.0)+pow(nu.v-V_T*sin(ang_T-psi),2.0));
 
 	//计算风系数A、B、C
-	interp(AA, A, angEnc);
-	interp(BB, B, angEnc);
-	interp(CC, C, angEnc);
+	interpA(AA, A, angEnc);
+	interpBC(BB, B, angEnc);
+	interpBC(CC, C, angEnc);
 
 	//计算风力系数
 	Cx = -(A[0]+A[1]*2*A_s/pow(L_oa,2.0)+A[2]*2*A_f/pow(B0,2.0)
@@ -187,7 +187,7 @@ void Wind::cal()
 }
 
 //差值函数 遭遇角为弧度
-void Wind::interp( const double valInit[rowPara][colPara], double result[colPara], double ang )
+void Wind::interpA( const double valInit[rowPara][colPara], double result[colPara], double ang )
 {
 	int index = 0;
 	ang *= radToAng;
@@ -206,5 +206,37 @@ void Wind::interp( const double valInit[rowPara][colPara], double result[colPara
 	{
 		result[i] = (valInit[index+1][i]-valInit[index][i])*(ang - static_cast<double>(index))
 			+ valInit[index][i];
+	}
+}
+
+//差值函数 遭遇角为弧度
+void Wind::interpBC( const double valInit[rowPara][colPara], double result[colPara], double ang )
+{
+	int index = 0;
+	double coe = 1.0;
+	ang *= radToAng;
+	while (ang > 180.0)
+	{
+		ang -= 360.0;
+	}
+	while (ang < -180.0)
+	{
+		ang += 360.0;
+	}
+
+	if (0.0 < ang)
+	{
+		coe = 1.0;
+	} else {
+		coe = -1.0;
+	}
+
+	ang = fabs(ang/10.0);
+	index = static_cast<int>(ang);
+
+	for (int i = 0; i < colPara; i ++)
+	{
+		result[i] = coe*((valInit[index+1][i]-valInit[index][i])*(ang - static_cast<double>(index))
+			+ valInit[index][i]);
 	}
 }

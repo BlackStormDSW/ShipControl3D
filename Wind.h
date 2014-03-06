@@ -40,7 +40,10 @@ public:
 	void cal();
 
 	//差值函数 遭遇角为角度
-	void interp(const double valInit[rowPara][colPara], double result[colPara], double ang);
+	void interpA(const double valInit[rowPara][colPara], double result[colPara], double ang);
+
+	//差值函数 遭遇角为角度
+	void interpBC(const double valInit[rowPara][colPara], double result[colPara], double ang);
 
 private:
 	double L_oa;  			//船全长 (m)
