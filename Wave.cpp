@@ -23,12 +23,49 @@ Wave::Wave()
 {
 	psiMean = 120.0*angToRad;
 	hs = 3.0;
+	nFreq = 20.0;
+	nDir = 10.0;
+
+	spec = new double [int(nFreq)];
+	//omegaVec = new double [int(nFreq*nDir)];
+	omVec = new double [int(nFreq)];
+	psiVec = new double *[int(nFreq)];
+
+	Zeta = new double [int(nFreq*nDir)];
+	Omega = new double [int(nFreq*nDir)];
+	Phase = new double [int(nFreq*nDir)];
+	WaveNum = new double [int(nFreq*nDir)];
+	Psi = new double [int(nFreq*nDir)];
+
+	data = new Data;
+
+	//获取时间，产生不同的随机序列种子
+	srand((unsigned)time( NULL ));
+
 	init();
 }
 
 Wave::Wave(double dir, double Hs)
 	: psiMean(dir/180.0*PI), hs(Hs)
 {
+	nFreq = 20.0;
+	nDir = 10.0;
+	spec = new double [int(nFreq)];
+	//omegaVec = new double [int(nFreq*nDir)];
+	omVec = new double [int(nFreq)];
+	psiVec = new double *[int(nFreq)];
+
+	Zeta = new double [int(nFreq*nDir)];
+	Omega = new double [int(nFreq*nDir)];
+	Phase = new double [int(nFreq*nDir)];
+	WaveNum = new double [int(nFreq*nDir)];
+	Psi = new double [int(nFreq*nDir)];
+
+	data = new Data;
+
+	//获取时间，产生不同的随机序列种子
+	srand((unsigned)time( NULL ));
+
 	init();
 }
 
@@ -59,8 +96,8 @@ void Wave::init()
 	omegaPeak = -1.0;
 	spread = 2;
 	depth = DEPTH_MAX;
-	nFreq = 20.0;
-	nDir = 10.0;
+	//nFreq = 20.0;
+	//nDir = 10.0;
 	engLim = 0.005;
 	fCut = 3.0;
 	dirCut = 0.0;
@@ -106,18 +143,18 @@ void Wave::init()
 		engLim = nFreq*nDir;
 	}
 
-	spec = new double [int(nFreq)];
-	//omegaVec = new double [int(nFreq*nDir)];
-	omVec = new double [int(nFreq)];
-	psiVec = new double *[int(nFreq)];
+	//spec = new double [int(nFreq)];
+	////omegaVec = new double [int(nFreq*nDir)];
+	//omVec = new double [int(nFreq)];
+	//psiVec = new double *[int(nFreq)];
 
-	Zeta = new double [int(nFreq*nDir)];
-	Omega = new double [int(nFreq*nDir)];
-	Phase = new double [int(nFreq*nDir)];
-	WaveNum = new double [int(nFreq*nDir)];
-	Psi = new double [int(nFreq*nDir)];
+	//Zeta = new double [int(nFreq*nDir)];
+	//Omega = new double [int(nFreq*nDir)];
+	//Phase = new double [int(nFreq*nDir)];
+	//WaveNum = new double [int(nFreq*nDir)];
+	//Psi = new double [int(nFreq*nDir)];
 
-	data = new Data;
+	//data = new Data;
 
 	for (int i = 0; i < int(nFreq*nDir); i ++)
 	{
@@ -138,8 +175,8 @@ void Wave::init()
 		WaveF2[i] = 0.0;
 	}
 
-	//获取时间，产生不同的随机序列种子
-	srand((unsigned)time( NULL ));
+	////获取时间，产生不同的随机序列种子
+	//srand((unsigned)time( NULL ));
 }
 
 //设置Data
@@ -157,7 +194,7 @@ void Wave::setPara(double Hs, double ang)
 
 void Wave::calWave()
 {
-
+	init();
 	//Cutoff frequency
 	omegaMax = fCut * omegaPeak;
 

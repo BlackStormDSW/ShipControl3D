@@ -46,11 +46,11 @@ void ShipControl::init()
 	dataSet.windDir	= 90.0;
 
 	//设定浪高，浪向
-	dataSet.waveHeight	= 2.0;
+	dataSet.waveHeight	= 1.0;
 	dataSet.waveDir	= 100.0;
 
 	//设定流速，流向
-	dataSet.curSpeed	= 0.5;
+	dataSet.curSpeed	= 0.0;
 	dataSet.curDir		= 120.0;
 
 	//初始化动力定位控制类型：
